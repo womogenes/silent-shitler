@@ -1,0 +1,10 @@
+[project]
+name = "silent-shitler"
+version = "0.1.0"
+description = "Learning algorithms for silent social deduction games"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.3.4",
+    "pettingzoo>=1.25.0",
+]
