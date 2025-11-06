@@ -4,6 +4,7 @@ from gymnasium import spaces
 import numpy as np
 import random
 
+
 class ShitlerEnv(AECEnv):
     metadata = {"name": "shitler_v0"}
 
@@ -39,7 +40,6 @@ class ShitlerEnv(AECEnv):
 
         # Track executed players
         self.executed = set()
-        self.alive_agents = self.agents[:]
 
         # Voting
         self.votes = {}
@@ -61,7 +61,6 @@ class ShitlerEnv(AECEnv):
         self.truncations = {agent: False for agent in self.agents}
         self.infos = {agent: {} for agent in self.agents}
 
-        self._cumulative_rewards = {agent: 0 for agent in self.agents}
         self.num_moves = 0
 
     def observe(self, agent):
@@ -74,7 +73,9 @@ class ShitlerEnv(AECEnv):
             "fasc_policies": self.fasc_policies,
             "election_tracker": self.election_tracker,
             "president_idx": self.president_idx,
-            "chancellor_nominee": self.chancellor_nominee if self.chancellor_nominee is not None else -1,
+            "chancellor_nominee": self.chancellor_nominee
+            if self.chancellor_nominee is not None
+            else -1,
             "executed": [1 if a in self.executed else 0 for a in self.agents],
             "action_mask": self._get_action_mask(agent),
         }
@@ -88,7 +89,10 @@ class ShitlerEnv(AECEnv):
         # Add cards if in card selection phase
         if self.phase == "prez_cardsel" and agent == self.agents[self.president_idx]:
             obs["cards"] = self.prez_cards
-        elif self.phase == "chanc_cardsel" and agent == self.agents[self.chancellor_nominee]:
+        elif (
+            self.phase == "chanc_cardsel"
+            and agent == self.agents[self.chancellor_nominee]
+        ):
             obs["cards"] = self.chanc_cards
         else:
             obs["cards"] = []
@@ -96,18 +100,20 @@ class ShitlerEnv(AECEnv):
         return obs
 
     def observation_space(self, agent):
-        return spaces.Dict({
-            "role": spaces.Discrete(3),  # 0=lib, 1=fasc, 2=hitler
-            "lib_policies": spaces.Discrete(6),
-            "fasc_policies": spaces.Discrete(7),
-            "election_tracker": spaces.Discrete(4),
-            "president_idx": spaces.Discrete(5),
-            "chancellor_nominee": spaces.Discrete(6),  # -1 to 4
-            "executed": spaces.MultiBinary(5),
-            "all_roles": spaces.MultiDiscrete([4] * 5),  # -1 to 2
-            "cards": spaces.Sequence(spaces.Discrete(2)),
-            "action_mask": spaces.Sequence(spaces.Discrete(2)),
-        })
+        return spaces.Dict(
+            {
+                "role": spaces.Discrete(3),  # 0=lib, 1=fasc, 2=hitler
+                "lib_policies": spaces.Discrete(6),
+                "fasc_policies": spaces.Discrete(7),
+                "election_tracker": spaces.Discrete(4),
+                "president_idx": spaces.Discrete(5),
+                "chancellor_nominee": spaces.Discrete(6),  # -1 to 4
+                "executed": spaces.MultiBinary(5),
+                "all_roles": spaces.MultiDiscrete([4] * 5),  # -1 to 2
+                "cards": spaces.Sequence(spaces.Discrete(2)),
+                "action_mask": spaces.Sequence(spaces.Discrete(2)),
+            }
+        )
 
     def action_space(self, agent):
         if self.phase == "nomination" and agent == self.agents[self.president_idx]:
@@ -116,19 +122,28 @@ class ShitlerEnv(AECEnv):
             return spaces.Discrete(2)
         elif self.phase == "prez_cardsel" and agent == self.agents[self.president_idx]:
             return spaces.Discrete(3)
-        elif self.phase == "chanc_cardsel" and agent == self.agents[self.chancellor_nominee]:
+        elif (
+            self.phase == "chanc_cardsel"
+            and agent == self.agents[self.chancellor_nominee]
+        ):
             return spaces.Discrete(2)
         elif self.phase == "prez_claim" and agent == self.agents[self.president_idx]:
             return spaces.Discrete(4)  # (0,3), (1,2), (2,1), (3,0)
-        elif self.phase == "chanc_claim" and agent == self.agents[self.chancellor_nominee]:
+        elif (
+            self.phase == "chanc_claim"
+            and agent == self.agents[self.chancellor_nominee]
+        ):
             return spaces.Discrete(3)  # (0,2), (1,1), (2,0)
         elif self.phase == "execution" and agent == self.agents[self.president_idx]:
             return spaces.Discrete(5)
-        
+
         return spaces.Discrete(1)
 
     def step(self, action):
-        if self.terminations[self.agent_selection] or self.truncations[self.agent_selection]:
+        if (
+            self.terminations[self.agent_selection]
+            or self.truncations[self.agent_selection]
+        ):
             self._was_dead_step(action)
             return
 
@@ -136,16 +151,22 @@ class ShitlerEnv(AECEnv):
 
         if self.phase == "nomination":
             self._handle_nomination(action)
+
         elif self.phase == "voting":
             self._handle_voting(agent, action)
+
         elif self.phase == "prez_cardsel":
             self._handle_prez_cardsel(action)
+
         elif self.phase == "chanc_cardsel":
             self._handle_chanc_cardsel(action)
+
         elif self.phase == "prez_claim":
             self._handle_prez_claim(action)
+
         elif self.phase == "chanc_claim":
             self._handle_chanc_claim(action)
+
         elif self.phase == "execution":
             self._handle_execution(action)
 
@@ -175,7 +196,10 @@ class ShitlerEnv(AECEnv):
         self.last_chancellor = self.chancellor_nominee
 
         # Check Hitler chancellor win (after 3 fasc policies)
-        if self.fasc_policies >= 3 and self.roles[self.agents[self.chancellor_nominee]] == "hitty":
+        if (
+            self.fasc_policies >= 3
+            and self.roles[self.agents[self.chancellor_nominee]] == "hitty"
+        ):
             self._end_game("fascists")
             return
 
@@ -235,10 +259,10 @@ class ShitlerEnv(AECEnv):
         target = self.agents[action]
         if target not in self.executed:
             self.executed.add(target)
-            self.alive_agents.remove(target)
             if self.roles[target] == "hitty":
                 self._end_game("liberals")
                 return
+        
         self._next_president()
         self.phase = "nomination"
 
@@ -271,7 +295,6 @@ class ShitlerEnv(AECEnv):
             else:
                 reward = 1 if self.roles[agent] in ["fasc", "hitty"] else -1
             self.rewards[agent] = reward
-            self._cumulative_rewards[agent] += reward
             self.terminations[agent] = True
 
     def _update_agent_selection(self):
@@ -282,16 +305,16 @@ class ShitlerEnv(AECEnv):
             while self.agents[next_idx] in self.executed:
                 next_idx = (next_idx + 1) % 5
             self.agent_selection = self.agents[next_idx]
-            
+
         elif self.phase == "nomination":
             self.agent_selection = self.agents[self.president_idx]
-            
+
         elif self.phase == "prez_cardsel" or self.phase == "prez_claim":
             self.agent_selection = self.agents[self.president_idx]
-            
+
         elif self.phase == "chanc_cardsel" or self.phase == "chanc_claim":
             self.agent_selection = self.agents[self.chancellor_nominee]
-            
+
         elif self.phase == "execution":
             self.agent_selection = self.agents[self.president_idx]
 
@@ -317,7 +340,10 @@ class ShitlerEnv(AECEnv):
         elif self.phase == "prez_cardsel" and agent == self.agents[self.president_idx]:
             return [1, 1, 1]
 
-        elif self.phase == "chanc_cardsel" and agent == self.agents[self.chancellor_nominee]:
+        elif (
+            self.phase == "chanc_cardsel"
+            and agent == self.agents[self.chancellor_nominee]
+        ):
             return [1, 1]
 
         elif self.phase == "voting":
@@ -337,7 +363,7 @@ class ShitlerEnv(AECEnv):
         return {"lib": 0, "fasc": 1, "hitty": 2}[role]
 
     def render(self):
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print(f"SILENT SHITLER - Move {self.num_moves}")
         print("=" * 50)
         print(f"Liberal policies: {self.lib_policies}/5")
