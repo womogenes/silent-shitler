@@ -77,7 +77,6 @@ class ShitlerEnv(AECEnv):
             if self.chancellor_nominee is not None
             else -1,
             "executed": [1 if a in self.executed else 0 for a in self.agents],
-            "action_mask": self._get_action_mask(agent),
         }
 
         # Fascists see all roles
@@ -86,16 +85,21 @@ class ShitlerEnv(AECEnv):
         else:
             obs["all_roles"] = [-1] * 5
 
-        # Add cards if in card selection phase
-        if self.phase == "prez_cardsel" and agent == self.agents[self.president_idx]:
+        # Add phase-specific info
+        if self.phase == "nomination" and agent == self.agents[self.president_idx]:
+            obs["valid_nominees"] = self._get_valid_nominees()
+
+        elif self.phase == "execution" and agent == self.agents[self.president_idx]:
+            obs["valid_targets"] = self._get_valid_targets()
+
+        elif self.phase == "prez_cardsel" and agent == self.agents[self.president_idx]:
             obs["cards"] = self.prez_cards
+
         elif (
             self.phase == "chanc_cardsel"
             and agent == self.agents[self.chancellor_nominee]
         ):
             obs["cards"] = self.chanc_cards
-        else:
-            obs["cards"] = []
 
         return obs
 
@@ -110,32 +114,36 @@ class ShitlerEnv(AECEnv):
                 "chancellor_nominee": spaces.Discrete(6),  # -1 to 4
                 "executed": spaces.MultiBinary(5),
                 "all_roles": spaces.MultiDiscrete([4] * 5),  # -1 to 2
-                "cards": spaces.Sequence(spaces.Discrete(2)),
-                "action_mask": spaces.Sequence(spaces.Discrete(2)),
             }
         )
 
     def action_space(self, agent):
         if self.phase == "nomination" and agent == self.agents[self.president_idx]:
-            return spaces.Discrete(5)
+            return spaces.Discrete(len(self._get_valid_nominees()))
+
         elif self.phase == "voting" and agent not in self.executed:
             return spaces.Discrete(2)
+
         elif self.phase == "prez_cardsel" and agent == self.agents[self.president_idx]:
             return spaces.Discrete(3)
+
         elif (
             self.phase == "chanc_cardsel"
             and agent == self.agents[self.chancellor_nominee]
         ):
             return spaces.Discrete(2)
+        
         elif self.phase == "prez_claim" and agent == self.agents[self.president_idx]:
             return spaces.Discrete(4)  # (0,3), (1,2), (2,1), (3,0)
+        
         elif (
             self.phase == "chanc_claim"
             and agent == self.agents[self.chancellor_nominee]
         ):
             return spaces.Discrete(3)  # (0,2), (1,1), (2,0)
+        
         elif self.phase == "execution" and agent == self.agents[self.president_idx]:
-            return spaces.Discrete(5)
+            return spaces.Discrete(len(self._get_valid_targets()))
 
         return spaces.Discrete(1)
 
@@ -177,7 +185,8 @@ class ShitlerEnv(AECEnv):
             self._update_agent_selection()
 
     def _handle_nomination(self, action):
-        self.chancellor_nominee = action
+        valid_nominees = self._get_valid_nominees()
+        self.chancellor_nominee = valid_nominees[action]
         self.votes = {}
         self.phase = "voting"
 
@@ -256,13 +265,13 @@ class ShitlerEnv(AECEnv):
             self.phase = "nomination"
 
     def _handle_execution(self, action):
-        target = self.agents[action]
-        if target not in self.executed:
-            self.executed.add(target)
-            if self.roles[target] == "hitty":
-                self._end_game("liberals")
-                return
-        
+        valid_targets = self._get_valid_targets()
+        target_idx = valid_targets[action]
+        target = self.agents[target_idx]
+        self.executed.add(target)
+        if self.roles[target] == "hitty":
+            self._end_game("liberals")
+            return
         self._next_president()
         self.phase = "nomination"
 
@@ -318,46 +327,19 @@ class ShitlerEnv(AECEnv):
         elif self.phase == "execution":
             self.agent_selection = self.agents[self.president_idx]
 
-    def _get_action_mask(self, agent):
-        """Return binary mask of valid actions for given agent (variable length)"""
-        if self.phase == "nomination" and agent == self.agents[self.president_idx]:
-            # Can't nominate dead players or players from last government
-            mask = []
-            for i, a in enumerate(self.agents):
-                valid = a not in self.executed
-                # Exclude last prez and chanc if they exist
-                if self.last_president is not None and i == self.last_president:
-                    valid = False
-                if self.last_chancellor is not None and i == self.last_chancellor:
-                    valid = False
-                mask.append(1 if valid else 0)
-            return mask
+    def _get_valid_nominees(self):
+        """Return list of player indices that can be nominated as chancellor"""
+        return [
+            i
+            for i, a in enumerate(self.agents)
+            if a not in self.executed
+            and i != self.last_president
+            and i != self.last_chancellor
+        ]
 
-        elif self.phase == "execution" and agent == self.agents[self.president_idx]:
-            # Can't execute dead players
-            return [0 if a in self.executed else 1 for a in self.agents]
-
-        elif self.phase == "prez_cardsel" and agent == self.agents[self.president_idx]:
-            return [1, 1, 1]
-
-        elif (
-            self.phase == "chanc_cardsel"
-            and agent == self.agents[self.chancellor_nominee]
-        ):
-            return [1, 1]
-
-        elif self.phase == "voting":
-            return [1, 1]
-
-        elif self.phase == "prez_claim":
-            return [1, 1, 1, 1]
-
-        elif self.phase == "chanc_claim":
-            return [1, 1, 1]
-
-        else:
-            # Default
-            return [1]
+    def _get_valid_targets(self):
+        """Return list of player indices that can be executed"""
+        return [i for i, a in enumerate(self.agents) if a not in self.executed]
 
     def _encode_role(self, role):
         return {"lib": 0, "fasc": 1, "hitty": 2}[role]
