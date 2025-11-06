@@ -40,8 +40,6 @@ class ShitlerEnv(AECEnv):
 
         # Track executed players
         self.executed = set()
-
-        # Voting
         self.votes = {}
 
         # Card selection
@@ -49,6 +47,16 @@ class ShitlerEnv(AECEnv):
         self.chanc_cards = None
         self.prez_claim = None
         self.chanc_claim = None
+
+        # Game history (parallel arrays for each government attempt)
+        self.hist_president = []
+        self.hist_chancellor = []
+        self.hist_votes = []  # List of vote arrays [-1=didn't vote, 0=no, 1=yes]
+        self.hist_succeeded = []
+        self.hist_policy = []  # -1 if government failed
+        self.hist_prez_claim = []  # Number of libs claimed (0-3), -1 if failed
+        self.hist_chanc_claim = []  # Number of libs claimed (0-2), -1 if failed
+        self.hist_execution = []  # Player index executed, -1 if no execution
 
         # Phase management
         self.phase = "nomination"
@@ -77,6 +85,15 @@ class ShitlerEnv(AECEnv):
             if self.chancellor_nominee is not None
             else -1,
             "executed": [1 if a in self.executed else 0 for a in self.agents],
+            # Game history
+            "hist_president": self.hist_president[:],
+            "hist_chancellor": self.hist_chancellor[:],
+            "hist_votes": [v[:] for v in self.hist_votes],
+            "hist_succeeded": self.hist_succeeded[:],
+            "hist_policy": self.hist_policy[:],
+            "hist_prez_claim": self.hist_prez_claim[:],
+            "hist_chanc_claim": self.hist_chanc_claim[:],
+            "hist_execution": self.hist_execution[:],
         }
 
         # Fascists see all roles
@@ -192,7 +209,9 @@ class ShitlerEnv(AECEnv):
 
     def _handle_voting(self, agent, action):
         self.votes[agent] = action
-        if len(self.votes) == len([a for a in self.agents if a not in self.executed]):
+        if len(self.votes) == sum(1 for a in self.agents if a not in self.executed):
+            # All votes are in - record this government attempt
+            self._record_government_attempt()
             yes_votes = sum(self.votes.values())
             if yes_votes > len(self.votes) // 2:
                 self._government_succeeds()
@@ -200,6 +219,7 @@ class ShitlerEnv(AECEnv):
                 self._government_fails()
 
     def _government_succeeds(self):
+        self.hist_succeeded[-1] = 1
         self.election_tracker = 0
         self.last_president = self.president_idx
         self.last_chancellor = self.chancellor_nominee
@@ -216,6 +236,13 @@ class ShitlerEnv(AECEnv):
         self.phase = "prez_cardsel"
 
     def _government_fails(self):
+        self.hist_succeeded[-1] = 0
+        # Record -1 for failed government fields
+        self.hist_policy[-1] = -1
+        self.hist_prez_claim[-1] = -1
+        self.hist_chanc_claim[-1] = -1
+        self.hist_execution[-1] = -1
+
         self.election_tracker += 1
         if self.election_tracker >= 3:
             self._chaos()
@@ -247,20 +274,27 @@ class ShitlerEnv(AECEnv):
         discarded = self.chanc_cards.pop(action)
         self.discard.append(discarded)
         played = self.chanc_cards[0]
-        self._play_policy(played)
+        if played == 0:
+            self.lib_policies += 1
+        else:
+            self.fasc_policies += 1
+        self.hist_policy[-1] = played
         self.phase = "prez_claim"
 
     def _handle_prez_claim(self, action):
         self.prez_claim = action
+        self.hist_prez_claim[-1] = action  # Action is number of libs (0-3)
         self.phase = "chanc_claim"
 
     def _handle_chanc_claim(self, action):
         self.chanc_claim = action
+        self.hist_chanc_claim[-1] = action  # Action is number of libs (0-2)
 
         # Check if execution needed
         if self.fasc_policies >= 4:
             self.phase = "execution"
         else:
+            self.hist_execution[-1] = -1  # No execution
             self._next_president()
             self.phase = "nomination"
 
@@ -269,6 +303,7 @@ class ShitlerEnv(AECEnv):
         target_idx = valid_targets[action]
         target = self.agents[target_idx]
         self.executed.add(target)
+        self.hist_execution[-1] = target_idx
         if self.roles[target] == "hitty":
             self._end_game("liberals")
             return
@@ -326,6 +361,25 @@ class ShitlerEnv(AECEnv):
 
         elif self.phase == "execution":
             self.agent_selection = self.agents[self.president_idx]
+
+    def _record_government_attempt(self):
+        """Record a government attempt after all votes are in"""
+        # Convert votes dict to array with -1 for dead/missing players
+        vote_array = []
+        for agent in self.agents:
+            if agent in self.executed:
+                vote_array.append(-1)
+            else:
+                vote_array.append(self.votes.get(agent, 0))
+
+        self.hist_president.append(self.president_idx)
+        self.hist_chancellor.append(self.chancellor_nominee)
+        self.hist_votes.append(vote_array)
+        self.hist_succeeded.append(-1)  # Will be set to 0 or 1
+        self.hist_policy.append(-1)  # Will be set if succeeded
+        self.hist_prez_claim.append(-1)  # Will be set if succeeded
+        self.hist_chanc_claim.append(-1)  # Will be set if succeeded
+        self.hist_execution.append(-1)  # Will be set if execution happens
 
     def _get_valid_nominees(self):
         """Return list of player indices that can be nominated as chancellor"""
