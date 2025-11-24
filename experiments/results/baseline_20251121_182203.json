@@ -1,0 +1,14 @@
+{
+  "agent_type": "random",
+  "timestamp": "20251121_182203",
+  "description": "Baseline evaluation with random agents",
+  "num_games": 10000,
+  "liberal_win_rate": 0.2882,
+  "fascist_win_rate": 0.7118,
+  "liberal_avg_reward": -0.4236,
+  "fascist_avg_reward": 0.4236,
+  "liberal_reward_std": 0.9058493472978827,
+  "fascist_reward_std": 0.9058493472978827,
+  "avg_game_length": 94.9784,
+  "game_length_std": 25.208330635724373,
+  "min_game_length": 

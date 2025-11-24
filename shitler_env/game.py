@@ -327,6 +327,13 @@ class ShitlerEnv(AECEnv):
         random.shuffle(self.deck)
 
     def _check_game_end(self):
+        # Check if too few players remain
+        alive_count = sum(1 for a in self.agents if a not in self.executed)
+        if alive_count < 2:
+            # Game cannot continue - fascists win by attrition
+            self._end_game("fascists")
+            return
+
         if self.lib_policies >= 5:
             self._end_game("liberals")
         elif self.fasc_policies >= 6:
@@ -383,13 +390,48 @@ class ShitlerEnv(AECEnv):
 
     def _get_valid_nominees(self):
         """Return list of player indices that can be nominated as chancellor"""
-        return [
-            i
-            for i, a in enumerate(self.agents)
-            if a not in self.executed
-            and i != self.last_president
-            and i != self.last_chancellor
-        ]
+        alive_count = sum(1 for a in self.agents if a not in self.executed)
+
+        # Edge case: With only 2 players, must be able to nominate the other one
+        if alive_count == 2:
+            return [
+                i
+                for i, a in enumerate(self.agents)
+                if a not in self.executed and i != self.president_idx
+            ]
+
+        # Only exclude last president/chancellor if they're still alive
+        exclude_last_prez = (
+            self.last_president is not None
+            and self.agents[self.last_president] not in self.executed
+        )
+        exclude_last_chanc = (
+            self.last_chancellor is not None
+            and self.agents[self.last_chancellor] not in self.executed
+        )
+
+        # Term limits are relaxed when fewer than 5 players are alive
+        # Only the immediate previous chancellor is ineligible (if alive)
+        if alive_count < 5:
+            nominees = [
+                i
+                for i, a in enumerate(self.agents)
+                if a not in self.executed
+                and i != self.president_idx  # Can't nominate yourself
+                and (not exclude_last_chanc or i != self.last_chancellor)
+            ]
+        else:
+            # Normal term limits: can't nominate last president or chancellor (if alive)
+            nominees = [
+                i
+                for i, a in enumerate(self.agents)
+                if a not in self.executed
+                and i != self.president_idx  # Can't nominate yourself
+                and (not exclude_last_prez or i != self.last_president)
+                and (not exclude_last_chanc or i != self.last_chancellor)
+            ]
+
+        return nominees
 
     def _get_valid_targets(self):
         """Return list of player indices that can be executed"""

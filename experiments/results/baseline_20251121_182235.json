@@ -1,0 +1,22 @@
+{
+  "agent_type": "random",
+  "timestamp": "20251121_182235",
+  "description": "Baseline evaluation with random agents",
+  "num_games": 10000,
+  "liberal_win_rate": 0.2856,
+  "fascist_win_rate": 0.7144,
+  "liberal_avg_reward": -0.4288,
+  "fascist_avg_reward": 0.4288,
+  "liberal_reward_std": 0.9033994465351415,
+  "fascist_reward_std": 0.9033994465351415,
+  "avg_game_length": 94.4971,
+  "game_length_std": 25.02970218740127,
+  "min_game_length": 36,
+  "max_game_length": 178,
+  "win_conditions": {
+    "lib_5_policies": 578,
+    "fasc_6_policies": 1712,
+    "hitler_chancellor": 5411,
+    "hitler_executed": 2299
+  }
+}
