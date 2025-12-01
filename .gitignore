@@ -4,5 +4,5 @@ __pycache__/
 .vscode/
 *.log
 
-experiments/checkpoints/
+experiments/checkpoints*/
 wandb/
