@@ -1,0 +1,24 @@
+{
+  "agent_type": "trained_vs_trained",
+  "timestamp": "20251201_113933",
+  "description": "Both teams using trained PPO policies",
+  "liberal_model": "/Users/harini/Documents/GitHub/silent-shitler/experiments/checkpoints_asymmetric/liberal/best_model.pt",
+  "fascist_model": "/Users/harini/Documents/GitHub/silent-shitler/experiments/checkpoints_asymmetric/fascist/best_model.pt",
+  "num_games": 1000,
+  "liberal_win_rate": 0.287,
+  "fascist_win_rate": 0.713,
+  "liberal_avg_reward": -0.426,
+  "fascist_avg_reward": 0.426,
+  "liberal_reward_std": 0.9047231620777706,
+  "fascist_reward_std": 0.9047231620777706,
+  "avg_game_length": 95.539,
+  "game_length_std": 25.148528366486975,
+  "min_game_length": 48,
+  "max_game_length": 155,
+  "win_conditions": {
+    "lib_5_policies": 61,
+    "fasc_6_policies": 294,
+    "hitler_chancellor": 417,
+    "hitler_executed": 228
+  }
+}
