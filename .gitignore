@@ -3,3 +3,6 @@ __pycache__/
 .claude/
 .vscode/
 *.log
+
+experiments/checkpoints*/
+wandb/
