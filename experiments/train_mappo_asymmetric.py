@@ -1,8 +1,8 @@
 """
-Asymmetric PPO training script for Silent Shitler.
+Asymmetric MAPPO training script for Silent Shitler.
 
-Trains one team (liberals or fascists) while the other team uses random policy.
-This removes self-play equilibrium issues and allows measuring actual improvement.
+Trains one team (liberals or fascists) with MAPPO while the other team uses random policy.
+MAPPO uses a centralized critic (sees global state) for better value estimation.
 """
 
 import sys
@@ -14,7 +14,7 @@ from datetime import datetime
 sys.path.append(str(Path(__file__).parent.parent))
 
 from shitler_env.game import ShitlerEnv
-from agents.ppo.asymmetric_ppo_agent import AsymmetricPPOAgent
+from agents.ppo.asymmetric_mappo_agent import AsymmetricMAPPOAgent
 from agents.ppo.observation import ObservationProcessor
 from utils.evaluation import run_games, print_results
 
@@ -39,7 +39,7 @@ USE_WANDB = True  # Set to False to disable wandb logging
 WANDB_PROJECT = "silent-shitler"
 WANDB_ENTITY = None  # Set to your wandb username if needed
 
-# PPO parameters
+# MAPPO parameters (same as PPO for fair comparison)
 LEARNING_RATE = 3e-4
 GAMMA = 0.99
 GAE_LAMBDA = 0.95
@@ -69,11 +69,11 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 # ============================================================================
-# Helper: Asymmetric PPO-based game player for evaluation
+# Helper: Asymmetric MAPPO-based game player for evaluation
 # ============================================================================
 
-class AsymmetricPPOGameAgent:
-    """Wrapper to use asymmetric PPO agent in evaluation framework."""
+class AsymmetricMAPPOGameAgent:
+    """Wrapper to use asymmetric MAPPO agent in evaluation framework."""
 
     def __init__(self, asymmetric_agent):
         self.asymmetric_agent = asymmetric_agent
@@ -89,8 +89,8 @@ class AsymmetricPPOGameAgent:
         is_trained = self.asymmetric_agent._is_trained_team(agent_role)
 
         if is_trained:
-            # Use PPO policy (deterministic for eval)
-            obs_array = self.asymmetric_agent.ppo_agent.obs_processor.process(obs)
+            # Use MAPPO policy (deterministic for eval)
+            obs_array = self.asymmetric_agent.mappo_agent.obs_processor.process(obs)
             n_valid = action_space.n
             action_mask = torch.zeros(6)
             action_mask[:n_valid] = 1.0
@@ -110,8 +110,9 @@ class AsymmetricPPOGameAgent:
 
 def main():
     print("=" * 70)
-    print("Asymmetric PPO Training for Silent Shitler")
+    print("Asymmetric MAPPO Training for Silent Shitler")
     print("=" * 70)
+    print(f"Algorithm: MAPPO (Multi-Agent PPO with Centralized Critic)")
     print(f"Training team: {TRAIN_TEAM.upper()}")
     print(f"Other team: RANDOM (frozen)")
     print(f"Device: {DEVICE}")
@@ -129,7 +130,7 @@ def main():
             project=WANDB_PROJECT,
             entity=WANDB_ENTITY,
             config={
-                "algorithm": "PPO",
+                "algorithm": "MAPPO",
                 "train_team": TRAIN_TEAM,
                 "training_type": "asymmetric",
                 "learning_rate": LEARNING_RATE,
@@ -146,7 +147,7 @@ def main():
                 "batch_size": BATCH_SIZE,
                 "device": DEVICE,
             },
-            name=f"ppo_asymmetric_{TRAIN_TEAM}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            name=f"mappo_asymmetric_{TRAIN_TEAM}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
         )
         print(f"Wandb logging enabled: {wandb.run.url}")
         print()
@@ -162,17 +163,18 @@ def main():
     obs_dim = obs_processor.obs_dim
     action_dim = 6  # Max actions across all phases
 
-    print(f"Observation dim: {obs_dim}")
+    print(f"Local observation dim: {obs_dim}")
+    print(f"Global state dim: {obs_dim * 5} (5 agents)")
     print(f"Action dim: {action_dim}")
     print()
 
-    # Create asymmetric PPO agent
-    agent = AsymmetricPPOAgent(
+    # Create asymmetric MAPPO agent
+    agent = AsymmetricMAPPOAgent(
         obs_dim=obs_dim,
         action_dim=action_dim,
         train_team=TRAIN_TEAM,
         hidden_dims=HIDDEN_DIMS,
-        learning_rate=LEARNING_RATE,
+        lr=LEARNING_RATE,
         gamma=GAMMA,
         gae_lambda=GAE_LAMBDA,
         clip_epsilon=CLIP_EPSILON,
@@ -183,7 +185,7 @@ def main():
     )
 
     # Create checkpoint directory
-    checkpoint_dir = Path(__file__).parent / "checkpoints_asymmetric" / TRAIN_TEAM
+    checkpoint_dir = Path(__file__).parent / "checkpoints_mappo_asymmetric" / TRAIN_TEAM
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
     # Training loop
@@ -193,7 +195,8 @@ def main():
     # Baseline for comparison
     baseline_win_rate = 0.286 if TRAIN_TEAM == "liberal" else 0.714
     print(f"Baseline {TRAIN_TEAM} win rate: {baseline_win_rate:.1%}")
-    print(f"Goal: Improve above baseline!\n")
+    print(f"PPO achieved: 34.5% (liberal) / 75.0% (fascist)")
+    print(f"Goal: Match or beat PPO with MAPPO!\n")
 
     for iteration in range(1, N_ITERATIONS + 1):
         iter_start_time = time.time()
@@ -203,7 +206,7 @@ def main():
         rollout_buffer = agent.collect_rollouts(env, N_STEPS_PER_ITERATION)
 
         # Train policy
-        print(f"[Iteration {iteration}/{N_ITERATIONS}] Training {TRAIN_TEAM} policy...")
+        print(f"[Iteration {iteration}/{N_ITERATIONS}] Training {TRAIN_TEAM} policy with MAPPO...")
         train_stats = agent.train(rollout_buffer, n_epochs=N_EPOCHS, batch_size=BATCH_SIZE)
 
         iter_time = time.time() - iter_start_time
@@ -236,7 +239,7 @@ def main():
 
             # Create evaluation agent factory
             def create_eval_agent():
-                return AsymmetricPPOGameAgent(agent)
+                return AsymmetricMAPPOGameAgent(agent)
 
             results = run_games(
                 agent_factory=create_eval_agent,
@@ -306,7 +309,7 @@ def main():
     print("\nRunning final evaluation (1000 games)...")
 
     def create_final_eval_agent():
-        return AsymmetricPPOGameAgent(agent)
+        return AsymmetricMAPPOGameAgent(agent)
 
     final_results = run_games(
         agent_factory=create_final_eval_agent,
@@ -318,6 +321,11 @@ def main():
     print_results(final_results)
 
     final_trained_win_rate = final_results['liberal_win_rate'] if TRAIN_TEAM == "liberal" else final_results['fascist_win_rate']
+
+    print(f"\n{TRAIN_TEAM.capitalize()} Performance Comparison:")
+    print(f"  Baseline (random):  {baseline_win_rate:.1%}")
+    print(f"  PPO:                {'34.5%' if TRAIN_TEAM == 'liberal' else '75.0%'}")
+    print(f"  MAPPO (this run):   {final_trained_win_rate:.1%}")
 
     # Log final results to wandb
     if use_wandb:
