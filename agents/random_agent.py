@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+import random
 
 sys.path.append(str(Path(__file__).parent.parent / "shitler_env"))
 
@@ -10,7 +11,32 @@ class RandomAgent:
         pass
 
     def get_action(self, obs, action_space):
-        return action_space.sample()
+        """
+        Get a random valid action based on observation masks.
+        
+        For nomination/execution: use the mask from obs
+        For card selection: use card_action_mask from obs
+        For other phases: sample from action_space directly
+        """
+        # Check for phase-specific masks
+        if "nomination_mask" in obs:
+            # Nomination phase: pick from valid nominees
+            valid_actions = [i for i, v in enumerate(obs["nomination_mask"]) if v == 1]
+            return random.choice(valid_actions)
+        
+        elif "execution_mask" in obs:
+            # Execution phase: pick from valid targets
+            valid_actions = [i for i, v in enumerate(obs["execution_mask"]) if v == 1]
+            return random.choice(valid_actions)
+        
+        elif "card_action_mask" in obs:
+            # Card selection phase: pick from valid discard options
+            valid_actions = [i for i, v in enumerate(obs["card_action_mask"]) if v == 1]
+            return random.choice(valid_actions)
+        
+        else:
+            # Voting, claims, etc: sample uniformly
+            return action_space.sample()
 
 
 def play_game(render=True, seed=None):

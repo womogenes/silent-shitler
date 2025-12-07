@@ -29,7 +29,7 @@ class TrainedVsTrainedAgent:
         """
         obs_processor = ObservationProcessor()
         obs_dim = obs_processor.obs_dim
-        action_dim = 6
+        action_dim = 5  # Max actions: nomination/execution have 5 player options
 
         # Create two separate PPO agents
         self.liberal_agent = PPOAgent(

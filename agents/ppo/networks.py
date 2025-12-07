@@ -5,6 +5,189 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.distributions import Categorical
 
+# Phase name to index mapping
+PHASE_TO_IDX = {
+    "nomination": 0,
+    "voting": 1,
+    "prez_cardsel": 2,
+    "chanc_cardsel": 3,
+    "prez_claim": 4,
+    "chanc_claim": 5,
+    "execution": 6,
+}
+
+# Output size for each phase head (indexed by phase_idx)
+HEAD_SIZES = [5, 2, 2, 2, 4, 3, 5]  # nom, vote, prez_card, chanc_card, prez_claim, chanc_claim, exec
+
+
+class MultiHeadActorCritic(nn.Module):
+    """
+    Actor-Critic network with separate action heads per phase.
+    
+    Each phase has its own output head with appropriate dimensionality:
+    - nomination: 5 outputs (one per player)
+    - voting: 2 outputs (no, yes)
+    - prez_cardsel: 2 outputs (discard lib, discard fasc)
+    - chanc_cardsel: 2 outputs (discard lib, discard fasc)
+    - prez_claim: 4 outputs (claim 0L, 1L, 2L, 3L)
+    - chanc_claim: 3 outputs (claim 0L, 1L, 2L)
+    - execution: 5 outputs (one per player)
+    """
+    
+    # Head configurations: (name, num_outputs)
+    HEAD_CONFIGS = [
+        ("nomination", 5),
+        ("voting", 2),
+        ("prez_cardsel", 2),
+        ("chanc_cardsel", 2),
+        ("prez_claim", 4),
+        ("chanc_claim", 3),
+        ("execution", 5),
+    ]
+
+    def __init__(self, obs_dim, hidden_dims=[128, 128]):
+        """
+        Args:
+            obs_dim: Dimension of observation vector
+            hidden_dims: List of hidden layer sizes
+        """
+        super().__init__()
+
+        self.obs_dim = obs_dim
+        self.num_heads = len(self.HEAD_CONFIGS)
+
+        # Shared feature extractor
+        layers = []
+        in_dim = obs_dim
+        for hidden_dim in hidden_dims:
+            layers.append(nn.Linear(in_dim, hidden_dim))
+            layers.append(nn.Tanh())
+            in_dim = hidden_dim
+
+        self.shared_net = nn.Sequential(*layers)
+        self.feature_dim = in_dim
+
+        # Create separate policy heads for each phase
+        self.policy_heads = nn.ModuleDict()
+        for name, num_outputs in self.HEAD_CONFIGS:
+            self.policy_heads[name] = nn.Linear(in_dim, num_outputs)
+
+        # Value head (critic) - shared across all phases
+        self.value_head = nn.Linear(in_dim, 1)
+
+        # Initialize weights
+        self._init_weights()
+
+    def _init_weights(self):
+        """Orthogonal initialization as commonly used in PPO."""
+        for module in self.modules():
+            if isinstance(module, nn.Linear):
+                nn.init.orthogonal_(module.weight, gain=1.0)
+                nn.init.constant_(module.bias, 0.0)
+
+        # Policy heads with smaller gain for stability
+        for head in self.policy_heads.values():
+            nn.init.orthogonal_(head.weight, gain=0.01)
+            nn.init.constant_(head.bias, 0.0)
+
+    def forward(self, obs, phase_idx, action_mask=None):
+        """
+        Forward pass through actor and critic for a specific phase.
+
+        Args:
+            obs: Observation tensor (batch_size, obs_dim)
+            phase_idx: Integer index of the phase (use PHASE_TO_IDX)
+            action_mask: Binary mask for valid actions (batch_size, num_actions_for_phase)
+
+        Returns:
+            action_logits: (batch_size, num_actions_for_phase)
+            value: (batch_size, 1)
+        """
+        features = self.shared_net(obs)
+
+        # Get the appropriate policy head
+        phase_name = self.HEAD_CONFIGS[phase_idx][0]
+        logits = self.policy_heads[phase_name](features)
+
+        # Apply action mask (set invalid actions to very negative logit)
+        if action_mask is not None:
+            logits = logits + (1 - action_mask) * -1e8
+
+        # Value estimate
+        value = self.value_head(features)
+
+        return logits, value
+
+    def get_action(self, obs, phase_idx, action_mask=None, deterministic=False):
+        """
+        Sample action from policy for a specific phase.
+
+        Args:
+            obs: Observation tensor (batch_size, obs_dim)
+            phase_idx: Integer index of the phase
+            action_mask: Binary mask for valid actions
+            deterministic: If True, take argmax instead of sampling
+
+        Returns:
+            action: Sampled actions (batch_size,)
+            log_prob: Log probability of actions (batch_size,)
+            value: Value estimates (batch_size,)
+            entropy: Entropy of action distribution (batch_size,)
+        """
+        logits, value = self.forward(obs, phase_idx, action_mask)
+
+        # Create categorical distribution
+        dist = Categorical(logits=logits)
+
+        if deterministic:
+            action = logits.argmax(dim=-1)
+        else:
+            action = dist.sample()
+
+        log_prob = dist.log_prob(action)
+        entropy = dist.entropy()
+
+        return action, log_prob, value.squeeze(-1), entropy
+
+    def evaluate_actions(self, obs, phase_idx, actions, action_mask=None):
+        """
+        Evaluate actions taken (used during PPO update).
+
+        Args:
+            obs: Observation tensor (batch_size, obs_dim)
+            phase_idx: Integer index of the phase (can be tensor for batched phases)
+            actions: Actions taken (batch_size,)
+            action_mask: Binary mask for valid actions
+
+        Returns:
+            log_prob: Log probability of actions (batch_size,)
+            value: Value estimates (batch_size,)
+            entropy: Entropy of action distribution (batch_size,)
+        """
+        logits, value = self.forward(obs, phase_idx, action_mask)
+
+        # Create categorical distribution
+        dist = Categorical(logits=logits)
+
+        log_prob = dist.log_prob(actions)
+        entropy = dist.entropy()
+
+        return log_prob, value.squeeze(-1), entropy
+
+    def get_value(self, obs):
+        """
+        Get value estimate only (faster than full forward pass).
+
+        Args:
+            obs: Observation tensor (batch_size, obs_dim)
+
+        Returns:
+            value: Value estimates (batch_size,)
+        """
+        features = self.shared_net(obs)
+        value = self.value_head(features)
+        return value.squeeze(-1)
+
 
 class ActorCritic(nn.Module):
     """

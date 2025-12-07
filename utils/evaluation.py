@@ -84,7 +84,7 @@ def play_single_game(agent_factory: Callable, seed: int = None) -> tuple:
     Play a single game to completion.
 
     Args:
-        agent_factory: Function that returns a new agent instance
+        agent_factory: Function that takes env and returns a new agent instance
         seed: Random seed
 
     Returns:
@@ -92,7 +92,12 @@ def play_single_game(agent_factory: Callable, seed: int = None) -> tuple:
     """
     env = ShitlerEnv()
     env.reset(seed=seed)
-    agents = {agent: agent_factory() for agent in env.possible_agents}
+    # Agent factory can take env as optional arg for agents that need it
+    try:
+        agents = {agent: agent_factory(env) for agent in env.possible_agents}
+    except TypeError:
+        # Fallback for simple agents that don't need env
+        agents = {agent: agent_factory() for agent in env.possible_agents}
 
     # Track initial roles for reward aggregation
     roles = env.roles.copy()

@@ -32,6 +32,7 @@ class RolloutBuffer:
         self.log_probs = np.zeros(buffer_size, dtype=np.float32)
         self.dones = np.zeros(buffer_size, dtype=np.float32)
         self.action_masks = np.zeros((buffer_size, action_dim), dtype=np.float32)
+        self.phase_idxs = np.zeros(buffer_size, dtype=np.int64)  # Phase index for multi-head
 
         # Computed during finalize()
         self.advantages = np.zeros(buffer_size, dtype=np.float32)
@@ -40,26 +41,19 @@ class RolloutBuffer:
         self.pos = 0
         self.full = False
 
-    def add(self, obs, action, reward, value, log_prob, done, action_mask):
-        """
-        Add a transition to the buffer.
-
-        Args:
-            obs: Observation (obs_dim,)
-            action: Action taken (scalar)
-            reward: Reward received (scalar)
-            value: Value estimate (scalar)
-            log_prob: Log probability of action (scalar)
-            done: Whether episode terminated (bool)
-            action_mask: Valid action mask (action_dim,)
-        """
+    def add(self, obs, action, reward, value, log_prob, done, action_mask, phase_idx=0):
+        """Add a transition to the buffer."""
         self.observations[self.pos] = obs
         self.actions[self.pos] = action
         self.rewards[self.pos] = reward
         self.values[self.pos] = value
         self.log_probs[self.pos] = log_prob
         self.dones[self.pos] = float(done)
-        self.action_masks[self.pos] = action_mask
+        # Pad mask to action_dim size
+        padded_mask = np.zeros(self.action_dim, dtype=np.float32)
+        padded_mask[:len(action_mask)] = action_mask
+        self.action_masks[self.pos] = padded_mask
+        self.phase_idxs[self.pos] = phase_idx
 
         self.pos += 1
         if self.pos >= self.buffer_size:
@@ -124,6 +118,7 @@ class RolloutBuffer:
             "advantages": torch.FloatTensor(advantages),
             "returns": torch.FloatTensor(self.returns[:size]),
             "action_masks": torch.FloatTensor(self.action_masks[:size]),
+            "phase_idxs": torch.LongTensor(self.phase_idxs[:size]),
         }
 
     def clear(self):
@@ -155,8 +150,9 @@ class EpisodeBuffer:
         self.log_probs = []
         self.dones = []
         self.action_masks = []
+        self.phase_idxs = []
 
-    def add(self, obs, action, reward, value, log_prob, done, action_mask):
+    def add(self, obs, action, reward, value, log_prob, done, action_mask, phase_idx=0):
         """Add transition to episode buffer."""
         self.observations.append(obs)
         self.actions.append(action)
@@ -165,6 +161,7 @@ class EpisodeBuffer:
         self.log_probs.append(log_prob)
         self.dones.append(done)
         self.action_masks.append(action_mask)
+        self.phase_idxs.append(phase_idx)
 
     def flush_to_rollout_buffer(self, rollout_buffer):
         """
@@ -182,6 +179,7 @@ class EpisodeBuffer:
                 self.log_probs[i],
                 self.dones[i],
                 self.action_masks[i],
+                self.phase_idxs[i],
             )
 
     def clear(self):
@@ -193,6 +191,7 @@ class EpisodeBuffer:
         self.log_probs = []
         self.dones = []
         self.action_masks = []
+        self.phase_idxs = []
 
     def __len__(self):
         return len(self.observations)

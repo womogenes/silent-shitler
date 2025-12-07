@@ -48,6 +48,10 @@ class ShitlerEnv(AECEnv):
         self.prez_claim = None
         self.chanc_claim = None
 
+        # Personal card history (what each player actually saw)
+        # Each entry: (government_index, num_libs, num_fascs) or None
+        self.personal_cards_seen = {agent: [] for agent in self.agents}
+
         # Game history (parallel arrays for each government attempt)
         self.hist_president = []
         self.hist_chancellor = []
@@ -102,65 +106,73 @@ class ShitlerEnv(AECEnv):
         else:
             obs["all_roles"] = [-1] * 5
 
+        # Personal card history (what this player saw in past governments)
+        obs["personal_cards_seen"] = self.personal_cards_seen[agent][:]
+
         # Add phase-specific info
         if self.phase == "nomination" and agent == self.agents[self.president_idx]:
-            obs["valid_nominees"] = self._get_valid_nominees()
+            # Fixed 5-element mask for valid nominees
+            valid_indices = self._get_valid_nominees()
+            obs["nomination_mask"] = [1 if i in valid_indices else 0 for i in range(5)]
 
         elif self.phase == "execution" and agent == self.agents[self.president_idx]:
-            obs["valid_targets"] = self._get_valid_targets()
+            # Fixed 5-element mask for valid execution targets
+            valid_indices = self._get_valid_targets()
+            obs["execution_mask"] = [1 if i in valid_indices else 0 for i in range(5)]
 
         elif self.phase == "prez_cardsel" and agent == self.agents[self.president_idx]:
-            obs["cards"] = self.prez_cards
+            # One-hot encoding: (0L,3F), (1L,2F), (2L,1F), (3L,0F)
+            num_libs = sum(1 for c in self.prez_cards if c == 0)
+            obs["cards"] = [1 if i == num_libs else 0 for i in range(4)]
+            # Also provide action mask (can't discard what you don't have)
+            obs["card_action_mask"] = [
+                1 if num_libs > 0 else 0,
+                1 if (3 - num_libs) > 0 else 0
+            ]
 
         elif (
             self.phase == "chanc_cardsel"
             and agent == self.agents[self.chancellor_nominee]
         ):
-            obs["cards"] = self.chanc_cards
+            # One-hot encoding: (0L,2F), (1L,1F), (2L,0F)
+            num_libs = sum(1 for c in self.chanc_cards if c == 0)
+            obs["cards"] = [1 if i == num_libs else 0 for i in range(3)]
+            # Action mask
+            obs["card_action_mask"] = [
+                1 if num_libs > 0 else 0,
+                1 if (2 - num_libs) > 0 else 0
+            ]
 
         return obs
 
-    def observation_space(self, agent):
-        return spaces.Dict(
-            {
-                "role": spaces.Discrete(3),  # 0=lib, 1=fasc, 2=hitler
-                "lib_policies": spaces.Discrete(6),
-                "fasc_policies": spaces.Discrete(7),
-                "election_tracker": spaces.Discrete(4),
-                "president_idx": spaces.Discrete(5),
-                "chancellor_nominee": spaces.Discrete(6),  # -1 to 4
-                "executed": spaces.MultiBinary(5),
-                "all_roles": spaces.MultiDiscrete([4] * 5),  # -1 to 2
-            }
-        )
-
     def action_space(self, agent):
+        # Fixed action spaces for consistent semantics
         if self.phase == "nomination" and agent == self.agents[self.president_idx]:
-            return spaces.Discrete(len(self._get_valid_nominees()))
+            return spaces.Discrete(5)  # Always 5 (one per player), masked externally
 
         elif self.phase == "voting" and agent not in self.executed:
-            return spaces.Discrete(2)
+            return spaces.Discrete(2)  # 0=no, 1=yes
 
         elif self.phase == "prez_cardsel" and agent == self.agents[self.president_idx]:
-            return spaces.Discrete(3)
+            return spaces.Discrete(2)  # 0=discard liberal, 1=discard fascist
 
         elif (
             self.phase == "chanc_cardsel"
             and agent == self.agents[self.chancellor_nominee]
         ):
-            return spaces.Discrete(2)
+            return spaces.Discrete(2)  # 0=discard liberal, 1=discard fascist
         
         elif self.phase == "prez_claim" and agent == self.agents[self.president_idx]:
-            return spaces.Discrete(4)  # (0,3), (1,2), (2,1), (3,0)
+            return spaces.Discrete(4)  # (0L,3F), (1L,2F), (2L,1F), (3L,0F)
         
         elif (
             self.phase == "chanc_claim"
             and agent == self.agents[self.chancellor_nominee]
         ):
-            return spaces.Discrete(3)  # (0,2), (1,1), (2,0)
+            return spaces.Discrete(3)  # (0L,2F), (1L,1F), (2L,0F)
         
         elif self.phase == "execution" and agent == self.agents[self.president_idx]:
-            return spaces.Discrete(len(self._get_valid_targets()))
+            return spaces.Discrete(5)  # Always 5 (one per player), masked externally
 
         return spaces.Discrete(1)
 
@@ -202,8 +214,12 @@ class ShitlerEnv(AECEnv):
             self._update_agent_selection()
 
     def _handle_nomination(self, action):
+        # Action is now a player index directly (0-4)
+        # Caller must ensure action is valid (in nomination_mask)
         valid_nominees = self._get_valid_nominees()
-        self.chancellor_nominee = valid_nominees[action]
+        if action not in valid_nominees:
+            raise ValueError(f"Invalid nomination: player {action} not in valid nominees {valid_nominees}")
+        self.chancellor_nominee = action
         self.votes = {}
         self.phase = "voting"
 
@@ -265,14 +281,56 @@ class ShitlerEnv(AECEnv):
         self.prez_cards = [self.deck.pop(0) for _ in range(3)]
 
     def _handle_prez_cardsel(self, action):
-        discarded = self.prez_cards.pop(action)
-        self.discard.append(discarded)
+        # Action: 0=discard liberal, 1=discard fascist
+        num_libs = sum(1 for c in self.prez_cards if c == 0)
+        num_fascs = 3 - num_libs
+        
+        # Record what president saw before discarding
+        prez_agent = self.agents[self.president_idx]
+        gov_idx = len(self.hist_president) - 1
+        self.personal_cards_seen[prez_agent].append((gov_idx, num_libs, num_fascs))
+        
+        # Validate action
+        if action == 0 and num_libs == 0:
+            raise ValueError("Cannot discard liberal: no liberals in hand")
+        if action == 1 and num_fascs == 0:
+            raise ValueError("Cannot discard fascist: no fascists in hand")
+        
+        # Find and remove the card
+        discard_type = 0 if action == 0 else 1  # 0=lib, 1=fasc
+        for i, card in enumerate(self.prez_cards):
+            if card == discard_type:
+                discarded = self.prez_cards.pop(i)
+                self.discard.append(discarded)
+                break
+        
         self.chanc_cards = self.prez_cards
         self.phase = "chanc_cardsel"
 
     def _handle_chanc_cardsel(self, action):
-        discarded = self.chanc_cards.pop(action)
-        self.discard.append(discarded)
+        # Action: 0=discard liberal (play fascist), 1=discard fascist (play liberal)
+        num_libs = sum(1 for c in self.chanc_cards if c == 0)
+        num_fascs = 2 - num_libs
+        
+        # Record what chancellor saw before discarding
+        chanc_agent = self.agents[self.chancellor_nominee]
+        gov_idx = len(self.hist_president) - 1
+        self.personal_cards_seen[chanc_agent].append((gov_idx, num_libs, num_fascs))
+        
+        # Validate action
+        if action == 0 and num_libs == 0:
+            raise ValueError("Cannot discard liberal: no liberals in hand")
+        if action == 1 and num_fascs == 0:
+            raise ValueError("Cannot discard fascist: no fascists in hand")
+        
+        # Find and remove the card
+        discard_type = 0 if action == 0 else 1
+        for i, card in enumerate(self.chanc_cards):
+            if card == discard_type:
+                discarded = self.chanc_cards.pop(i)
+                self.discard.append(discarded)
+                break
+        
         played = self.chanc_cards[0]
         if played == 0:
             self.lib_policies += 1
@@ -299,11 +357,13 @@ class ShitlerEnv(AECEnv):
             self.phase = "nomination"
 
     def _handle_execution(self, action):
+        # Action is now a player index directly (0-4)
         valid_targets = self._get_valid_targets()
-        target_idx = valid_targets[action]
-        target = self.agents[target_idx]
+        if action not in valid_targets:
+            raise ValueError(f"Invalid execution: player {action} not in valid targets {valid_targets}")
+        target = self.agents[action]
         self.executed.add(target)
-        self.hist_execution[-1] = target_idx
+        self.hist_execution[-1] = action
         if self.roles[target] == "hitty":
             self._end_game("liberals")
             return

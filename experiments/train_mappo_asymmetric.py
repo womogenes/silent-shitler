@@ -161,7 +161,7 @@ def main():
     # Get observation and action dimensions
     obs_processor = ObservationProcessor()
     obs_dim = obs_processor.obs_dim
-    action_dim = 6  # Max actions across all phases
+    action_dim = 5  # Max actions: nomination/execution have 5 player options
 
     print(f"Local observation dim: {obs_dim}")
     print(f"Global state dim: {obs_dim * 5} (5 agents)")

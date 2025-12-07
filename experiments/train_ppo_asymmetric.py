@@ -32,7 +32,7 @@ except ImportError:
 # ============================================================================
 
 # Asymmetric training settings
-TRAIN_TEAM = "fascist"  # "liberal" or "fascist" - which team to train
+TRAIN_TEAM = "liberal"  # "liberal" or "fascist" - which team to train
 
 # Logging
 USE_WANDB = True  # Set to False to disable wandb logging
@@ -75,32 +75,23 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 class AsymmetricPPOGameAgent:
     """Wrapper to use asymmetric PPO agent in evaluation framework."""
 
-    def __init__(self, asymmetric_agent):
+    def __init__(self, asymmetric_agent, env):
         self.asymmetric_agent = asymmetric_agent
+        self.env = env  # Need env reference for phase
 
     def get_action(self, obs, action_space):
-        """Get action from appropriate policy based on agent role."""
-        # Infer role from observation (0=lib, 1=fasc, 2=hitler)
-        role_encoded = obs["role"]
         role_map = {0: "lib", 1: "fasc", 2: "hitty"}
-        agent_role = role_map[role_encoded]
+        agent_role = role_map[obs["role"]]
 
-        # Check if this is trained team
-        is_trained = self.asymmetric_agent._is_trained_team(agent_role)
-
-        if is_trained:
-            # Use PPO policy (deterministic for eval)
-            obs_array = self.asymmetric_agent.ppo_agent.obs_processor.process(obs)
-            n_valid = action_space.n
-            action_mask = torch.zeros(6)
-            action_mask[:n_valid] = 1.0
-
-            action, _, _ = self.asymmetric_agent.get_action(
-                obs_array, action_mask.numpy(), deterministic=True
-            )
+        if self.asymmetric_agent._is_trained_team(agent_role):
+            from agents.ppo.networks import PHASE_TO_IDX
+            obs_processor = self.asymmetric_agent.ppo_agent.obs_processor
+            obs_array = obs_processor.process(obs)
+            phase_idx = PHASE_TO_IDX.get(self.env.phase, 0)
+            action_mask = obs_processor.get_action_mask(self.env, self.env.agent_selection)
+            action, _, _ = self.asymmetric_agent.get_action(obs_array, phase_idx, action_mask, deterministic=True)
             return action
         else:
-            # Use random policy
             return self.asymmetric_agent.random_agent.get_action(obs, action_space)
 
 
@@ -113,7 +104,7 @@ def main():
     print("Asymmetric PPO Training for Silent Shitler")
     print("=" * 70)
     print(f"Training team: {TRAIN_TEAM.upper()}")
-    print(f"Other team: RANDOM (frozen)")
+    print("Other team: RANDOM (frozen)")
     print(f"Device: {DEVICE}")
     print(f"Learning rate: {LEARNING_RATE}")
     print(f"Hidden dims: {HIDDEN_DIMS}")
@@ -157,19 +148,15 @@ def main():
     # Create environment
     env = ShitlerEnv()
 
-    # Get observation and action dimensions
+    # Get observation dimension
     obs_processor = ObservationProcessor()
     obs_dim = obs_processor.obs_dim
-    action_dim = 6  # Max actions across all phases
-
     print(f"Observation dim: {obs_dim}")
-    print(f"Action dim: {action_dim}")
     print()
 
-    # Create asymmetric PPO agent
+    # Create asymmetric PPO agent (multi-head, no action_dim needed)
     agent = AsymmetricPPOAgent(
         obs_dim=obs_dim,
-        action_dim=action_dim,
         train_team=TRAIN_TEAM,
         hidden_dims=HIDDEN_DIMS,
         learning_rate=LEARNING_RATE,
@@ -193,7 +180,7 @@ def main():
     # Baseline for comparison
     baseline_win_rate = 0.286 if TRAIN_TEAM == "liberal" else 0.714
     print(f"Baseline {TRAIN_TEAM} win rate: {baseline_win_rate:.1%}")
-    print(f"Goal: Improve above baseline!\n")
+    print("Goal: Improve above baseline!\n")
 
     for iteration in range(1, N_ITERATIONS + 1):
         iter_start_time = time.time()
@@ -234,9 +221,9 @@ def main():
         if iteration % EVAL_FREQ == 0:
             print(f"[Iteration {iteration}/{N_ITERATIONS}] Evaluating...")
 
-            # Create evaluation agent factory
-            def create_eval_agent():
-                return AsymmetricPPOGameAgent(agent)
+            # Create evaluation agent factory (takes env as arg)
+            def create_eval_agent(env):
+                return AsymmetricPPOGameAgent(agent, env)
 
             results = run_games(
                 agent_factory=create_eval_agent,
