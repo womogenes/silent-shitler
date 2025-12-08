@@ -1,0 +1,16 @@
+{
+  "agent_type": "cfr_plus_liberal",
+  "iterations": 320000,
+  "infosets": 928915,
+  "training_time_seconds": 917.3603553771973,
+  "timestamp": "20251207_204002",
+  "liberal_win_rate": 0.33,
+  "liberal_wins": 165,
+  "fascist_wins": 335,
+  "win_conditions": {
+    "hitler_executed": 135,
+    "hitler_chancellor": 258,
+    "fasc_6_policies": 77,
+    "lib_5_policies": 30
+  }
+}
