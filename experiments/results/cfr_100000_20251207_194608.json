@@ -1,0 +1,24 @@
+{
+  "agent_type": "cfr_outcome_sampling",
+  "iterations": 100000,
+  "infosets": 824334,
+  "training_time_seconds": 289.70591592788696,
+  "timestamp": "20251207_194608",
+  "num_games": 500,
+  "liberal_win_rate": 0.216,
+  "fascist_win_rate": 0.784,
+  "liberal_avg_reward": -0.568,
+  "fascist_avg_reward": 0.568,
+  "liberal_reward_std": 0.8230285535751479,
+  "fascist_reward_std": 0.8230285535751479,
+  "avg_game_length": 94.21,
+  "game_length_std": 25.05844967271519,
+  "min_game_length": 36,
+  "max_game_length": 171,
+  "win_conditions": {
+    "lib_5_policies": 26,
+    "fasc_6_policies": 81,
+    "hitler_chancellor": 308,
+    "hitler_executed": 85
+  }
+}

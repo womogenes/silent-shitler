@@ -1,7 +1,7 @@
 """Information set abstraction and bucketing for CFR."""
 
-# Configurable suspicion bucket count
-NUM_SUSPICION_BUCKETS = 5
+# Configurable suspicion bucket count (coarser = fewer infosets, faster convergence)
+NUM_SUSPICION_BUCKETS = 3
 
 
 def compute_suspicion_scores(obs):
