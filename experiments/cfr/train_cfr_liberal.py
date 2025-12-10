@@ -11,7 +11,7 @@ from collections import defaultdict
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from shitler_env.game import ShitlerEnv
-from agents.cfr.infoset import get_infoset_key, NUM_SUSPICION_BUCKETS
+from agents.cfr.infoset import get_infoset_key
 
 # Wandb logging
 try:
@@ -319,7 +319,7 @@ def main():
         "log_every": LOG_EVERY,
         "eval_every": EVAL_EVERY,
         "eval_games": EVAL_GAMES,
-        "suspicion_buckets": NUM_SUSPICION_BUCKETS,
+        "history_abstraction": "per_player_features",
         "opponent": "random_fascist",
     }
     
