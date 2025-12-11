@@ -240,13 +240,13 @@ class ShitlerEnv(AECEnv):
         self.last_president = self.president_idx
         self.last_chancellor = self.chancellor_nominee
 
-        # Check Hitler chancellor win (after 3 fasc policies)
-        if (
-            self.fasc_policies >= 3
-            and self.roles[self.agents[self.chancellor_nominee]] == "hitty"
-        ):
-            self._end_game("fascists")
-            return
+        # # Check Hitler chancellor win (after 3 fasc policies)
+        # if (
+        #     self.fasc_policies >= 3
+        #     and self.roles[self.agents[self.chancellor_nominee]] == "hitty"
+        # ):
+        #     self._end_game("fascists")
+        #     return
 
         self._draw_cards()
         self.phase = "prez_cardsel"
