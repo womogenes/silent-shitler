@@ -151,26 +151,37 @@ def play_game_with_transcript(cfr_agent, num_infosets, liberal_uses_cfr=True, se
         }
 
         if uses_cfr:
-            # Get infoset key - CORRECT player index
-            infoset_key = get_infoset_key(obs, phase, current_idx)
-
-            # Check if infoset exists in training data
-            infoset_found = infoset_key in cfr_agent.strategy_sums
-
-            if infoset_found:
-                infosets_found += 1
-                strategy = cfr_agent.get_average_strategy(infoset_key, legal_actions)
+            # HARD-CODE: Liberals always discard fascist if possible (canonical strategy)
+            # This matches the training evaluation and is strategically correct
+            if is_liberal and phase in ["prez_cardsel", "chanc_cardsel"] and 1 in legal_actions:
+                action = 1  # always discard fascist (play liberal)
+                infoset_found = True  # Mark as "found" (hard-coded)
+                strategy = {a: (1.0 if a == 1 else 0.0) for a in legal_actions}
+                move_data["hard_coded"] = True
+                infoset_key = None  # Not used for hard-coded decisions
             else:
-                infosets_not_found += 1
-                # Uniform random if not found
-                strategy = {a: 1.0 / len(legal_actions) for a in legal_actions}
+                # Get infoset key - CORRECT player index
+                infoset_key = get_infoset_key(obs, phase, current_idx)
 
-            # Sample action
-            action = cfr_agent.sample_action(strategy)
+                # Check if infoset exists in training data
+                infoset_found = infoset_key in cfr_agent.strategy_sums
+
+                if infoset_found:
+                    infosets_found += 1
+                    strategy = cfr_agent.get_average_strategy(infoset_key, legal_actions)
+                else:
+                    infosets_not_found += 1
+                    # Uniform random if not found
+                    strategy = {a: 1.0 / len(legal_actions) for a in legal_actions}
+
+                # Sample action
+                action = cfr_agent.sample_action(strategy)
+                move_data["hard_coded"] = False
 
             # Record details
             move_data["infoset_found"] = infoset_found
-            move_data["infoset_key"] = format_infoset_key(infoset_key, obs)
+            if infoset_key is not None:
+                move_data["infoset_key"] = format_infoset_key(infoset_key, obs)
             move_data["legal_actions"] = legal_actions
             move_data["strategy"] = {a: f"{strategy[a]:.3f}" for a in legal_actions}
             move_data["action"] = action
@@ -178,27 +189,33 @@ def play_game_with_transcript(cfr_agent, num_infosets, liberal_uses_cfr=True, se
             # Print verbose output
             log(f"[Move {move_num}] P{current_idx} ({ROLE_NAMES[current_role]}) - {phase}")
             log(f"  Uses CFR: Yes")
-            log(f"  Infoset found in training: {'YES' if infoset_found else 'NO (using uniform random)'}")
-            if infoset_found:
-                log(f"  Legal actions: {legal_actions}")
-                log(f"  Strategy: {strategy}")
-                log(f"  Action chosen: {action}")
 
-                # Log infoset details if found
-                if log_file:
-                    formatted_infoset = format_infoset_key(infoset_key, obs)
-                    log(f"  Infoset details:")
-                    for key, value in formatted_infoset.items():
-                        if key == "player_features":
-                            log(f"    {key}:")
-                            for player, features in value.items():
-                                log(f"      {player}: {features}")
-                        else:
-                            log(f"    {key}: {value}")
-            else:
+            if move_data.get("hard_coded"):
+                log(f"  HARD-CODED: Always play liberal policy (canonical strategy)")
                 log(f"  Legal actions: {legal_actions}")
-                log(f"  Using uniform: {strategy}")
                 log(f"  Action chosen: {action}")
+            else:
+                log(f"  Infoset found in training: {'YES' if infoset_found else 'NO (using uniform random)'}")
+                if infoset_found:
+                    log(f"  Legal actions: {legal_actions}")
+                    log(f"  Strategy: {strategy}")
+                    log(f"  Action chosen: {action}")
+
+                    # Log infoset details if found
+                    if log_file and infoset_key is not None:
+                        formatted_infoset = format_infoset_key(infoset_key, obs)
+                        log(f"  Infoset details:")
+                        for key, value in formatted_infoset.items():
+                            if key == "player_features":
+                                log(f"    {key}:")
+                                for player, features in value.items():
+                                    log(f"      {player}: {features}")
+                            else:
+                                log(f"    {key}: {value}")
+                else:
+                    log(f"  Legal actions: {legal_actions}")
+                    log(f"  Using uniform: {strategy}")
+                    log(f"  Action chosen: {action}")
             log("")
 
         else:

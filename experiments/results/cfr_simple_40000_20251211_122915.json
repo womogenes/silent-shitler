@@ -1,0 +1,15 @@
+{
+  "iteration": 40000,
+  "win_rate": 51.6,
+  "liberal_wins": 258,
+  "fascist_wins": 242,
+  "win_conditions": {
+    "lib_5_policies": 196,
+    "hitler_chancellor": 204,
+    "hitler_executed": 62,
+    "fasc_6_policies": 38
+  },
+  "infosets": 38028,
+  "coverage_percent": 1.2420145012737605,
+  "eval_time": 0.6032369136810303
+}
