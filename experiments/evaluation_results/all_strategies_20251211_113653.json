@@ -1,0 +1,74 @@
+{
+  "timestamp": "20251211_113653",
+  "num_games_per_matchup": 500,
+  "strategies": [
+    "Random",
+    "CFR-Std",
+    "CFR-Lib"
+  ],
+  "results": {
+    "Random_vs_Random": {
+      "liberal_wins": 138,
+      "fascist_wins": 362,
+      "liberal_win_rate": 0.276,
+      "fascist_win_rate": 0.724,
+      "avg_game_length": 91.032
+    },
+    "Random_vs_CFR-Std": {
+      "liberal_wins": 87,
+      "fascist_wins": 413,
+      "liberal_win_rate": 0.174,
+      "fascist_win_rate": 0.826,
+      "avg_game_length": 93.374
+    },
+    "Random_vs_CFR-Lib": {
+      "liberal_wins": 106,
+      "fascist_wins": 394,
+      "liberal_win_rate": 0.212,
+      "fascist_win_rate": 0.788,
+      "avg_game_length": 94.02
+    },
+    "CFR-Std_vs_Random": {
+      "liberal_wins": 142,
+      "fascist_wins": 358,
+      "liberal_win_rate": 0.284,
+      "fascist_win_rate": 0.716,
+      "avg_game_length": 97.072
+    },
+    "CFR-Std_vs_CFR-Std": {
+      "liberal_wins": 86,
+      "fascist_wins": 414,
+      "liberal_win_rate": 0.172,
+      "fascist_win_rate": 0.828,
+      "avg_game_length": 96.276
+    },
+    "CFR-Std_vs_CFR-Lib": {
+      "liberal_wins": 139,
+      "fascist_wins": 361,
+      "liberal_win_rate": 0.278,
+      "fascist_win_rate": 0.722,
+      "avg_game_length": 92.872
+    },
+    "CFR-Lib_vs_Random": {
+      "liberal_wins": 155,
+      "fascist_wins": 345,
+      "liberal_win_rate": 0.31,
+      "fascist_win_rate": 0.69,
+      "avg_game_length": 92.446
+    },
+    "CFR-Lib_vs_CFR-Std": {
+      "liberal_wins": 79,
+      "fascist_wins": 421,
+      "liberal_win_rate": 0.158,
+      "fascist_win_rate": 0.842,
+      "avg_game_length": 93.244
+    },
+    "CFR-Lib_vs_CFR-Lib": {
+      "liberal_wins": 121,
+      "fascist_wins": 379,
+      "liberal_win_rate": 0.242,
+      "fascist_win_rate": 0.758,
+      "avg_game_length": 90.07
+    }
+  }
+}
