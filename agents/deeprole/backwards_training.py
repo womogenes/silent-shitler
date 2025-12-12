@@ -30,13 +30,17 @@ def _generate_single_sample_wrapper(args):
     env = create_game_at_state(lib_policies, fasc_policies, president_idx, seed)
     cfr = VectorCFR()
 
+    # Use smaller max_depth for states near the end of the game
+    # (4L, XF) or (XL, 5F) are very close to terminal
+    max_depth = 3 if (lib_policies >= 4 or fasc_policies >= 5) else 5
+
     values = cfr.solve_situation(
         env,
         belief,
         num_iterations=cfr_iterations,
         averaging_delay=cfr_delay,
         neural_nets=neural_nets,
-        max_depth=5
+        max_depth=max_depth
     )
 
     return president_idx, belief, values

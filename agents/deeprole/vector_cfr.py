@@ -325,6 +325,8 @@ class VectorCFR:
                 env._government_succeeds()
             else:
                 env._government_fails()
+            # Update agent_selection to match the new phase
+            env._update_agent_selection()
 
     def _get_legal_actions(self, env, player_idx):
         """Get legal actions for player."""
@@ -350,21 +352,20 @@ class VectorCFR:
                 if legal:  # Found legal actions
                     legal_actions = legal
                     break
-                # If mask exists but has no legal actions, that's a bug
+                # If mask exists but has no legal actions, that's a critical error
                 print(f"ERROR: Found {mask_key} with no legal actions: {obs[mask_key]}")
-                break
+                print(f"  Phase: {env.phase}, Player: {player_idx}")
+                print(f"  This should never happen - the game always has legal actions")
+                raise ValueError(f"Mask {mask_key} has no legal actions: {obs[mask_key]}")
 
         # Restore original selection
         if env.agent_selection != original_selection:
             env.agent_selection = original_selection
 
         if not legal_actions and env.phase != 'voting':
-            # Fallback for phases without explicit masks
-            if env.phase in ['prez_cardsel', 'chanc_cardsel']:
-                # Card selection always has 2 actions (discard lib or fasc)
-                return [0, 1]
             print(f"WARNING: No action mask found for phase {env.phase}, player {player_idx}")
-            return []
+            # This should never happen in a properly functioning game
+            raise ValueError(f"No legal actions found for phase {env.phase}, player {player_idx}")
 
         return legal_actions
 
