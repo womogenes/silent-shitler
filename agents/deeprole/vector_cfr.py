@@ -329,21 +329,44 @@ class VectorCFR:
     def _get_legal_actions(self, env, player_idx):
         """Get legal actions for player."""
         agent = env.agents[player_idx]
-        obs = env.observe(agent)
-        action_space = env.action_space(agent)
 
-        # Extract from masks if available - game.py provides these correctly
+        # Special case: voting phase has no mask because both actions are always legal
+        if env.phase == 'voting':
+            return [0, 1]  # Can always vote yes (1) or no (0)
+
+        # Ensure agent_selection is set correctly for observation
+        original_selection = env.agent_selection
+        if env.agent_selection != agent:
+            # Temporarily set to get correct observation
+            env.agent_selection = agent
+
+        obs = env.observe(agent)
+
+        # Extract from masks for other phases
+        legal_actions = []
         for mask_key in ['nomination_mask', 'execution_mask', 'card_action_mask']:
             if mask_key in obs:
                 legal = [i for i, valid in enumerate(obs[mask_key]) if valid == 1]
                 if legal:  # Found legal actions
-                    return legal
-                # If mask exists but has no legal actions, that's a bug - should never happen
-                print(f"WARNING: Found {mask_key} with no legal actions: {obs[mask_key]}")
+                    legal_actions = legal
+                    break
+                # If mask exists but has no legal actions, that's a bug
+                print(f"ERROR: Found {mask_key} with no legal actions: {obs[mask_key]}")
+                break
 
-        # If no mask found, something is wrong
-        print(f"WARNING: No action mask found in observation for phase {env.phase}")
-        return []
+        # Restore original selection
+        if env.agent_selection != original_selection:
+            env.agent_selection = original_selection
+
+        if not legal_actions and env.phase != 'voting':
+            # Fallback for phases without explicit masks
+            if env.phase in ['prez_cardsel', 'chanc_cardsel']:
+                # Card selection always has 2 actions (discard lib or fasc)
+                return [0, 1]
+            print(f"WARNING: No action mask found for phase {env.phase}, player {player_idx}")
+            return []
+
+        return legal_actions
 
     def _get_history(self, env):
         """Extract history dict from environment."""
