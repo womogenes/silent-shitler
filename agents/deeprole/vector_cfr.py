@@ -57,6 +57,26 @@ class VectorCFR:
 
         return cumulative_values / max(total_weight, 1)
 
+    def get_average_strategies(self):
+        """Get the average strategies computed during CFR.
+
+        Returns:
+            Dict mapping infoset_key to strategy distribution
+        """
+        avg_strategies = {}
+        for infoset_key, action_sums in self.strategy_sums.items():
+            total = sum(action_sums.values())
+            if total > 0:
+                avg_strategies[infoset_key] = {
+                    action: count / total
+                    for action, count in action_sums.items()
+                }
+            else:
+                # Uniform if no iterations reached this infoset
+                avg_strategies[infoset_key] = {}
+
+        return avg_strategies
+
     def _cfr_iteration(self, env, belief, reach_probs, weight, neural_nets, depth=0, max_depth=10):
         """Single iteration of modified CFR+ (Algorithm 1, procedure MODIFIEDCFR+).
 
