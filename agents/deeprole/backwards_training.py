@@ -178,7 +178,10 @@ class BackwardsTrainer:
         val_data = training_data[n_train:]
 
         batch_size = min(128, len(train_data))
-        n_epochs = 60
+        n_epochs = 500
+
+        best_val_loss = 1e9
+        val_loss_count = 0
 
         for epoch in tqdm(range(n_epochs), ncols=80, desc="Epoch"):
             network.train()
@@ -211,6 +214,16 @@ class BackwardsTrainer:
             if epoch % 20 == 0 and val_data:
                 val_loss = self._compute_validation_loss(network, val_data, criterion, device)
                 print(f"    Epoch {epoch}: train_loss={total_loss/len(train_data):.6f}, val_loss={val_loss:.6f}")
+
+                # Patience counter
+                if val_loss > best_val_loss:
+                    val_loss_count += 1
+                else:
+                    best_val_loss = val_loss
+                    val_loss_count = 0
+
+                if val_loss_count > 3:
+                    break
 
         print(f"  Network trained for ({lib_policies}L, {fasc_policies}F)")
         return network
