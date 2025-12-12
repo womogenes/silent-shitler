@@ -175,16 +175,10 @@ class VectorCFR:
             return np.random.randn(self.num_players) * 0.1
 
         for action, prob in strategy.items():
-            # Double-check action is legal before attempting it
-            if prob > 0 and action in legal_actions:
+            if prob > 0:
                 # Take action
                 env_copy = copy.deepcopy(env)
-                try:
-                    env_copy.step(action)
-                except ValueError as e:
-                    # Action was illegal despite being in strategy - skip it
-                    print(f"Warning: Skipping illegal action {action}: {e}")
-                    continue
+                env_copy.step(action)
 
                 # Update reach probabilities
                 new_reach = reach_probs.copy()
@@ -265,7 +259,8 @@ class VectorCFR:
 
     def _get_infoset_key(self, env, player_idx):
         """Get information set key for player."""
-        obs = env.observe(env.agents[player_idx])
+        agent = env.agents[player_idx]
+        obs = env.observe(agent)
         role = obs['role']
 
         # Include relevant game state
@@ -281,6 +276,14 @@ class VectorCFR:
         # Add role-specific information
         if role in [1, 2]:  # Fascist or Hitler
             key += (tuple(obs['all_roles']),)
+
+        # Add card information for card selection phases
+        if env.phase == 'prez_cardsel' and player_idx == env.president_idx:
+            # Include what cards president has (sorted to be consistent)
+            key += (tuple(sorted(env.prez_cards)),)
+        elif env.phase == 'chanc_cardsel' and player_idx == env.chancellor_nominee:
+            # Include what cards chancellor has (sorted to be consistent)
+            key += (tuple(sorted(env.chanc_cards)),)
 
         return key
 
@@ -333,11 +336,14 @@ class VectorCFR:
         for mask_key in ['nomination_mask', 'execution_mask', 'card_action_mask']:
             if mask_key in obs:
                 legal = [i for i, valid in enumerate(obs[mask_key]) if valid == 1]
-                if legal:  # Found legal actions from mask
+                if legal:  # Found legal actions
                     return legal
+                # If mask exists but has no legal actions, that's a bug - should never happen
+                print(f"WARNING: Found {mask_key} with no legal actions: {obs[mask_key]}")
 
-        # If no mask found, return all actions (shouldn't happen with proper env)
-        return list(range(action_space.n))
+        # If no mask found, something is wrong
+        print(f"WARNING: No action mask found in observation for phase {env.phase}")
+        return []
 
     def _get_history(self, env):
         """Extract history dict from environment."""
