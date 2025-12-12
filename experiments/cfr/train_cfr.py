@@ -9,7 +9,6 @@ from datetime import datetime
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from agents.cfr import CFRTrainer
-from agents.cfr.infoset import NUM_SUSPICION_BUCKETS
 from utils.evaluation import run_games, print_results
 
 # Wandb logging
@@ -79,7 +78,6 @@ def main():
         "log_every": LOG_EVERY,
         "eval_every": EVAL_EVERY,
         "eval_games": EVAL_GAMES,
-        "suspicion_buckets": NUM_SUSPICION_BUCKETS,
     }
     
     # Print config

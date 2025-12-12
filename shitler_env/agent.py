@@ -29,6 +29,7 @@ class BaseAgent:
         for mask_key in ["nomination_mask", "execution_mask", "card_action_mask"]:
             if mask_key in obs:
                 return [i for i, v in enumerate(obs[mask_key]) if v == 1]
+            
         return None
 
 

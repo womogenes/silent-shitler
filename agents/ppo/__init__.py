@@ -1,5 +1,5 @@
 """PPO agent implementation for Silent Shitler."""
 
-from .ppo_agent import PPOAgent
+from .agent_wrapper import PPOAgent
 
 __all__ = ["PPOAgent"]

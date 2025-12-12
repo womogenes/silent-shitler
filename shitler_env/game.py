@@ -76,6 +76,7 @@ class ShitlerEnv(AECEnv):
             return None
 
         obs = {
+            "phase": self.phase,  # Current game phase
             "role": self._encode_role(self.roles[agent]),
             "lib_policies": self.lib_policies,
             "fasc_policies": self.fasc_policies,
@@ -120,9 +121,11 @@ class ShitlerEnv(AECEnv):
             # One-hot encoding: (0L,3F), (1L,2F), (2L,1F), (3L,0F)
             num_libs = sum(1 for c in self.prez_cards if c == 0)
             obs["cards"] = [1 if i == num_libs else 0 for i in range(4)]
+
             # Also provide action mask (can't discard what you don't have)
+            # Liberals cannot discard liberal cards (if possible)
             obs["card_action_mask"] = [
-                1 if num_libs > 0 else 0,
+                1 if (num_libs > 0) and not (obs["role"] == 0 and num_libs < 3) else 0,
                 1 if (3 - num_libs) > 0 else 0
             ]
 
@@ -135,7 +138,7 @@ class ShitlerEnv(AECEnv):
             obs["cards"] = [1 if i == num_libs else 0 for i in range(3)]
             # Action mask
             obs["card_action_mask"] = [
-                1 if num_libs > 0 else 0,
+                1 if (num_libs > 0) and not (obs["role"] == 0 and num_libs < 2) else 0,
                 1 if (2 - num_libs) > 0 else 0
             ]
 
