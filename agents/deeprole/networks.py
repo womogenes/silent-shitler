@@ -119,9 +119,41 @@ class NetworkEnsemble:
 
     def load(self, path):
         """Load networks."""
-        state = torch.load(path)
-        for key, state_dict in state.items():
-            lib, fasc = map(int, key.split('_'))
-            net = ValueNetwork()
-            net.load_state_dict(state_dict)
-            self.add_network(lib, fasc, net)
+        import pickle
+
+        # Try torch.load first
+        try:
+            state = torch.load(path, map_location='cpu')
+            for key, state_dict in state.items():
+                lib, fasc = map(int, key.split('_'))
+                net = ValueNetwork()
+                net.load_state_dict(state_dict)
+                self.add_network(lib, fasc, net)
+            print(f"Loaded {len(self.networks)} networks from torch file")
+            return
+        except Exception as e:
+            pass  # Try pickle next
+
+        # Try pickle.load as fallback
+        try:
+            with open(path, 'rb') as f:
+                state = pickle.load(f)
+
+            # Handle different formats
+            if 'networks' in state:
+                # New format with networks dict
+                for key, net in state['networks'].items():
+                    if isinstance(key, tuple) and len(key) == 2:
+                        self.add_network(key[0], key[1], net)
+                print(f"Loaded {len(self.networks)} networks from pickle file")
+            else:
+                # Old format with string keys
+                for key, state_dict in state.items():
+                    lib, fasc = map(int, key.split('_'))
+                    net = ValueNetwork()
+                    net.load_state_dict(state_dict)
+                    self.add_network(lib, fasc, net)
+                print(f"Loaded {len(self.networks)} networks from pickle (old format)")
+        except Exception as e:
+            print(f"Failed to load networks from {path}: {e}")
+            self.networks = {}
