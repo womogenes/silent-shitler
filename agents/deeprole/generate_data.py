@@ -13,7 +13,7 @@ def main():
     np.random.seed(42)
     torch.manual_seed(42)
 
-    trainer = BackwardsTrainer(num_workers=32)  # Adjust based on CPU cores
+    trainer = BackwardsTrainer(num_workers=1)  # Adjust based on CPU cores
 
     # Generate data for all game states using backwards training order
     # This will take significant time - recommend running on cluster

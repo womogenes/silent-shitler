@@ -58,6 +58,8 @@ class VectorCFR:
 
         Returns values of shape (num_players,) not (num_players, num_assignments).
         """
+        # print(f"  running cfr iteration with {env=}, {belief=}, {reach_probs=}")
+        print(f"{belief=}")
 
         # Check for terminal states - game ends at 5L or 6F
         if env.lib_policies >= 5 or env.fasc_policies >= 6:
