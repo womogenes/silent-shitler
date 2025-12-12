@@ -2,21 +2,44 @@ import numpy as np
 import torch
 import torch.nn as nn
 from pathlib import Path
-from multiprocessing import Pool, set_start_method, get_start_method
+from multiprocessing import get_context
 import pickle
 from tqdm import tqdm
-
-# Set spawn mode for CUDA compatibility
-try:
-    if get_start_method() != 'spawn':
-        set_start_method('spawn', force=True)
-except RuntimeError:
-    pass  # Already set
 
 from .situation_sampler import AdvancedSituationSampler
 from .networks import ValueNetwork, NetworkEnsemble
 from .vector_cfr import VectorCFR
 from .game_state import create_game_at_state, get_state_dependencies
+
+
+def _generate_single_sample_wrapper(args):
+    """Standalone function for multiprocessing - can't be a class method."""
+    lib_policies, fasc_policies, cfr_iterations, cfr_delay, seed, neural_nets = args
+
+    # Create more diverse seeds by combining with game state
+    combined_seed = seed * 1000 + lib_policies * 100 + fasc_policies * 10
+    np.random.seed(combined_seed)
+
+    # Use diverse sampling with varying concentration based on sample index
+    sampler = AdvancedSituationSampler()
+    concentration = [0.1, 0.5, 1.0, 2.0, 5.0, 10.0][seed % 6]
+    president_idx, belief = sampler._sample_with_concentration(
+        lib_policies, fasc_policies, concentration
+    )
+
+    env = create_game_at_state(lib_policies, fasc_policies, president_idx, seed)
+    cfr = VectorCFR()
+
+    values = cfr.solve_situation(
+        env,
+        belief,
+        num_iterations=cfr_iterations,
+        averaging_delay=cfr_delay,
+        neural_nets=neural_nets,
+        max_depth=5
+    )
+
+    return president_idx, belief, values
 
 
 class BackwardsTrainer:
@@ -57,13 +80,25 @@ class BackwardsTrainer:
         if lib_policies >= 5 or fasc_policies >= 6:
             return self._generate_terminal_data(lib_policies, fasc_policies, n_samples)
 
+        # Move networks to CPU for multiprocessing
+        cpu_networks = {}
+        for key, net in self.networks.networks.items():
+            cpu_networks[key] = net.cpu()
+
         args_list = [
-            (lib_policies, fasc_policies, cfr_iterations, cfr_delay, i)
+            (lib_policies, fasc_policies, cfr_iterations, cfr_delay, i, cpu_networks)
             for i in range(n_samples)
         ]
 
-        with Pool(self.num_workers) as pool:
-            results = pool.map(self._generate_single_sample, args_list)
+        # Use spawn context for CUDA compatibility in workers
+        ctx = get_context('spawn')
+        with ctx.Pool(self.num_workers) as pool:
+            results = pool.map(_generate_single_sample_wrapper, args_list)
+
+        # Move networks back to original device if needed
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        for key, net in self.networks.networks.items():
+            self.networks.networks[key] = net.to(device)
 
         training_data = []
         for president_idx, belief, values in results:
@@ -76,31 +111,6 @@ class BackwardsTrainer:
         print(f"  Generated {len(training_data)} samples")
         return training_data
 
-    def _generate_single_sample(self, args):
-        lib_policies, fasc_policies, cfr_iterations, cfr_delay, seed = args
-        # Create more diverse seeds by combining with game state
-        combined_seed = seed * 1000 + lib_policies * 100 + fasc_policies * 10
-        np.random.seed(combined_seed)
-
-        # Use diverse sampling with varying concentration based on sample index
-        concentration = [0.1, 0.5, 1.0, 2.0, 5.0, 10.0][seed % 6]
-        president_idx, belief = self.sampler._sample_with_concentration(
-            lib_policies, fasc_policies, concentration
-        )
-
-        env = create_game_at_state(lib_policies, fasc_policies, president_idx, seed)
-        cfr = VectorCFR()
-
-        values = cfr.solve_situation(
-            env,
-            belief,
-            num_iterations=cfr_iterations,
-            averaging_delay=cfr_delay,
-            neural_nets=self.networks.networks,
-            max_depth=5
-        )
-
-        return president_idx, belief, values
 
     def _generate_terminal_data(self, lib_policies, fasc_policies, n_samples):
         training_data = []
@@ -114,10 +124,10 @@ class BackwardsTrainer:
             values = np.zeros(5)
             for i, assignment in enumerate(self.sampler.manager.assignments):
                 for p in range(5):
-                    if assignment[p] == 0:
+                    if assignment[p] == 0:  # Liberal
                         values[p] += belief[i] if liberal_win else -belief[i]
-                    else:
-                        values[p] -= belief[i] if liberal_win else belief[i]
+                    else:  # Fascist or Hitler
+                        values[p] += -belief[i] if liberal_win else belief[i]
 
             president_oh = torch.zeros(5)
             president_oh[president_idx] = 1
