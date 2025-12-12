@@ -19,8 +19,8 @@ print("Loading DeepRole agents (one-time cost)...")
 lib_agents = []
 for i in range(3):
     agent = DeepRoleAgent(
-        networks_path="/home/willi/downloads/trained_networks_1000_16_15.pkl",
         cfr_iterations=20,  # Reduced for quick test
+        networks_path="/home/willi/downloads/trained_networks_1000_16_15.pkl",
         max_depth=2
     )
     lib_agents.append(agent)
@@ -31,7 +31,7 @@ for i in range(2):
     fasc_agents.append(SimpleRandomAgent())
 
 # Run games with random role assignment
-num_games = 100
+num_games = 10  # Reduced for quick test
 print(f"Running {num_games} games...")
 
 results = evaluate_agents(

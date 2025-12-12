@@ -38,6 +38,15 @@ class VectorCFR:
         cumulative_values = np.zeros(self.num_players)
         total_weight = 0
 
+        # Debug: Check initial state
+        debug = False  # Enable for debugging
+        if debug:
+            print(f"[CFR] Starting solve_situation with {num_iterations} iterations")
+            print(f"[CFR] Initial belief shape: {initial_belief.shape}, sum: {initial_belief.sum():.3f}")
+            print(f"[CFR] Neural nets available: {neural_nets is not None}")
+            if neural_nets:
+                print(f"[CFR] Neural net keys: {list(neural_nets.keys())}")
+
         for iteration in range(num_iterations):
             # Show progress for long-running CFR
             if num_iterations >= 100 and iteration % 100 == 0 and iteration > 0:
@@ -54,6 +63,15 @@ class VectorCFR:
                 copy.deepcopy(env), initial_belief, reach_probs, weight, neural_nets, depth=0, max_depth=max_depth
             )
             cumulative_values += values
+
+            if debug and iteration == 0:
+                print(f"[CFR] After first iteration:")
+                print(f"[CFR]   Values: {values}")
+                print(f"[CFR]   Strategy sums: {len(self.strategy_sums)} entries")
+                print(f"[CFR]   Regret sums: {len(self.regret_sums)} entries")
+
+        if debug:
+            print(f"[CFR] Final: {len(self.strategy_sums)} strategies, {len(self.regret_sums)} regrets")
 
         return cumulative_values / max(total_weight, 1)
 
@@ -99,14 +117,22 @@ class VectorCFR:
         if all(env.terminations.values()):
             return self._terminal_values(env, belief, reach_probs)
 
+        # Check if we should use neural net evaluation BEFORE depth limit check
+        # This is important: neural nets should be used to cut off search
+        # BUT: We need to generate strategies for at least the current decision point
+        # So only use neural nets after depth > 0
+        if depth > 0 and neural_nets and self._should_use_neural(env, neural_nets):
+            return self._neural_values(env, belief, reach_probs, neural_nets)
+
         # Depth limit - return heuristic evaluation
         if depth >= max_depth:
+            # If we have neural nets but didn't use them, still try to use them
+            if neural_nets:
+                # Try to use any available network
+                for key in neural_nets.keys():
+                    return self._neural_values(env, belief, reach_probs, neural_nets)
             # Simple heuristic: uniform random values
             return np.random.randn(self.num_players) * 0.1
-
-        # Check if we should use neural net evaluation
-        if neural_nets and self._should_use_neural(env, neural_nets):
-            return self._neural_values(env, belief, reach_probs, neural_nets)
 
         # Get acting players
         acting_players = self._get_acting_players(env)

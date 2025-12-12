@@ -28,6 +28,7 @@ class DeepRoleAgent(BaseAgent):
             max_depth: Maximum search depth for CFR
         """
         super().__init__()
+        self.requires_full_state = True  # Signal that we need full state access
 
         # Load trained networks
         self.networks = NetworkEnsemble()
@@ -66,10 +67,19 @@ class DeepRoleAgent(BaseAgent):
         }
 
     def reset(self, player_idx=None):
-        """Reset agent for new game."""
+        """Reset agent for new game.
+
+        Args:
+            player_idx: Index of the player this agent represents (0-4)
+        """
         self.player_idx = player_idx
         # Initialize uniform belief over assignments (20 possible)
         self.current_belief = np.ones(20) / 20
+        # Reset stored CFR strategies and environment state
+        self.stored_strategies = None
+        self.last_env_state = None
+        # Reset CFR solver state
+        self.cfr = VectorCFR()
 
     def get_action(self, obs, action_space=None, **kwargs):
         """Get action using DeepRole algorithm.
@@ -118,6 +128,11 @@ class DeepRoleAgent(BaseAgent):
         # The only exception is when we don't have networks or CFR fails
         phase = obs.get("phase", "")
 
+        # Debug
+        debug_phases = False
+        if debug_phases and phase == "voting":
+            print(f"\n[GET_ACTION] Phase: {phase}, Valid actions: {valid_actions}")
+
         # Try to use CFR for all decisions
         if phase in ["nomination", "execution", "prez_cardsel", "chanc_cardsel",
                      "voting", "prez_claim", "chanc_claim"]:
@@ -149,49 +164,25 @@ class DeepRoleAgent(BaseAgent):
             self.last_env_state
         )
 
-    def _get_cfr_action(self, obs, valid_actions):
-        """Get action using CFR planning according to DeepRole Algorithm 1."""
-        # Create game environment at current state
-        lib_policies = obs.get('lib_policies', 0)
-        fasc_policies = obs.get('fasc_policies', 0)
-        president_idx = obs.get('president_idx', 0)
+    def _get_cfr_action(self, obs, valid_actions, game_state=None):
+        """Get action using CFR planning according to DeepRole Algorithm 1.
 
-        # Create environment for CFR
-        env = create_game_at_state(lib_policies, fasc_policies, president_idx)
+        Args:
+            obs: Observation dictionary
+            valid_actions: List of valid actions
+            game_state: Optional full game state dict for perfect reconstruction
 
-        # Set environment to match current phase
-        phase = obs.get('phase', 'nomination')
-        env.phase = phase
-        env.executed = set([f"P{i}" for i, e in enumerate(obs.get('executed', [])) if e])
-
-        # Set phase-specific state
-        if phase in ['chanc_cardsel', 'chanc_claim', 'voting']:
-            # These phases need a chancellor nominee
-            chancellor_idx = obs.get('chancellor_idx')
-            if chancellor_idx is not None:
-                env.chancellor_nominee = chancellor_idx
-            else:
-                # Try to get from history
-                hist_chancellor = obs.get('hist_chancellor', [])
-                if hist_chancellor:
-                    env.chancellor_nominee = hist_chancellor[-1]
-                else:
-                    # Default to someone who isn't president
-                    env.chancellor_nominee = (president_idx + 1) % 5
-
-        if phase in ['prez_cardsel', 'chanc_cardsel']:
-            # Set cards if available
-            if 'prez_cards' in obs:
-                env.prez_cards = obs['prez_cards']
-            elif phase == 'prez_cardsel':
-                # Generate some cards for CFR to work with
-                env.prez_cards = [0, 1, 1]  # Default: 1 lib, 2 fasc
-
-            if 'chanc_cards' in obs:
-                env.chanc_cards = obs['chanc_cards']
-            elif phase == 'chanc_cardsel':
-                # Generate some cards for CFR to work with
-                env.chanc_cards = [0, 1]  # Default: 1 lib, 1 fasc
+        Returns:
+            Selected action
+        """
+        # If we have full game state, use it directly - much cleaner!
+        if game_state is not None:
+            from shitler_env.game import ShitlerEnv
+            env = ShitlerEnv.from_state_dict(game_state)
+        else:
+            # Fall back to reconstruction from observation (legacy path)
+            # This should rarely be used once the evaluation framework is updated
+            env = self._reconstruct_env_from_obs(obs)
 
         # Get neural networks for current state
         network_key = (lib_policies, fasc_policies)
@@ -221,6 +212,15 @@ class DeepRoleAgent(BaseAgent):
             self.stored_strategies = self.cfr.get_average_strategies()
             self.last_env_state = env
 
+            # Debug: Check what strategies we got
+            debug = False  # Enable for debugging
+            if debug:
+                print(f"[DEBUG] Got {len(self.stored_strategies)} strategies from CFR")
+                if self.stored_strategies:
+                    sample_keys = list(self.stored_strategies.keys())[:3]
+                    for k in sample_keys:
+                        print(f"  {k}: {self.stored_strategies[k]}")
+
             # Get the computed strategy for current infoset
             # The CFR solver stores strategies in strategy_sums
             # Make sure player_idx is valid
@@ -228,14 +228,30 @@ class DeepRoleAgent(BaseAgent):
                 print(f"Warning: player_idx is None, defaulting to 0")
                 self.player_idx = 0
 
+            # Override the environment's role to match our actual role
+            # This is necessary because the environment was created with random roles
+            # but we know our own role from the observation
+            original_roles = env.roles.copy() if hasattr(env, 'roles') else {}
+            if hasattr(env, 'roles') and f"P{self.player_idx}" in env.roles:
+                role_map = {0: 'lib', 1: 'fasc', 2: 'hitty'}
+                our_role = obs.get('role', 0)
+                env.roles[f"P{self.player_idx}"] = role_map.get(our_role, 'lib')
+
             infoset_key = self.cfr._get_infoset_key(env, self.player_idx)
 
-            if infoset_key in self.cfr.strategy_sums:
-                strategy = self.cfr.strategy_sums[infoset_key]
-                # Normalize strategy to get probabilities
-                total = sum(strategy.values())
-                if total > 0:
-                    probs = {a: s/total for a, s in strategy.items()}
+            # Restore original roles
+            if hasattr(env, 'roles'):
+                env.roles = original_roles
+
+            if debug:
+                print(f"[DEBUG] Player idx: {self.player_idx}")
+                print(f"[DEBUG] Looking for infoset key: {infoset_key}")
+                print(f"[DEBUG] Keys in stored_strategies: {list(self.stored_strategies.keys())[:5]}")
+
+            # Use the average strategies, not the raw sums
+            if infoset_key in self.stored_strategies:
+                probs = self.stored_strategies[infoset_key]
+                if probs:
                     # Sample action according to strategy
                     actions = list(probs.keys())
                     probabilities = [probs[a] for a in actions]
@@ -251,6 +267,12 @@ class DeepRoleAgent(BaseAgent):
                         # Normalize and sample
                         valid_probs = np.array(valid_probs) / sum(valid_probs)
                         action = np.random.choice(valid_acts, p=valid_probs)
+
+                        if debug:
+                            print(f"  CFR strategy found: {probs}")
+                            print(f"  Valid acts: {valid_acts}, Valid probs: {valid_probs}")
+                            print(f"  Selected action: {action}")
+
                         self.action_stats['cfr_strategy'] += 1
                         self.action_stats['total'] += 1
                         if self.action_stats['total'] % 50 == 0:  # Report every 50 actions
@@ -258,6 +280,8 @@ class DeepRoleAgent(BaseAgent):
                         return action
 
             # Fallback: uniform random over valid actions
+            if debug:
+                print(f"[DEBUG] FALLBACK - no strategy found for {infoset_key}")
             self.action_stats['cfr_fallback'] += 1
             self.action_stats['total'] += 1
             if self.action_stats['total'] % 50 == 0:

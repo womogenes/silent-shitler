@@ -4,6 +4,7 @@ Run evaluation games against several Agent classes
 
 import sys
 from pathlib import Path
+from tqdm import tqdm
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent))
@@ -11,40 +12,99 @@ sys.path.append(str(Path(__file__).parent))
 from game import ShitlerEnv
 
 
-def evaluate_agents(agent_classes, num_games=100, verbose=False, seed=None):
+def evaluate_agents(agents, num_games=100, verbose=False, seed=None, lib_agents=None, fasc_agents=None):
     """
     Run evaluation games with specified agents.
 
     Args:
-        agent_classes: List of 5 agent classes (one per player)
+        agents: Either:
+            - List of 5 agent instances (one per player)
+            - None if using lib_agents and fasc_agents
         num_games: Number of games to simulate
         verbose: Whether to print progress
         seed: Random seed for reproducibility
+        lib_agents: Optional list of liberal agent instances (will be assigned randomly)
+        fasc_agents: Optional list of fascist/hitler agent instances (will be assigned randomly)
 
     Returns:
         dict: Results with win rates and statistics
     """
-    if len(agent_classes) != 5:
-        raise ValueError(f"Expected 5 agent classes, got {len(agent_classes)}")
+    # Handle different input formats
+    if agents is not None:
+        if len(agents) != 5:
+            raise ValueError(f"Expected 5 agents, got {len(agents)}")
+        # Verify all are instances, not classes
+        for i, agent in enumerate(agents):
+            if isinstance(agent, type):
+                raise TypeError(f"Agent at index {i} is a class, not an instance. Please instantiate all agents before passing them.")
+        agents_list = agents
+    elif lib_agents is not None and fasc_agents is not None:
+        # Verify all are instances
+        for i, agent in enumerate(lib_agents):
+            if isinstance(agent, type):
+                raise TypeError(f"Liberal agent at index {i} is a class, not an instance. Please instantiate all agents before passing them.")
+        for i, agent in enumerate(fasc_agents):
+            if isinstance(agent, type):
+                raise TypeError(f"Fascist agent at index {i} is a class, not an instance. Please instantiate all agents before passing them.")
+        # Will handle random assignment below
+        agents_list = None
+    else:
+        raise ValueError("Must provide either agents or both lib_agents and fasc_agents")
 
     # Track results
     results = {
         "lib_wins": 0,
         "fasc_wins": 0,
         "player_rewards": {f"P{i}": [] for i in range(5)},
+        "liberal_wins": 0,
+        "fascist_wins": 0,
+        "win_reasons": {},
     }
 
-    for game_num in range(num_games):
-        # Create environment and agents
+    for game_num in tqdm(range(num_games), ncols=80):
+        # Create environment
         env = ShitlerEnv()
         game_seed = None if seed is None else seed + game_num
         env.reset(seed=game_seed)
 
-        # Instantiate agents
-        agents = {
-            f"P{i}": agent_classes[i]()
-            for i in range(5)
-        }
+        # Reset agents for new game
+        if agents_list is not None:
+            # Use fixed agent list
+            game_agents = {}
+            for i in range(5):
+                agent = agents_list[i]
+                # Reset the agent if it has a reset method
+                if hasattr(agent, 'reset'):
+                    agent.reset(player_idx=i)
+                game_agents[f"P{i}"] = agent
+        else:
+            # Random assignment of lib/fasc agents
+            import random
+            if game_seed is not None:
+                random.seed(game_seed)
+
+            # Randomly assign roles
+            indices = list(range(5))
+            random.shuffle(indices)
+            lib_indices = indices[:3]
+            fasc_indices = indices[3:]
+
+            game_agents = {}
+            lib_idx = 0
+            fasc_idx = 0
+
+            for i in range(5):
+                if i in lib_indices:
+                    agent = lib_agents[lib_idx % len(lib_agents)]
+                    lib_idx += 1
+                else:
+                    agent = fasc_agents[fasc_idx % len(fasc_agents)]
+                    fasc_idx += 1
+
+                # Reset the agent if it has a reset method
+                if hasattr(agent, 'reset'):
+                    agent.reset(player_idx=i)
+                game_agents[f"P{i}"] = agent
 
         # Play game
         while not all(env.terminations.values()):
@@ -53,7 +113,7 @@ def evaluate_agents(agent_classes, num_games=100, verbose=False, seed=None):
             action_space = env.action_space(agent_name)
 
             # Get action from agent
-            action = agents[agent_name].get_action(obs, action_space)
+            action = game_agents[agent_name].get_action(obs, action_space)
             env.step(action)
 
         # Record all player rewards
@@ -66,12 +126,14 @@ def evaluate_agents(agent_classes, num_games=100, verbose=False, seed=None):
                 role = env.roles[agent_name]
                 if role == "lib":
                     results["lib_wins"] += 1
+                    results["liberal_wins"] += 1
                 else:
                     results["fasc_wins"] += 1
+                    results["fascist_wins"] += 1
                 break  # Only count once per game
 
         if verbose and (game_num + 1) % 10 == 0:
-            print(f"Completed {game_num + 1}/{num_games} games")
+            print(f"Completed {game_num + 1}/{num_games} games. lib wins: {results['lib_wins']}, fasc wins: {results['fasc_wins']}")
 
     # Calculate statistics
     results["lib_win_rate"] = results["lib_wins"] / num_games
@@ -91,11 +153,25 @@ if __name__ == "__main__":
     # Example usage with SimpleRandomAgent
     from agent import SimpleRandomAgent
 
-    # Run evaluation with 5 random agents
-    agents = [SimpleRandomAgent for _ in range(5)]
-    results = evaluate_agents(agents, num_games=1000, verbose=True, seed=42)
+    print("Testing with instantiated agents:")
+    # Create agent instances once (saves on initialization cost)
+    agent_instances = [SimpleRandomAgent() for _ in range(5)]
+    results = evaluate_agents(agent_instances, num_games=100, verbose=True, seed=42)
 
     print("\nResults:")
     print(f"Liberal win rate: {results['lib_win_rate']:.2%}")
     print(f"Fascist win rate: {results['fasc_win_rate']:.2%}")
     print(f"Average rewards: {results['avg_rewards']}")
+
+    print("\n" + "="*50)
+    print("\nTesting with lib/fasc agent lists:")
+    # Create separate liberal and fascist agents
+    lib_agents = [SimpleRandomAgent() for _ in range(3)]
+    fasc_agents = [SimpleRandomAgent() for _ in range(2)]
+
+    results = evaluate_agents(None, num_games=100, verbose=False, seed=42,
+                            lib_agents=lib_agents, fasc_agents=fasc_agents)
+
+    print("\nResults (with random role assignment):")
+    print(f"Liberal win rate: {results['lib_win_rate']:.2%}")
+    print(f"Fascist win rate: {results['fasc_win_rate']:.2%}")

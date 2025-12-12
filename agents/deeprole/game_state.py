@@ -35,10 +35,8 @@ def create_game_at_state(lib_policies, fasc_policies, president_idx=0, seed=None
     env.prez_cards = []
     env.chanc_cards = []
     env.executed = set()
-    env.hist_chancellor = []
-    env.hist_president = []
-    env.hist_rejected_chancellors = []
-    env.hist_policy = []
+    env.failed_votes = 0
+    env.votes = {}
 
     # Ensure we're in the right phase
     env.phase = "nomination"

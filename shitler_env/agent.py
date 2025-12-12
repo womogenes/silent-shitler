@@ -29,7 +29,16 @@ class BaseAgent:
         for mask_key in ["nomination_mask", "execution_mask", "card_action_mask"]:
             if mask_key in obs:
                 return [i for i, v in enumerate(obs[mask_key]) if v == 1]
-            
+
+        # For voting phase, valid actions are always [0, 1] (NO, YES)
+        phase = obs.get("phase", "")
+        if phase == "voting":
+            return [0, 1]
+
+        # For claim phases, valid actions are also [0, 1]
+        if phase in ["prez_claim", "chanc_claim"]:
+            return [0, 1]
+
         return None
 
 
