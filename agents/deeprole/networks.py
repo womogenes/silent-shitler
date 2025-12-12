@@ -129,7 +129,7 @@ class NetworkEnsemble:
                 net = ValueNetwork()
                 net.load_state_dict(state_dict)
                 self.add_network(lib, fasc, net)
-            print(f"Loaded {len(self.networks)} networks from torch file")
+            # print(f"Loaded {len(self.networks)} networks from torch file")
             return
         except Exception as e:
             pass  # Try pickle next

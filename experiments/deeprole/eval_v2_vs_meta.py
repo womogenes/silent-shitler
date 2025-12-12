@@ -1,97 +1,14 @@
 #!/usr/bin/env python
 """Evaluate DeepRole V2 against MetaAgent."""
 
+import os
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from tqdm import tqdm
-import numpy as np
-from shitler_env.game import ShitlerEnv
+from shitler_env.eval_agent import evaluate_agents, _AgentFactory
 from agents.deeprole.deeprole_agent_v2 import DeepRoleAgentV2
 from agents.meta_agent import MetaAgent
-
-
-def evaluate_matchup(agent_assignments, num_games=100, seed=None, verbose=False):
-    """Evaluate a specific matchup configuration.
-
-    Args:
-        agent_assignments: Dict mapping player indices to agent instances
-        num_games: Number of games to simulate
-        seed: Random seed for reproducibility
-        verbose: Print progress
-
-    Returns:
-        Results dictionary with win statistics
-    """
-    results = {
-        "lib_wins": 0,
-        "fasc_wins": 0,
-        "lib_win_reasons": {},
-        "fasc_win_reasons": {},
-    }
-
-    for game_num in tqdm(range(num_games), desc="Games", disable=not verbose, ncols=80):
-        # Create environment
-        env = ShitlerEnv()
-        game_seed = None if seed is None else seed + game_num
-        env.reset(seed=game_seed)
-
-        # Reset all agents
-        for idx, agent in agent_assignments.items():
-            if hasattr(agent, 'reset'):
-                agent.reset(player_idx=idx)
-
-        # Play game
-        while not all(env.terminations.values()):
-            current_agent_name = env.agent_selection
-            current_idx = int(current_agent_name[1])
-            current_agent = agent_assignments[current_idx]
-
-            # Get observation
-            obs = env.observe(current_agent_name)
-
-            # Get action - provide full state for DeepRole V2
-            if isinstance(current_agent, DeepRoleAgentV2):
-                game_state = env.get_state_dict()
-                action = current_agent.get_action(
-                    obs,
-                    game_state=game_state,
-                    agent_name=current_agent_name
-                )
-            else:
-                action = current_agent.get_action(
-                    obs,
-                    agent_name=current_agent_name
-                )
-
-            # Take action
-            env.step(action)
-
-        # Record results based on actual role assignments
-        lib_players = [i for i, role in enumerate(env.roles.values()) if role == "lib"]
-        lib_win = any(env.rewards[f"P{i}"] > 0 for i in lib_players)
-
-        if lib_win:
-            results["lib_wins"] += 1
-            # Determine win reason
-            if env.lib_policies >= 5:
-                reason = "5 policies"
-            else:
-                reason = "Hitler executed"
-            results["lib_win_reasons"][reason] = results["lib_win_reasons"].get(reason, 0) + 1
-        else:
-            results["fasc_wins"] += 1
-            # Determine win reason
-            if env.fasc_policies >= 6:
-                reason = "6 policies"
-            elif env.phase == "nomination":  # Check for Hitler chancellor
-                reason = "Hitler chancellor"
-            else:
-                reason = "other"
-            results["fasc_win_reasons"][reason] = results["fasc_win_reasons"].get(reason, 0) + 1
-
-    return results
 
 
 def main():
@@ -101,7 +18,7 @@ def main():
     print("=" * 70)
 
     # Load DeepRole networks
-    networks_path = Path(__file__).parent.parent / "agents" / "deeprole" / "trained_networks_1000_16_15.pkl"
+    networks_path = Path("trained_networks_1000_16_15.pkl")
     if not networks_path.exists():
         print(f"Error: Networks not found at {networks_path}")
         return
@@ -109,11 +26,11 @@ def main():
     print(f"Networks: {networks_path}")
     print("Creating agent pool...")
 
-    # Create agent pools
+    # Create agent pools (for non-parallel access)
     deeprole_agents = []
     meta_agents = []
 
-    for i in range(3):  # Create 3 of each type
+    for _ in range(3):  # Create 3 of each type
         # DeepRole with moderate CFR iterations
         dr_agent = DeepRoleAgentV2(
             networks_path=str(networks_path),
@@ -129,6 +46,17 @@ def main():
     print(f"Created {len(deeprole_agents)} DeepRole agents")
     print(f"Created {len(meta_agents)} MetaAgent instances")
 
+    # Create agent factories for parallel execution
+    deeprole_factory = _AgentFactory(
+        DeepRoleAgentV2,
+        {
+            'networks_path': str(networks_path),
+            'cfr_iterations': 15,
+            'max_depth': 2
+        }
+    )
+    meta_factory = _AgentFactory(MetaAgent, {'temperature': 1.0})
+
     # Test configurations
     configs = [
         {
@@ -140,7 +68,14 @@ def main():
                 2: deeprole_agents[2],
                 3: meta_agents[0],
                 4: meta_agents[1]
-            }
+            },
+            "factories": [
+                deeprole_factory,
+                deeprole_factory,
+                deeprole_factory,
+                meta_factory,
+                meta_factory
+            ]
         },
         {
             "name": "3 MetaAgent vs 2 DeepRole",
@@ -151,23 +86,19 @@ def main():
                 2: meta_agents[2],
                 3: deeprole_agents[0],
                 4: deeprole_agents[1]
-            }
+            },
+            "factories": [
+                meta_factory,
+                meta_factory,
+                meta_factory,
+                deeprole_factory,
+                deeprole_factory
+            ]
         },
-        {
-            "name": "Mixed Teams",
-            "description": "Both teams have mixed agents",
-            "assignment": lambda: {
-                0: deeprole_agents[0],  # Lib
-                1: meta_agents[0],      # Lib
-                2: deeprole_agents[1],  # Lib
-                3: meta_agents[1],      # Fasc
-                4: deeprole_agents[2]   # Fasc/Hitler
-            }
-        }
     ]
 
     # Run evaluations
-    num_games = 50
+    num_games = 200
     all_results = {}
 
     for config in configs:
@@ -180,12 +111,15 @@ def main():
         # Get agent assignment for this config
         agent_assignment = config["assignment"]()
 
-        # Run evaluation
-        results = evaluate_matchup(
-            agent_assignment,
+        # Run evaluation using evaluate_agents with parallel execution
+        results = evaluate_agents(
+            agents=agent_assignment,
             num_games=num_games,
             seed=42,
-            verbose=True
+            verbose=True,
+            track_win_reasons=True,
+            num_workers=os.cpu_count() - 4,  # use -1 to enable all cores
+            agent_factories=config["factories"]
         )
 
         all_results[config["name"]] = results
@@ -241,21 +175,12 @@ def main():
     print(f"  MetaAgent: {meta_total}/{num_games*2} ({meta_total/(num_games*2):.1%})")
 
     if dr_total > meta_total:
-        print("\n✓ DeepRole V2 outperforms MetaAgent overall!")
-        print("  The learned CFR strategies are more effective than hand-crafted heuristics.")
+        print("\nDeepRole V2 outperforms MetaAgent overall!")
     elif meta_total > dr_total:
-        print("\n✓ MetaAgent outperforms DeepRole V2!")
-        print("  The suspicion-tracking heuristics are very effective.")
+        print("\nMetaAgent outperforms DeepRole V2!")
     else:
-        print("\n✓ DeepRole V2 and MetaAgent are evenly matched!")
+        print("\nDeepRole V2 and MetaAgent are evenly matched!")
         print("  Both approaches have their strengths.")
-
-    # Check mixed team results
-    mixed_results = all_results["Mixed Teams"]
-    mixed_lib_rate = mixed_results["lib_wins"] / (mixed_results["lib_wins"] + mixed_results["fasc_wins"])
-    print(f"\nMixed teams (both agents on each side):")
-    print(f"  Liberal win rate: {mixed_lib_rate:.1%}")
-    print("  This shows how well the agents can cooperate with different teammates.")
 
     # DeepRole stats if available
     if hasattr(deeprole_agents[0], 'action_stats'):

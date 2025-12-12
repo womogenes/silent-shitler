@@ -33,9 +33,10 @@ class DeepRoleAgentV2(BaseAgent):
         self.networks = NetworkEnsemble()
         if Path(networks_path).exists():
             self.networks.load(networks_path)
-            print(f"Loaded networks from {networks_path}")
+            # print(f"Loaded networks from {networks_path}")
         else:
             print(f"Warning: No networks found at {networks_path}, using random play")
+            raise Exception("Deeprole agent pickle file not found")
 
         # CFR solver
         self.cfr = VectorCFR()
