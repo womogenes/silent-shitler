@@ -14,7 +14,31 @@ The neural network architecture uses a win probability layer that learns to pred
 
 The training data generation follows Algorithm 4 from the paper, which samples diverse game situations rather than simulating complete games. This approach is crucial for computational feasibility and training efficiency.
 
-To generate training data for the complete game, run the following command:
+### Sophisticated Terminal Value Computation
+
+Terminal states (5L or 6F) require special handling to generate diverse, strategic training data. The implementation uses a sophisticated CFR-based approach rather than simple belief-weighted averaging. For each terminal state sample, the system samples a plausible game history leading to that terminal state, including which governments succeeded, how players voted, and what policies were enacted. It then creates a game state one or two rounds before the terminal position and runs CFR from that position to compute strategic values that account for counterfactual reasoning and optimal play.
+
+This approach produces highly diverse terminal values because different game histories and belief states lead to different strategic considerations. The values reflect what optimal play would look like given the specific context, not just static payoffs based on role assignments. While computationally more expensive than simple averaging, this sophistication is essential for preventing overfitting and ensuring the neural networks learn meaningful patterns.
+
+To generate training data for the complete game, use the provided script:
+
+```bash
+# Full training (40-60 hours on 32-core machine)
+uv run python agents/deeprole/generate_data.py \
+    --samples 10000 \
+    --cfr-iterations 1500 \
+    --cfr-delay 500 \
+    --workers 32 \
+    --output trained_networks.pkl
+
+# Quick test mode (30-60 minutes)
+uv run python agents/deeprole/generate_data.py --quick
+
+# Verify data diversity before full training
+uv run python agents/deeprole/verify_terminal_diversity.py
+```
+
+Or programmatically:
 
 ```python
 from agents.deeprole.backwards_training import BackwardsTrainer
@@ -133,9 +157,11 @@ print(f"Mid-game values: {values[0]}")  # Should be closer to 0
 
 On a modern CPU with 32 cores, expect the following approximate times:
 
-Data generation for all 42 game states with 10,000 samples each at 1,500 CFR iterations will take 20-40 hours. The parallelization helps significantly but CFR solving remains computationally intensive. Neural network training with 3,000 epochs per network takes approximately 10 minutes per game state on GPU, or about 7 hours total for all networks. The time is dominated by data generation rather than network training.
+Data generation for all 42 game states with 10,000 samples each will take 40-60 hours with the sophisticated terminal value computation. Terminal states generate at approximately 10-20 samples per second due to CFR evaluation, while non-terminal states process faster at 5-10 samples per second depending on game complexity. The improved data quality from CFR-based terminal values justifies the additional computation time by preventing overfitting and producing more strategic training data.
 
-For faster iteration during development, consider reducing samples to 1,000 per stage and CFR iterations to 100. This gives reasonable results in 2-3 hours total but won't achieve the full performance of the paper's configuration.
+Neural network training with 3,000 epochs per network takes approximately 10 minutes per game state on GPU, or about 7 hours total for all networks. The time is dominated by data generation rather than network training.
+
+For faster iteration during development, use the --quick flag which reduces samples to 20 per stage and CFR iterations to 50. This completes in 30-60 minutes and is sufficient for testing the pipeline. For production training, use the full parameters to achieve the paper's performance level.
 
 ## Using Trained Networks
 

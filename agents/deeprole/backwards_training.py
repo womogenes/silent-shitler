@@ -10,6 +10,7 @@ from .situation_sampler import AdvancedSituationSampler
 from .networks import ValueNetwork, NetworkEnsemble
 from .vector_cfr import VectorCFR
 from .game_state import create_game_at_state, get_state_dependencies
+from .terminal_value_cfr import TerminalValueComputer
 
 
 class BackwardsTrainer:
@@ -17,6 +18,7 @@ class BackwardsTrainer:
         self.num_workers = num_workers
         self.sampler = AdvancedSituationSampler()
         self.networks = NetworkEnsemble()
+        self.terminal_computer = TerminalValueComputer(num_workers)
 
     def train_all_networks(self, samples_per_stage=1000, cfr_iterations=100,
                            cfr_delay=30, save_path=None):
@@ -92,29 +94,10 @@ class BackwardsTrainer:
         return president_idx, belief, values
 
     def _generate_terminal_data(self, lib_policies, fasc_policies, n_samples):
-        training_data = []
-        liberal_win = lib_policies >= 5
-
-        for _ in tqdm(range(n_samples), ncols=80):
-            president_idx, belief = self.sampler.sample_situation_with_constraints(
-                lib_policies, fasc_policies
-            )
-
-            values = np.zeros(5)
-            for i, assignment in enumerate(self.sampler.manager.assignments):
-                for p in range(5):
-                    if assignment[p] == 0:
-                        values[p] += belief[i] if liberal_win else -belief[i]
-                    else:
-                        values[p] -= belief[i] if liberal_win else belief[i]
-
-            president_oh = torch.zeros(5)
-            president_oh[president_idx] = 1
-            inp = torch.cat([president_oh, torch.tensor(belief, dtype=torch.float32)])
-            tgt = torch.tensor(values, dtype=torch.float32)
-            training_data.append((inp, tgt))
-
-        return training_data
+        # Use sophisticated CFR-based terminal value computation
+        return self.terminal_computer.generate_terminal_values(
+            lib_policies, fasc_policies, n_samples
+        )
 
     def train_network(self, training_data, lib_policies, fasc_policies):
         print(f"  Training neural network for ({lib_policies}L, {fasc_policies}F)...")
