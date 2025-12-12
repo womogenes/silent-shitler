@@ -15,9 +15,7 @@ class ValueNetwork(nn.Module):
         input_size = num_players + num_assignments
 
         self.fc1 = nn.Linear(input_size, hidden_size)
-        self.dropout1 = nn.Dropout(0.2)  # Add dropout for regularization
         self.fc2 = nn.Linear(hidden_size, hidden_size)
-        self.dropout2 = nn.Dropout(0.2)
         self.win_prob = nn.Linear(hidden_size, num_assignments)
 
         self.register_buffer('utility_matrix', self._compute_utility_matrix())
@@ -60,11 +58,9 @@ class ValueNetwork(nn.Module):
         # Input: [B, 25]
         x = torch.cat([president_oh, belief], dim=1)
 
-        # Hidden layers with dropout
+        # Hidden layers
         x = F.relu(self.fc1(x))
-        x = self.dropout1(x)
         x = F.relu(self.fc2(x))
-        x = self.dropout2(x)
 
         # Win probability per assignment: [B, num_assignments]
         win_probs = torch.sigmoid(self.win_prob(x))

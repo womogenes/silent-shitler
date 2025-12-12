@@ -2,9 +2,16 @@ import numpy as np
 import torch
 import torch.nn as nn
 from pathlib import Path
-from multiprocessing import Pool
+from multiprocessing import Pool, set_start_method, get_start_method
 import pickle
 from tqdm import tqdm
+
+# Set spawn mode for CUDA compatibility
+try:
+    if get_start_method() != 'spawn':
+        set_start_method('spawn', force=True)
+except RuntimeError:
+    pass  # Already set
 
 from .situation_sampler import AdvancedSituationSampler
 from .networks import ValueNetwork, NetworkEnsemble
@@ -125,8 +132,18 @@ class BackwardsTrainer:
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
+        # Check if this is a terminal state
+        is_terminal = lib_policies >= 5 or fasc_policies >= 6
+
         network = ValueNetwork().to(device)
-        optimizer = torch.optim.Adam(network.parameters(), lr=0.001, weight_decay=1e-4)  # Add L2 regularization
+
+        # Use different settings for terminal vs non-terminal states
+        if is_terminal:
+            # Terminal states: less regularization, higher learning rate
+            optimizer = torch.optim.Adam(network.parameters(), lr=0.01, weight_decay=1e-5)
+        else:
+            optimizer = torch.optim.Adam(network.parameters(), lr=0.001, weight_decay=1e-4)
+
         criterion = nn.MSELoss()
 
         n_train = int(0.9 * len(training_data))
@@ -137,6 +154,7 @@ class BackwardsTrainer:
         n_epochs = 100
 
         for epoch in tqdm(range(n_epochs), ncols=80, desc="Epoch"):
+            network.train()
             np.random.shuffle(train_data)
 
             total_loss = 0
@@ -192,20 +210,22 @@ class BackwardsTrainer:
         return sum(losses) / len(losses)
 
     def _get_ordered_game_parts(self):
+        """Get game states in backwards training order.
+
+        Terminal states (5L or 6F) are trained first, then work backwards.
+        """
         parts = []
+        # Terminal states - liberal wins (5L, 0-5F)
         for fasc in range(6):
             parts.append((5, fasc))
+        # Terminal states - fascist wins (0-4L, 6F)
         for lib in range(5):
             parts.append((lib, 6))
-        for fasc in range(6):
-            if (4, fasc) not in parts:
-                parts.append((4, fasc))
-        for lib in range(5):
-            if (lib, 5) not in parts:
-                parts.append((lib, 5))
-        for total in range(8, -1, -1):
+
+        # Non-terminal states in reverse order (high to low total policies)
+        for total in range(9, -1, -1):  # 9 down to 0 total policies
             for lib in range(min(5, total + 1)):
                 fasc = total - lib
-                if fasc <= 6 and (lib, fasc) not in parts:
+                if fasc <= 5 and (lib, fasc) not in parts:  # Only up to 5F for non-terminal
                     parts.append((lib, fasc))
         return parts

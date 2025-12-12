@@ -4,6 +4,13 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 import torch
 import numpy as np
+from multiprocessing import set_start_method
+
+# Set spawn mode for CUDA compatibility
+try:
+    set_start_method('spawn', force=True)
+except RuntimeError:
+    pass  # Already set
 
 from deeprole.backwards_training import BackwardsTrainer
 
