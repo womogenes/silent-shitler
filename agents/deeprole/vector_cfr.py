@@ -332,9 +332,13 @@ class VectorCFR:
         """Get legal actions for player."""
         agent = env.agents[player_idx]
 
-        # Special case: voting phase has no mask because both actions are always legal
+        # Special cases for phases with no masks (all actions always legal)
         if env.phase == 'voting':
             return [0, 1]  # Can always vote yes (1) or no (0)
+        elif env.phase == 'prez_claim':
+            return [0, 1, 2, 3]  # Can claim 0-3 liberals
+        elif env.phase == 'chanc_claim':
+            return [0, 1, 2]  # Can claim 0-2 liberals
 
         # Ensure agent_selection is set correctly for observation
         original_selection = env.agent_selection

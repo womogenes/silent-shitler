@@ -79,8 +79,6 @@ class BackwardsTrainer:
 
     def generate_training_data(self, lib_policies, fasc_policies, n_samples,
                                cfr_iterations, cfr_delay):
-        print(f"  Generating {n_samples} training samples...")
-
         if lib_policies >= 5 or fasc_policies >= 6:
             return self._generate_terminal_data(lib_policies, fasc_policies, n_samples)
 
@@ -97,7 +95,12 @@ class BackwardsTrainer:
         # Use spawn context for CUDA compatibility in workers
         ctx = get_context('spawn')
         with ctx.Pool(self.num_workers) as pool:
-            results = pool.map(_generate_single_sample_wrapper, args_list)
+            # Use imap_unordered for faster processing with progress bar
+            results = []
+            with tqdm(total=n_samples, desc="  Samples", leave=False) as pbar:
+                for result in pool.imap_unordered(_generate_single_sample_wrapper, args_list):
+                    results.append(result)
+                    pbar.update(1)
 
         # Move networks back to original device if needed
         device = "cuda" if torch.cuda.is_available() else "cpu"
