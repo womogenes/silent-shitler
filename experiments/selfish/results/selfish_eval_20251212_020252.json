@@ -1,0 +1,23 @@
+{
+  "all_selfish": {
+    "lib_win_rate": 0.265,
+    "fasc_win_rate": 0.735
+  },
+  "all_random": {
+    "lib_win_rate": 0.503,
+    "fasc_win_rate": 0.497
+  },
+  "selfish_lib_vs_random_fasc": {
+    "lib_win_rate": 0.494,
+    "fasc_win_rate": 0.506
+  },
+  "random_lib_vs_selfish_fasc": {
+    "lib_win_rate": 0.284,
+    "fasc_win_rate": 0.716
+  },
+  "metadata": {
+    "num_games": 1000,
+    "seed": 42,
+    "timestamp": "20251212_020252"
+  }
+}
