@@ -269,6 +269,10 @@ class VectorCFR:
         if role in [1, 2]:  # Fascist or Hitler
             key += (tuple(obs['all_roles']),)
 
+        # Add card information for card selection phases
+        if env.phase in ['prez_cardsel', 'chanc_cardsel'] and 'cards' in obs:
+            key += (tuple(obs['cards']),)
+
         return key
 
     def _get_acting_players(self, env):
