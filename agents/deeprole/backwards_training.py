@@ -71,10 +71,14 @@ class BackwardsTrainer:
 
     def _generate_single_sample(self, args):
         lib_policies, fasc_policies, cfr_iterations, cfr_delay, seed = args
-        np.random.seed(seed)
+        # Create more diverse seeds by combining with game state
+        combined_seed = seed * 1000 + lib_policies * 100 + fasc_policies * 10
+        np.random.seed(combined_seed)
 
-        president_idx, belief = self.sampler.sample_situation_with_constraints(
-            lib_policies, fasc_policies
+        # Use diverse sampling with varying concentration based on sample index
+        concentration = [0.1, 0.5, 1.0, 2.0, 5.0, 10.0][seed % 6]
+        president_idx, belief = self.sampler._sample_with_concentration(
+            lib_policies, fasc_policies, concentration
         )
 
         env = create_game_at_state(lib_policies, fasc_policies, president_idx, seed)
@@ -122,7 +126,7 @@ class BackwardsTrainer:
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
         network = ValueNetwork().to(device)
-        optimizer = torch.optim.Adam(network.parameters(), lr=0.001)
+        optimizer = torch.optim.Adam(network.parameters(), lr=0.001, weight_decay=1e-4)  # Add L2 regularization
         criterion = nn.MSELoss()
 
         n_train = int(0.9 * len(training_data))
@@ -147,7 +151,10 @@ class BackwardsTrainer:
 
                 values = network(president_indices, beliefs)
 
-                predictions = torch.bmm(values, beliefs.unsqueeze(2)).squeeze(2)
+                # Values shape: [batch, 5, 20] - value for each player under each assignment
+                # beliefs shape: [batch, 20] - probability of each assignment
+                # We need expected value per player: sum over assignments
+                predictions = (values * beliefs.unsqueeze(1)).sum(dim=2)  # [batch, 5]
 
                 loss = criterion(predictions, targets)
                 total_loss += loss.item()
@@ -176,7 +183,8 @@ class BackwardsTrainer:
                 belief = inp[5:].unsqueeze(0)
 
                 values = network(pidx, belief)
-                pred = torch.matmul(values, belief.t()).squeeze(0)
+                # values shape: [1, 5, 20], belief shape: [1, 20]
+                pred = (values * belief.unsqueeze(1)).sum(dim=2).squeeze()  # [5]
 
                 losses.append(criterion(pred, tgt).item())
 

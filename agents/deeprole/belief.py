@@ -9,6 +9,7 @@ class BeliefTracker:
 
     def __init__(self):
         self.manager = RoleAssignmentManager()
+        self.epsilon = 1e-10  # For numerical stability
 
     def update_belief(self, belief, history, observation, strategies):
         """Update belief based on observation and player strategies.
@@ -109,6 +110,68 @@ class BeliefTracker:
                         belief[i] = 0
 
         return belief
+
+    def calc_terminal_belief(self, belief, history, reach_probs):
+        """Calculate terminal belief (Algorithm 2, CalcTerminalBelief).
+
+        Args:
+            belief: Current belief distribution (20,)
+            history: Game history dict
+            reach_probs: Reach probabilities for each player and assignment (5, 20)
+
+        Returns:
+            Terminal belief with logical inconsistencies zeroed
+        """
+        terminal_belief = belief.copy()
+
+        # Multiply by reach probabilities for each assignment
+        for i in range(self.manager.num_assignments):
+            assignment = self.manager.assignments[i]
+
+            # Product of reach probabilities for this assignment
+            for player_idx in range(5):
+                role = assignment[player_idx]
+                # Find if this assignment is in the player's infoset
+                role_indices = self.manager.get_infoset_indices(player_idx, role)
+                if i in role_indices:
+                    terminal_belief[i] *= reach_probs[player_idx, i]
+
+            # Check logical consistency with history
+            if self._is_inconsistent_with_history(assignment, history):
+                terminal_belief[i] = 0
+
+        return terminal_belief
+
+    def _is_inconsistent_with_history(self, assignment, history):
+        """Check if role assignment is logically inconsistent with observed history.
+
+        Args:
+            assignment: Role assignment array (5,)
+            history: Game history dict
+
+        Returns:
+            True if assignment is impossible given history
+        """
+        # Check Hitler chancellor constraint
+        if 'chancellor_elected' in history and history.get('fasc_policies', 0) >= 3:
+            chanc_idx = history['chancellor_elected']
+            if not history.get('game_ended', False) and assignment[chanc_idx] == 2:
+                # Hitler was chancellor but game didn't end - impossible
+                return True
+
+        # Check execution constraints
+        if 'executed_players' in history:
+            for exec_idx in history['executed_players']:
+                if history.get('game_ended', False) and history.get('liberals_win', False):
+                    # Game ended with liberal win after execution - must be Hitler
+                    if assignment[exec_idx] != 2:
+                        return True
+                else:
+                    # Player executed but game continued - can't be Hitler
+                    if assignment[exec_idx] == 2:
+                        return True
+
+        return False
 
     def get_infoset_beliefs(self, belief, player_idx, role):
         """Get belief vector conditioned on player having role.

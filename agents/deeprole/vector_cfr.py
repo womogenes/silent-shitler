@@ -2,6 +2,7 @@
 
 import numpy as np
 import copy
+import torch
 from collections import defaultdict
 from .role_assignments import RoleAssignmentManager
 from .belief import BeliefTracker
@@ -127,8 +128,10 @@ class VectorCFR:
                 self._apply_votes(env_copy, outcome)
 
                 # Update belief based on outcome
+                history = self._get_history(env)
+                history['votes'] = outcome  # Add vote information to history
                 new_belief = self.belief_tracker.update_belief(
-                    belief, self._get_history(env), outcome, strategies
+                    belief, history, {'votes': outcome}, strategies
                 )
 
                 # Recurse
@@ -172,10 +175,16 @@ class VectorCFR:
             return np.random.randn(self.num_players) * 0.1
 
         for action, prob in strategy.items():
-            if prob > 0 and action in legal_actions:  # Only try legal actions
+            # Double-check action is legal before attempting it
+            if prob > 0 and action in legal_actions:
                 # Take action
                 env_copy = copy.deepcopy(env)
-                env_copy.step(action)
+                try:
+                    env_copy.step(action)
+                except ValueError as e:
+                    # Action was illegal despite being in strategy - skip it
+                    print(f"Warning: Skipping illegal action {action}: {e}")
+                    continue
 
                 # Update reach probabilities
                 new_reach = reach_probs.copy()
@@ -215,7 +224,11 @@ class VectorCFR:
 
         regrets = self.regret_sums[infoset_key]
 
-        positive_regrets = {a: max(0, regrets[a]) for a in legal_actions}
+        # IMPORTANT: Only consider regrets for LEGAL actions
+        positive_regrets = {}
+        for a in legal_actions:
+            positive_regrets[a] = max(0, regrets.get(a, 0))
+
         total = sum(positive_regrets.values())
 
         if total > 0:
@@ -316,16 +329,14 @@ class VectorCFR:
         obs = env.observe(agent)
         action_space = env.action_space(agent)
 
-        # Extract from masks if available
+        # Extract from masks if available - game.py provides these correctly
         for mask_key in ['nomination_mask', 'execution_mask', 'card_action_mask']:
             if mask_key in obs:
                 legal = [i for i, valid in enumerate(obs[mask_key]) if valid == 1]
-                # Verify we found legal actions
-                if legal:
+                if legal:  # Found legal actions from mask
                     return legal
 
-        # If no mask found or no legal actions, return default
-        # This shouldn't happen if the environment is working correctly
+        # If no mask found, return all actions (shouldn't happen with proper env)
         return list(range(action_space.n))
 
     def _get_history(self, env):
@@ -361,11 +372,87 @@ class VectorCFR:
 
     def _should_use_neural(self, env, neural_nets):
         """Check if we should use neural network evaluation."""
-        # Use neural nets for depth limiting based on policies enacted
-        total_policies = env.lib_policies + env.fasc_policies
-        return total_policies in neural_nets
+        # Use neural nets for depth limiting based on current game state
+        network_key = (env.lib_policies, env.fasc_policies)
+        return network_key in neural_nets
 
     def _neural_values(self, env, belief, reach_probs, neural_nets):
-        """Get values from neural network."""
-        # To be implemented with neural network integration
-        raise NotImplementedError("Neural evaluation not yet implemented")
+        """Get values from neural network (Algorithm 2, procedure NEURALCFVS).
+
+        Args:
+            env: Current game environment
+            belief: Current belief distribution (20,)
+            reach_probs: Reach probabilities for each player and assignment (5, 20)
+            neural_nets: Dict of trained networks keyed by (lib_policies, fasc_policies)
+
+        Returns:
+            Counterfactual values for each player (5,)
+        """
+        # Get the appropriate network for current game state
+        lib_policies = env.lib_policies
+        fasc_policies = env.fasc_policies
+        network_key = (lib_policies, fasc_policies)
+
+        if network_key not in neural_nets:
+            # No network for this state, fall back to heuristic
+            return np.random.randn(self.num_players) * 0.1
+
+        network = neural_nets[network_key]
+
+        # Calculate terminal belief (line 19 of Algorithm 2)
+        # b_term[ρ] = b[ρ] * ∏_i π_i(I_i(h, ρ))
+        terminal_belief = belief.copy()
+        for i in range(self.manager.num_assignments):
+            for player_idx in range(self.num_players):
+                # Get which role this player has in assignment i
+                assignment = self.manager.assignments[i]
+                role = assignment[player_idx]
+
+                # Get the reach probability for this player-role-assignment combination
+                role_indices = self.manager.get_infoset_indices(player_idx, role)
+                if i in role_indices:
+                    idx = np.where(role_indices == i)[0][0]
+                    terminal_belief[i] *= reach_probs[player_idx, i]
+
+        # Calculate weight w = sum of terminal belief (line 13)
+        weight = np.sum(terminal_belief)
+
+        # Avoid division by zero
+        if weight <= 1e-10:
+            return np.zeros(self.num_players)
+
+        # Normalize belief (line 14)
+        normalized_belief = terminal_belief / weight
+
+        # Get current president
+        president_idx = env.president_idx
+
+        # Call neural network (line 14)
+        with torch.no_grad():
+            president_tensor = torch.tensor(president_idx).unsqueeze(0)  # Shape (1,)
+            belief_tensor = torch.tensor(normalized_belief, dtype=torch.float32).unsqueeze(0)  # Shape (1, 20)
+
+            # Get value matrix from network: shape (1, 5, 20)
+            values_matrix = network(president_tensor, belief_tensor)
+
+            # Compute expected values for each player
+            # v_i = sum over assignments of value * normalized_belief
+            values_matrix = values_matrix.squeeze(0).numpy()  # Shape (5, 20)
+            factual_values = np.zeros(self.num_players)
+
+            for player_idx in range(self.num_players):
+                factual_values[player_idx] = np.sum(values_matrix[player_idx] * normalized_belief)
+
+            # Scale by weight (line 15)
+            factual_values *= weight
+
+        # Convert factual to counterfactual values (line 15)
+        cfr_values = np.zeros(self.num_players)
+        for player_idx in range(self.num_players):
+            reach_sum = np.sum(reach_probs[player_idx])
+            if reach_sum > 1e-10:
+                cfr_values[player_idx] = factual_values[player_idx] / reach_sum
+            else:
+                cfr_values[player_idx] = factual_values[player_idx]
+
+        return cfr_values
