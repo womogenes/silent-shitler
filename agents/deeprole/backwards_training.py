@@ -6,6 +6,7 @@ import torch.nn as nn
 from pathlib import Path
 from multiprocessing import Pool
 import pickle
+from tqdm import tqdm
 
 from .situation_sampler import AdvancedSituationSampler
 from .networks import ValueNetwork, NetworkEnsemble
@@ -149,7 +150,7 @@ class BackwardsTrainer:
         """Generate training data for terminal states (no CFR needed)."""
         training_data = []
 
-        for _ in range(n_samples):
+        for _ in tqdm(range(n_samples), ncols=80):
             # Sample situation
             president_idx, belief = self.sampler.sample_situation_with_constraints(
                 lib_policies, fasc_policies
@@ -212,15 +213,16 @@ class BackwardsTrainer:
 
         # Training loop (simplified - paper uses 3000 epochs)
         batch_size = min(32, len(train_data))
-        n_epochs = min(100, 3000)  # Reduced for speed
+        # n_epochs = min(100, 3000)  # Reduced for speed
+        n_epochs = 1
 
-        for epoch in range(n_epochs):
+        for epoch in tqdm(range(n_epochs), ncols=80, desc="Epoch"):
             # Shuffle training data
             np.random.shuffle(train_data)
 
             # Train in batches
             total_loss = 0
-            for i in range(0, len(train_data), batch_size):
+            for i in tqdm(range(0, len(train_data), batch_size), ncols=80, desc="Batch"):
                 batch = train_data[i:i+batch_size]
                 inputs = torch.stack([x[0] for x in batch])
                 targets = torch.stack([x[1] for x in batch])
