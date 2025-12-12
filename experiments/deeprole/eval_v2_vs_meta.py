@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from shitler_env.eval_agent import evaluate_agents, _AgentFactory
+from shitler_env.eval_agent import evaluate_agents, AgentFactory
 from agents.deeprole.deeprole_agent_v2 import DeepRoleAgentV2
 from agents.meta_agent import MetaAgent
 
@@ -24,30 +24,9 @@ def main():
         return
 
     print(f"Networks: {networks_path}")
-    print("Creating agent pool...")
-
-    # Create agent pools (for non-parallel access)
-    deeprole_agents = []
-    meta_agents = []
-
-    for _ in range(3):  # Create 3 of each type
-        # DeepRole with moderate CFR iterations
-        dr_agent = DeepRoleAgentV2(
-            networks_path=str(networks_path),
-            cfr_iterations=15,  # Balanced speed/performance
-            max_depth=2
-        )
-        deeprole_agents.append(dr_agent)
-
-        # MetaAgent with default temperature
-        meta_agent = MetaAgent(temperature=1.0)
-        meta_agents.append(meta_agent)
-
-    print(f"Created {len(deeprole_agents)} DeepRole agents")
-    print(f"Created {len(meta_agents)} MetaAgent instances")
 
     # Create agent factories for parallel execution
-    deeprole_factory = _AgentFactory(
+    deeprole_factory = AgentFactory(
         DeepRoleAgentV2,
         {
             'networks_path': str(networks_path),
@@ -55,20 +34,13 @@ def main():
             'max_depth': 2
         }
     )
-    meta_factory = _AgentFactory(MetaAgent, {'temperature': 1.0})
+    meta_factory = AgentFactory(MetaAgent, {'temperature': 1.0})
 
     # Test configurations
     configs = [
         {
             "name": "3 DeepRole vs 2 MetaAgent",
             "description": "DeepRole as liberals, MetaAgent as fascists",
-            "assignment": lambda: {
-                0: deeprole_agents[0],
-                1: deeprole_agents[1],
-                2: deeprole_agents[2],
-                3: meta_agents[0],
-                4: meta_agents[1]
-            },
             "factories": [
                 deeprole_factory,
                 deeprole_factory,
@@ -80,13 +52,6 @@ def main():
         {
             "name": "3 MetaAgent vs 2 DeepRole",
             "description": "MetaAgent as liberals, DeepRole as fascists",
-            "assignment": lambda: {
-                0: meta_agents[0],
-                1: meta_agents[1],
-                2: meta_agents[2],
-                3: deeprole_agents[0],
-                4: deeprole_agents[1]
-            },
             "factories": [
                 meta_factory,
                 meta_factory,
@@ -98,7 +63,7 @@ def main():
     ]
 
     # Run evaluations
-    num_games = 200
+    num_games = os.cpu_count() * 2
     all_results = {}
 
     for config in configs:
@@ -106,20 +71,15 @@ def main():
         print(f"Configuration: {config['name']}")
         print(f"Description: {config['description']}")
         print("-" * 70)
-        print(f"Running {num_games} games...")
-
-        # Get agent assignment for this config
-        agent_assignment = config["assignment"]()
 
         # Run evaluation using evaluate_agents with parallel execution
         results = evaluate_agents(
-            agents=agent_assignment,
+            agent_factories=config["factories"],
             num_games=num_games,
-            seed=42,
-            verbose=True,
+            seed=43,
             track_win_reasons=True,
-            num_workers=os.cpu_count() - 4,  # use -1 to enable all cores
-            agent_factories=config["factories"]
+            num_workers=os.cpu_count(),  # use -1 to enable all cores
+            verbose=True,
         )
 
         all_results[config["name"]] = results
@@ -181,15 +141,6 @@ def main():
     else:
         print("\nDeepRole V2 and MetaAgent are evenly matched!")
         print("  Both approaches have their strengths.")
-
-    # DeepRole stats if available
-    if hasattr(deeprole_agents[0], 'action_stats'):
-        stats = deeprole_agents[0].action_stats
-        if stats['total'] > 0:
-            print(f"\nDeepRole CFR Statistics:")
-            print(f"  Strategies used: {stats['cfr_strategy']}/{stats['total']} ({100*stats['cfr_strategy']/stats['total']:.1f}%)")
-            print(f"  Fallbacks: {stats['cfr_fallback']}/{stats['total']} ({100*stats['cfr_fallback']/stats['total']:.1f}%)")
-            print(f"  Errors: {stats['cfr_error']}/{stats['total']} ({100*stats['cfr_error']/stats['total']:.1f}%)")
 
 
 if __name__ == "__main__":
