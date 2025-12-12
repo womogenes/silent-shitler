@@ -33,7 +33,7 @@ def evaluate_with_state_access(lib_agents, fasc_agents, num_games=100, seed=None
         "games_played": 0
     }
 
-    for game_num in tqdm(range(num_games), desc="Games", disable=not verbose):
+    for game_num in tqdm(range(num_games), desc="Games", disable=not verbose, ncols=80):
         # Create environment
         env = ShitlerEnv()
         game_seed = None if seed is None else seed + game_num
@@ -157,21 +157,6 @@ def main():
             print(f"  Errors: {stats['cfr_error']} ({100*stats['cfr_error']/total:.1f}%)")
 
     print("\n" + "=" * 60)
-    print("ANALYSIS")
-    print("=" * 60)
-
-    if lib_rate > 0.5:
-        print("✓ DeepRole V2 is working well with clean state serialization!")
-    elif lib_rate > 0.3:
-        print("⚠ DeepRole V2 shows moderate performance.")
-    else:
-        print("✗ DeepRole V2 may need debugging.")
-
-    print("\nKey improvements in V2:")
-    print("- Clean state serialization (no fragile reconstruction)")
-    print("- Direct state access for CFR (no reverse engineering)")
-    print("- Simpler, more maintainable code")
-
 
 if __name__ == "__main__":
     main()
