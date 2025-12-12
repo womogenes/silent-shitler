@@ -37,7 +37,7 @@ def _generate_single_sample_wrapper(args):
     max_depth = 3 if (lib_policies >= 4 or fasc_policies >= 5) else 5
 
     # Debug: show sample number and parameters
-    print(f"  Sample {seed}: ({lib_policies}L, {fasc_policies}F), cfr_iters={cfr_iterations}, max_depth={max_depth}")
+    # print(f"  Sample {seed}: ({lib_policies}L, {fasc_policies}F), cfr_iters={cfr_iterations}, max_depth={max_depth}")
 
     values = cfr.solve_situation(
         env,
@@ -105,7 +105,7 @@ class BackwardsTrainer:
             # Use imap_unordered for faster processing with progress bar
             results = []
             # print(f"{pool=}")
-            with tqdm(total=n_samples, desc="  Samples", leave=False) as pbar:
+            with tqdm(total=n_samples, desc="  Samples", ncols=80) as pbar:
                 # print(f"Producing results...")
                 for result in pool.imap_unordered(_generate_single_sample_wrapper, args_list):
                     # print(f"{result=}")  # Too verbose
@@ -178,7 +178,7 @@ class BackwardsTrainer:
         val_data = training_data[n_train:]
 
         batch_size = min(128, len(train_data))
-        n_epochs = 100
+        n_epochs = 60
 
         for epoch in tqdm(range(n_epochs), ncols=80, desc="Epoch"):
             network.train()
@@ -210,7 +210,7 @@ class BackwardsTrainer:
 
             if epoch % 20 == 0 and val_data:
                 val_loss = self._compute_validation_loss(network, val_data, criterion, device)
-                print(f"    Epoch {epoch}: train_loss={total_loss/len(train_data):.4f}, val_loss={val_loss:.4f}")
+                print(f"    Epoch {epoch}: train_loss={total_loss/len(train_data):.6f}, val_loss={val_loss:.6f}")
 
         print(f"  Network trained for ({lib_policies}L, {fasc_policies}F)")
         return network
