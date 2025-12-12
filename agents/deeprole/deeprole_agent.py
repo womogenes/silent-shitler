@@ -11,7 +11,6 @@ import pickle
 from shitler_env.agent import BaseAgent
 from agents.deeprole.vector_cfr import VectorCFR
 from agents.deeprole.belief import BeliefTracker
-from agents.deeprole.belief_update import BeliefUpdater
 from agents.deeprole.belief_with_strategies import StrategicBeliefUpdater
 from agents.deeprole.game_state import create_game_at_state
 from agents.deeprole.networks import NetworkEnsemble

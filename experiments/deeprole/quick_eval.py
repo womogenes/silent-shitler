@@ -32,7 +32,7 @@ for i in range(2):
 # Run 10 games
 results = evaluate_agents(
     agent_classes,
-    num_games=10,
+    num_games=1000,
     verbose=False,
     seed=42
 )
