@@ -205,7 +205,7 @@ class BackwardsTrainer:
                 predictions = (values * beliefs.unsqueeze(1)).sum(dim=2)  # [batch, 5]
 
                 loss = criterion(predictions, targets)
-                total_loss += loss.item()
+                total_loss += loss.item() * batch_size
 
                 optimizer.zero_grad()
                 loss.backward()
