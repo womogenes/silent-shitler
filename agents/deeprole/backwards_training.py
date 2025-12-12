@@ -229,20 +229,16 @@ class BackwardsTrainer:
     def _get_ordered_game_parts(self):
         """Get game states in backwards training order.
 
-        Terminal states (5L or 6F) are trained first, then work backwards.
+        Skip terminal states (5L or 6F) - they don't need networks.
         """
         parts = []
-        # Terminal states - liberal wins (5L, 0-5F)
-        for fasc in range(6):
-            parts.append((5, fasc))
-        # Terminal states - fascist wins (0-4L, 6F)
-        for lib in range(5):
-            parts.append((lib, 6))
 
         # Non-terminal states in reverse order (high to low total policies)
+        # Start from states closest to terminal (4L or 5F) and work backwards
         for total in range(9, -1, -1):  # 9 down to 0 total policies
             for lib in range(min(5, total + 1)):
                 fasc = total - lib
-                if fasc <= 5 and (lib, fasc) not in parts:  # Only up to 5F for non-terminal
+                # Skip terminal states (5L or 6F)
+                if lib < 5 and fasc < 6 and fasc >= 0:
                     parts.append((lib, fasc))
         return parts

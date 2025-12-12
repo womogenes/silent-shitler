@@ -59,7 +59,17 @@ class VectorCFR:
         Returns values of shape (num_players,) not (num_players, num_assignments).
         """
 
-        # Terminal node
+        # Check for terminal states - game ends at 5L or 6F
+        if env.lib_policies >= 5 or env.fasc_policies >= 6:
+            # Set terminal state for the environment if not already set
+            if not all(env.terminations.values()):
+                if env.lib_policies >= 5:
+                    env._end_game("liberals")
+                else:
+                    env._end_game("fascists")
+            return self._terminal_values(env, belief, reach_probs)
+
+        # Terminal node (other win conditions like Hitler chancellor)
         if all(env.terminations.values()):
             return self._terminal_values(env, belief, reach_probs)
 
@@ -406,6 +416,9 @@ class VectorCFR:
 
     def _should_use_neural(self, env, neural_nets):
         """Check if we should use neural network evaluation."""
+        # Terminal states don't need neural networks
+        if env.lib_policies >= 5 or env.fasc_policies >= 6:
+            return False
         # Use neural nets for depth limiting based on current game state
         network_key = (env.lib_policies, env.fasc_policies)
         return network_key in neural_nets
