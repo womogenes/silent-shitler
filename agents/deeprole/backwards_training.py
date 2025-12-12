@@ -16,7 +16,7 @@ def _generate_single_sample_wrapper(args):
     """Standalone function for multiprocessing - can't be a class method."""
     lib_policies, fasc_policies, cfr_iterations, cfr_delay, seed, neural_nets = args
 
-    print(f"{args=}")
+    # print(f"{args=}")  # Too verbose
 
     # Create more diverse seeds by combining with game state
     combined_seed = seed * 1000 + lib_policies * 100 + fasc_policies * 10
@@ -36,7 +36,9 @@ def _generate_single_sample_wrapper(args):
     # (4L, XF) or (XL, 5F) are very close to terminal
     max_depth = 3 if (lib_policies >= 4 or fasc_policies >= 5) else 5
 
-    print(f"  Solving situation with cfr")
+    # Debug: show sample number and parameters
+    print(f"  Sample {seed}: ({lib_policies}L, {fasc_policies}F), cfr_iters={cfr_iterations}, max_depth={max_depth}")
+
     values = cfr.solve_situation(
         env,
         belief,
@@ -97,16 +99,16 @@ class BackwardsTrainer:
 
         # Use spawn context for CUDA compatibility in workers
         ctx = get_context('spawn')
-        print(f"{ctx=}")
+        # print(f"{ctx=}")
 
         with ctx.Pool(self.num_workers) as pool:
             # Use imap_unordered for faster processing with progress bar
             results = []
-            print(f"{pool=}")
+            # print(f"{pool=}")
             with tqdm(total=n_samples, desc="  Samples", leave=False) as pbar:
-                print(f"Producing results...")
+                # print(f"Producing results...")
                 for result in pool.imap_unordered(_generate_single_sample_wrapper, args_list):
-                    print(f"{result=}")
+                    # print(f"{result=}")  # Too verbose
                     results.append(result)
                     pbar.update(1)
 

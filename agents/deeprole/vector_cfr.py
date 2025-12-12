@@ -39,6 +39,10 @@ class VectorCFR:
         total_weight = 0
 
         for iteration in range(num_iterations):
+            # Show progress for long-running CFR
+            if num_iterations >= 100 and iteration % 100 == 0 and iteration > 0:
+                print(f"    CFR progress: {iteration}/{num_iterations} iterations")
+
             weight = max(iteration - averaging_delay, 0)
             total_weight += weight
 
@@ -59,7 +63,7 @@ class VectorCFR:
         Returns values of shape (num_players,) not (num_players, num_assignments).
         """
         # print(f"  running cfr iteration with {env=}, {belief=}, {reach_probs=}")
-        print(f"{belief=}")
+        # print(f"{belief=}")  # Too verbose - this gets called thousands of times
 
         # Check for terminal states - game ends at 5L or 6F
         if env.lib_policies >= 5 or env.fasc_policies >= 6:
