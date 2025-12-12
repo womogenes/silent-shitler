@@ -3,6 +3,7 @@ __pycache__/
 .claude/
 .vscode/
 *.log
+*.DS_Store
 
 experiments/checkpoints*/
 wandb/
