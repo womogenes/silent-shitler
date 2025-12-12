@@ -1,0 +1,58 @@
+{
+  "cfr_lib_vs_random_fasc": {
+    "lib_win_rate": 0.507,
+    "fasc_win_rate": 0.493,
+    "win_conditions": {
+      "hitler_executed": 131,
+      "hitler_chancellor": 426,
+      "lib_5_policies": 376,
+      "fasc_6_policies": 67
+    }
+  },
+  "selfish_lib_vs_random_fasc": {
+    "lib_win_rate": 0.476,
+    "fasc_win_rate": 0.524,
+    "win_conditions": {
+      "lib_5_policies": 352,
+      "hitler_chancellor": 449,
+      "fasc_6_policies": 75,
+      "hitler_executed": 124
+    }
+  },
+  "cfr_lib_vs_selfish_fasc": {
+    "lib_win_rate": 0.265,
+    "fasc_win_rate": 0.735,
+    "win_conditions": {
+      "fasc_6_policies": 182,
+      "hitler_chancellor": 553,
+      "hitler_executed": 203,
+      "lib_5_policies": 62
+    }
+  },
+  "selfish_lib_vs_selfish_fasc": {
+    "lib_win_rate": 0.3,
+    "fasc_win_rate": 0.7,
+    "win_conditions": {
+      "hitler_chancellor": 526,
+      "hitler_executed": 236,
+      "fasc_6_policies": 174,
+      "lib_5_policies": 64
+    }
+  },
+  "random_vs_random": {
+    "lib_win_rate": 0.471,
+    "fasc_win_rate": 0.529,
+    "win_conditions": {
+      "hitler_chancellor": 440,
+      "lib_5_policies": 317,
+      "hitler_executed": 154,
+      "fasc_6_policies": 89
+    }
+  },
+  "metadata": {
+    "cfr_checkpoint": "/Users/harini/Documents/GitHub/silent-shitler/experiments/cfr/checkpoints/cfr_liberal_iter_350000.pkl",
+    "num_games": 1000,
+    "seed": 42,
+    "timestamp": "20251212_022843"
+  }
+}

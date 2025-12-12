@@ -5,11 +5,16 @@ description = "Learning algorithms for silent social deduction games"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "ipykernel>=7.1.0",
+    "matplotlib>=3.10.8",
     "numpy>=2.3.4",
     "pettingzoo>=1.25.0",
+    "pip>=25.3",
     "ray[rllib]>=2.52.1",
     "ruff>=0.14.3",
+    "seaborn>=0.13.2",
     "supersuit>=3.10.0",
     "torch>=2.9.1",
+    "tqdm>=4.67.1",
     "wandb>=0.23.0",
 ]
