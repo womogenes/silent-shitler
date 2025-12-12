@@ -1,5 +1,4 @@
 from pettingzoo import AECEnv
-from pettingzoo.utils import AgentSelector
 from gymnasium import spaces
 import numpy as np
 import random
@@ -45,8 +44,6 @@ class ShitlerEnv(AECEnv):
         # Card selection
         self.prez_cards = None
         self.chanc_cards = None
-        self.prez_claim = None
-        self.chanc_claim = None
 
         # Personal card history (what each player actually saw)
         # Each entry: (government_index, num_libs, num_fascs) or None
@@ -65,7 +62,6 @@ class ShitlerEnv(AECEnv):
         # Phase management
         self.phase = "nomination"
 
-        self._agent_selector = AgentSelector(self.agents)
         self.agent_selection = self.agents[self.president_idx]
 
         self.rewards = {agent: 0 for agent in self.agents}
@@ -340,12 +336,10 @@ class ShitlerEnv(AECEnv):
         self.phase = "prez_claim"
 
     def _handle_prez_claim(self, action):
-        self.prez_claim = action
         self.hist_prez_claim[-1] = action  # Action is number of libs (0-3)
         self.phase = "chanc_claim"
 
     def _handle_chanc_claim(self, action):
-        self.chanc_claim = action
         self.hist_chanc_claim[-1] = action  # Action is number of libs (0-2)
 
         # Check if execution needed
