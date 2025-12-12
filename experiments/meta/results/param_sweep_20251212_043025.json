@@ -1,0 +1,5673 @@
+{
+  "metadata": {
+    "num_games": 500,
+    "seed": 42,
+    "param_grid": {
+      "fasc_policy_prez_sus": [
+        1.0,
+        1.5,
+        2.0,
+        2.5,
+        3.0
+      ],
+      "fasc_policy_chanc_sus": [
+        0.5,
+        1.0,
+        1.5,
+        2.0
+      ],
+      "conflict_sus": [
+        0.5,
+        1.0,
+        1.5,
+        2.0,
+        2.5
+      ],
+      "vote_threshold_mult": [
+        1.0,
+        1.1,
+        1.2,
+        1.3,
+        1.5
+      ]
+    },
+    "total_configs": 500,
+    "timestamp": "20251212_043025"
+  },
+  "top_10": [
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.734,
+      "win_rate_selfish": 0.58,
+      "combined_score": 0.657
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.726,
+      "win_rate_selfish": 0.58,
+      "combined_score": 0.653
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.72,
+      "win_rate_selfish": 0.582,
+      "combined_score": 0.651
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.7,
+      "win_rate_selfish": 0.6,
+      "combined_score": 0.6499999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.712,
+      "win_rate_selfish": 0.582,
+      "combined_score": 0.647
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.712,
+      "win_rate_selfish": 0.58,
+      "combined_score": 0.6459999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.716,
+      "win_rate_selfish": 0.576,
+      "combined_score": 0.6459999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.714,
+      "win_rate_selfish": 0.576,
+      "combined_score": 0.645
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.72,
+      "win_rate_selfish": 0.57,
+      "combined_score": 0.645
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.73,
+      "win_rate_selfish": 0.56,
+      "combined_score": 0.645
+    }
+  ],
+  "best_vs_random": {
+    "config": {
+      "fasc_policy_prez_sus": 2.0,
+      "fasc_policy_chanc_sus": 2.0,
+      "conflict_sus": 2.5,
+      "vote_threshold_mult": 1.0
+    },
+    "win_rate_random": 0.738,
+    "win_rate_selfish": 0.528,
+    "combined_score": 0.633
+  },
+  "best_vs_selfish": {
+    "config": {
+      "fasc_policy_prez_sus": 2.5,
+      "fasc_policy_chanc_sus": 2.0,
+      "conflict_sus": 2.5,
+      "vote_threshold_mult": 1.0
+    },
+    "win_rate_random": 0.7,
+    "win_rate_selfish": 0.6,
+    "combined_score": 0.6499999999999999
+  },
+  "all_results": [
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.734,
+      "win_rate_selfish": 0.58,
+      "combined_score": 0.657
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.726,
+      "win_rate_selfish": 0.58,
+      "combined_score": 0.653
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.72,
+      "win_rate_selfish": 0.582,
+      "combined_score": 0.651
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.7,
+      "win_rate_selfish": 0.6,
+      "combined_score": 0.6499999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.712,
+      "win_rate_selfish": 0.582,
+      "combined_score": 0.647
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.712,
+      "win_rate_selfish": 0.58,
+      "combined_score": 0.6459999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.716,
+      "win_rate_selfish": 0.576,
+      "combined_score": 0.6459999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.714,
+      "win_rate_selfish": 0.576,
+      "combined_score": 0.645
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.72,
+      "win_rate_selfish": 0.57,
+      "combined_score": 0.645
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.73,
+      "win_rate_selfish": 0.56,
+      "combined_score": 0.645
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.736,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.644
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.708,
+      "win_rate_selfish": 0.58,
+      "combined_score": 0.6439999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.716,
+      "win_rate_selfish": 0.572,
+      "combined_score": 0.6439999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.718,
+      "win_rate_selfish": 0.568,
+      "combined_score": 0.643
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.708,
+      "win_rate_selfish": 0.578,
+      "combined_score": 0.643
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.734,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.643
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.724,
+      "win_rate_selfish": 0.56,
+      "combined_score": 0.642
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.714,
+      "win_rate_selfish": 0.57,
+      "combined_score": 0.6419999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.716,
+      "win_rate_selfish": 0.566,
+      "combined_score": 0.641
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.712,
+      "win_rate_selfish": 0.57,
+      "combined_score": 0.641
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.712,
+      "win_rate_selfish": 0.57,
+      "combined_score": 0.641
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.724,
+      "win_rate_selfish": 0.556,
+      "combined_score": 0.64
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.702,
+      "win_rate_selfish": 0.578,
+      "combined_score": 0.6399999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.706,
+      "win_rate_selfish": 0.572,
+      "combined_score": 0.639
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.71,
+      "win_rate_selfish": 0.568,
+      "combined_score": 0.639
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.712,
+      "win_rate_selfish": 0.566,
+      "combined_score": 0.639
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.708,
+      "win_rate_selfish": 0.57,
+      "combined_score": 0.639
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.71,
+      "win_rate_selfish": 0.568,
+      "combined_score": 0.639
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.726,
+      "win_rate_selfish": 0.55,
+      "combined_score": 0.638
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.706,
+      "win_rate_selfish": 0.57,
+      "combined_score": 0.6379999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.706,
+      "win_rate_selfish": 0.57,
+      "combined_score": 0.6379999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.712,
+      "win_rate_selfish": 0.564,
+      "combined_score": 0.6379999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.728,
+      "win_rate_selfish": 0.546,
+      "combined_score": 0.637
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.7,
+      "win_rate_selfish": 0.574,
+      "combined_score": 0.637
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.714,
+      "win_rate_selfish": 0.56,
+      "combined_score": 0.637
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.722,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.637
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.706,
+      "win_rate_selfish": 0.568,
+      "combined_score": 0.637
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.708,
+      "win_rate_selfish": 0.566,
+      "combined_score": 0.637
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.704,
+      "win_rate_selfish": 0.57,
+      "combined_score": 0.637
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.72,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.636
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.706,
+      "win_rate_selfish": 0.566,
+      "combined_score": 0.6359999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.574,
+      "combined_score": 0.6359999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.704,
+      "win_rate_selfish": 0.568,
+      "combined_score": 0.6359999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.706,
+      "win_rate_selfish": 0.566,
+      "combined_score": 0.6359999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.736,
+      "win_rate_selfish": 0.534,
+      "combined_score": 0.635
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.706,
+      "win_rate_selfish": 0.564,
+      "combined_score": 0.635
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.702,
+      "win_rate_selfish": 0.568,
+      "combined_score": 0.635
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.71,
+      "win_rate_selfish": 0.558,
+      "combined_score": 0.634
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.706,
+      "win_rate_selfish": 0.562,
+      "combined_score": 0.634
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.57,
+      "combined_score": 0.6339999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.706,
+      "win_rate_selfish": 0.56,
+      "combined_score": 0.633
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.738,
+      "win_rate_selfish": 0.528,
+      "combined_score": 0.633
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.704,
+      "win_rate_selfish": 0.562,
+      "combined_score": 0.633
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.7,
+      "win_rate_selfish": 0.566,
+      "combined_score": 0.633
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.712,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.632
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.724,
+      "win_rate_selfish": 0.54,
+      "combined_score": 0.632
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.718,
+      "win_rate_selfish": 0.546,
+      "combined_score": 0.632
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.708,
+      "win_rate_selfish": 0.556,
+      "combined_score": 0.632
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.716,
+      "win_rate_selfish": 0.548,
+      "combined_score": 0.632
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.694,
+      "win_rate_selfish": 0.57,
+      "combined_score": 0.6319999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.71,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.631
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.73,
+      "win_rate_selfish": 0.532,
+      "combined_score": 0.631
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.71,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.631
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.71,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.631
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.69,
+      "win_rate_selfish": 0.572,
+      "combined_score": 0.631
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.71,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.631
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.562,
+      "combined_score": 0.63
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.562,
+      "combined_score": 0.63
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.568,
+      "combined_score": 0.6299999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.704,
+      "win_rate_selfish": 0.554,
+      "combined_score": 0.629
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.728,
+      "win_rate_selfish": 0.53,
+      "combined_score": 0.629
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.718,
+      "win_rate_selfish": 0.54,
+      "combined_score": 0.629
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.56,
+      "combined_score": 0.629
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.56,
+      "combined_score": 0.629
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.704,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.628
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.72,
+      "win_rate_selfish": 0.536,
+      "combined_score": 0.628
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.718,
+      "win_rate_selfish": 0.538,
+      "combined_score": 0.628
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.704,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.628
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.7,
+      "win_rate_selfish": 0.556,
+      "combined_score": 0.628
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.564,
+      "combined_score": 0.6279999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.716,
+      "win_rate_selfish": 0.538,
+      "combined_score": 0.627
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.718,
+      "win_rate_selfish": 0.536,
+      "combined_score": 0.627
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.7,
+      "win_rate_selfish": 0.554,
+      "combined_score": 0.627
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.554,
+      "combined_score": 0.626
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.562,
+      "combined_score": 0.625
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.694,
+      "win_rate_selfish": 0.556,
+      "combined_score": 0.625
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.696,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.624
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.708,
+      "win_rate_selfish": 0.54,
+      "combined_score": 0.624
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.7,
+      "win_rate_selfish": 0.548,
+      "combined_score": 0.624
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.696,
+      "win_rate_selfish": 0.552,
+      "combined_score": 0.624
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.548,
+      "combined_score": 0.623
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.7,
+      "win_rate_selfish": 0.546,
+      "combined_score": 0.623
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.69,
+      "win_rate_selfish": 0.554,
+      "combined_score": 0.622
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.556,
+      "combined_score": 0.622
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.714,
+      "win_rate_selfish": 0.528,
+      "combined_score": 0.621
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.712,
+      "win_rate_selfish": 0.528,
+      "combined_score": 0.62
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.704,
+      "win_rate_selfish": 0.536,
+      "combined_score": 0.62
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.706,
+      "win_rate_selfish": 0.532,
+      "combined_score": 0.619
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.694,
+      "win_rate_selfish": 0.542,
+      "combined_score": 0.618
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.702,
+      "win_rate_selfish": 0.534,
+      "combined_score": 0.618
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.71,
+      "win_rate_selfish": 0.526,
+      "combined_score": 0.618
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.0
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.548,
+      "combined_score": 0.6160000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.534,
+      "combined_score": 0.613
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.696,
+      "win_rate_selfish": 0.528,
+      "combined_score": 0.612
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.524,
+      "combined_score": 0.611
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.524,
+      "combined_score": 0.608
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.696,
+      "win_rate_selfish": 0.52,
+      "combined_score": 0.608
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.518,
+      "combined_score": 0.608
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.694,
+      "win_rate_selfish": 0.522,
+      "combined_score": 0.608
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.704,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.607
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.514,
+      "combined_score": 0.606
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.524,
+      "combined_score": 0.606
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.702,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.605
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.696,
+      "win_rate_selfish": 0.512,
+      "combined_score": 0.604
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.696,
+      "win_rate_selfish": 0.512,
+      "combined_score": 0.604
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.516,
+      "combined_score": 0.604
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.52,
+      "combined_score": 0.603
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.603
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.518,
+      "combined_score": 0.6020000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.69,
+      "win_rate_selfish": 0.514,
+      "combined_score": 0.602
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.69,
+      "win_rate_selfish": 0.514,
+      "combined_score": 0.602
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.696,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.602
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.518,
+      "combined_score": 0.601
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.516,
+      "combined_score": 0.601
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.69,
+      "win_rate_selfish": 0.512,
+      "combined_score": 0.601
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.601
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.69,
+      "win_rate_selfish": 0.512,
+      "combined_score": 0.601
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.536,
+      "combined_score": 0.6000000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.514,
+      "combined_score": 0.6000000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.522,
+      "combined_score": 0.6000000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.52,
+      "combined_score": 0.6000000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.6
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.694,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.599
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.599
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.69,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.599
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.599
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.522,
+      "combined_score": 0.5980000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.518,
+      "combined_score": 0.5980000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.598
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.694,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.598
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.598
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.598
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.598
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.597
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.597
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.597
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.597
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.506,
+      "combined_score": 0.5960000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.5960000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.514,
+      "combined_score": 0.5960000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.512,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.522,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.676,
+      "win_rate_selfish": 0.514,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.518,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.52,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.52,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.696,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.506,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.595
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.5940000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.514,
+      "combined_score": 0.5940000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.506,
+      "combined_score": 0.5940000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.5940000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.5940000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.5940000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.696,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.594
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.593
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.593
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.593
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.69,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.593
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.5920000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.5920000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.5920000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.5920000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.498,
+      "combined_score": 0.5920000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.498,
+      "combined_score": 0.5920000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.506,
+      "combined_score": 0.5920000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.5920000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.5920000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.69,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.592
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.692,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.694,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.591
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.506,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.498,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.506,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.506,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.5900000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.59
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.589
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.696,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.589
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.506,
+      "combined_score": 0.589
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.589
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.589
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.69,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.589
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.589
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.589
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.5880000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.676,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.5880000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.5880000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.498,
+      "combined_score": 0.5880000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.498,
+      "combined_score": 0.5880000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.5880000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.5880000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.698,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.588
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.587
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.587
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.506,
+      "combined_score": 0.587
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.587
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.506,
+      "combined_score": 0.587
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.587
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.587
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.587
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.587
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.587
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.587
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.5860000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.498,
+      "combined_score": 0.5860000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.5860000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.5860000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.5860000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.5860000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.5860000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.5860000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.5860000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.5860000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.662,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.5860000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.586
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.586
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.586
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.586
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.586
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.662,
+      "win_rate_selfish": 0.508,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.585
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.5840000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.5840000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.5840000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.5840000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.5840000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.5840000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.5840000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.5840000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.5840000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.676,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.498,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.66,
+      "win_rate_selfish": 0.506,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.676,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.583
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.686,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.498,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.5820000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.581
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.688,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.581
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.51,
+      "combined_score": 0.581
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.581
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.676,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.581
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.581
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.581
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.581
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.581
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.676,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.581
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.658,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.676,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.5800000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.504,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.502,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.494,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.684,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.662,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.579
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.5780000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.5780000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.5,
+      "combined_score": 0.5780000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.5780000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.5780000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.5780000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.5780000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.662,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.577
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.577
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.577
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.577
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.577
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.577
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.577
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.577
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.5760000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.676,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.5760000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.5760000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.5760000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.5760000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.682,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.5760000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.5760000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.5760000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.5760000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.5760000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.575
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.575
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.575
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.575
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.575
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.575
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.68,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.575
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.575
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.575
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.5740000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.5740000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.5740000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.5740000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.5740000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.5740000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.5740000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.5740000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.5740000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.573
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.573
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.573
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.1
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.573
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.676,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.573
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.573
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.573
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.573
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.662,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.5720000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.5720000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.678,
+      "win_rate_selfish": 0.466,
+      "combined_score": 0.5720000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.674,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.5720000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.662,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.5720000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.472,
+      "combined_score": 0.5720000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.472,
+      "combined_score": 0.5720000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.5720000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.5720000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.5720000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.492,
+      "combined_score": 0.5720000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.571
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.662,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.571
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.472,
+      "combined_score": 0.571
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.571
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.571
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.571
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.49,
+      "combined_score": 0.571
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.472,
+      "combined_score": 0.571
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.472,
+      "combined_score": 0.571
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.66,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.571
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.644,
+      "win_rate_selfish": 0.496,
+      "combined_score": 0.5700000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.488,
+      "combined_score": 0.5700000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.5700000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.5700000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.5700000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.472,
+      "combined_score": 0.5700000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.472,
+      "combined_score": 0.569
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.658,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.569
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.66,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.569
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.662,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.569
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.569
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.5680000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.5680000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.66,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.5680000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.5680000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.658,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.5680000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.66,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.5680000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.5680000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.5680000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.468,
+      "combined_score": 0.5680000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.668,
+      "win_rate_selfish": 0.466,
+      "combined_score": 0.5670000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.468,
+      "combined_score": 0.5670000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.468,
+      "combined_score": 0.5670000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.567
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.662,
+      "win_rate_selfish": 0.472,
+      "combined_score": 0.567
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.66,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.567
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.658,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.567
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.658,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.567
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.567
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.567
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.567
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.648,
+      "win_rate_selfish": 0.486,
+      "combined_score": 0.567
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.66,
+      "win_rate_selfish": 0.472,
+      "combined_score": 0.5660000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.5660000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.466,
+      "combined_score": 0.5660000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.658,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.5660000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.648,
+      "win_rate_selfish": 0.484,
+      "combined_score": 0.5660000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.5660000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.462,
+      "combined_score": 0.5660000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.65,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.5660000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.67,
+      "win_rate_selfish": 0.462,
+      "combined_score": 0.5660000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.468,
+      "combined_score": 0.5660000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 2.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.666,
+      "win_rate_selfish": 0.466,
+      "combined_score": 0.5660000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.664,
+      "win_rate_selfish": 0.466,
+      "combined_score": 0.5650000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.662,
+      "win_rate_selfish": 0.468,
+      "combined_score": 0.5650000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.458,
+      "combined_score": 0.5650000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.2
+      },
+      "win_rate_random": 0.648,
+      "win_rate_selfish": 0.482,
+      "combined_score": 0.565
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.658,
+      "win_rate_selfish": 0.472,
+      "combined_score": 0.565
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.66,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.565
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.565
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.478,
+      "combined_score": 0.565
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.565
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.648,
+      "win_rate_selfish": 0.48,
+      "combined_score": 0.5640000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.5640000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.5640000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.5640000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.658,
+      "win_rate_selfish": 0.468,
+      "combined_score": 0.5630000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.672,
+      "win_rate_selfish": 0.454,
+      "combined_score": 0.5630000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.658,
+      "win_rate_selfish": 0.468,
+      "combined_score": 0.5630000000000001
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.563
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.468,
+      "combined_score": 0.562
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.468,
+      "combined_score": 0.562
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.65,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.562
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.562
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.562
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.648,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.562
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.472,
+      "combined_score": 0.562
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.468,
+      "combined_score": 0.562
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.658,
+      "win_rate_selfish": 0.464,
+      "combined_score": 0.561
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.648,
+      "win_rate_selfish": 0.474,
+      "combined_score": 0.5609999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.5,
+        "vote_threshold_mult": 1.3
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.47,
+      "combined_score": 0.5609999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.646,
+      "win_rate_selfish": 0.476,
+      "combined_score": 0.5609999999999999
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.464,
+      "combined_score": 0.56
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.466,
+      "combined_score": 0.559
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.464,
+      "combined_score": 0.559
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 3.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.654,
+      "win_rate_selfish": 0.464,
+      "combined_score": 0.559
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 2.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.652,
+      "win_rate_selfish": 0.464,
+      "combined_score": 0.558
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 2.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.656,
+      "win_rate_selfish": 0.46,
+      "combined_score": 0.558
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.648,
+      "win_rate_selfish": 0.468,
+      "combined_score": 0.558
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 1.0,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.646,
+      "win_rate_selfish": 0.466,
+      "combined_score": 0.556
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 2.0,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.66,
+      "win_rate_selfish": 0.45,
+      "combined_score": 0.555
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 0.5,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.646,
+      "win_rate_selfish": 0.462,
+      "combined_score": 0.554
+    },
+    {
+      "config": {
+        "fasc_policy_prez_sus": 1.5,
+        "fasc_policy_chanc_sus": 0.5,
+        "conflict_sus": 1.0,
+        "vote_threshold_mult": 1.5
+      },
+      "win_rate_random": 0.64,
+      "win_rate_selfish": 0.462,
+      "combined_score": 0.551
+    }
+  ]
+}
