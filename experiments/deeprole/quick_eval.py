@@ -14,27 +14,33 @@ print("=" * 60)
 print("QUICK TEST: 3 Liberal DeepRole vs 2 Random Fascist/Hitler")
 print("=" * 60)
 
-# Create agent classes (not instances)
-agent_classes = []
-
-# Liberals: DeepRole
+# Create agent instances once (much faster than creating new ones each game)
+print("Loading DeepRole agents (one-time cost)...")
+lib_agents = []
 for i in range(3):
-    agent_classes.append(lambda: DeepRoleAgent(
-        networks_path="/home/willi/coding/6.S890/silent-shitler/agents/deeprole/trained_networks.pkl",
+    agent = DeepRoleAgent(
+        networks_path="/home/willi/downloads/trained_networks_1000_16_15.pkl",
         cfr_iterations=20,  # Reduced for quick test
         max_depth=2
-    ))
+    )
+    lib_agents.append(agent)
 
-# Fascists: Random
+# Create fascist agents
+fasc_agents = []
 for i in range(2):
-    agent_classes.append(SimpleRandomAgent)
+    fasc_agents.append(SimpleRandomAgent())
 
-# Run 10 games
+# Run games with random role assignment
+num_games = 100
+print(f"Running {num_games} games...")
+
 results = evaluate_agents(
-    agent_classes,
-    num_games=1000,
-    verbose=False,
-    seed=42
+    None,
+    num_games=num_games,
+    verbose=True,
+    seed=42,
+    lib_agents=lib_agents,
+    fasc_agents=fasc_agents
 )
 
 # Print results
@@ -48,7 +54,8 @@ print(f"  Liberal wins: {lib_wins} ({lib_rate:.0f}%)")
 print(f"  Fascist wins: {fasc_wins} ({100-lib_rate:.0f}%)")
 
 if lib_wins > 0:
-    print("\n✓ DeepRole is making decisions and playing games!")
+    print("\nDeepRole is making decisions and playing games!")
     print("  Strategic belief updates are integrated.")
+    print("  Agents are properly reused across games (efficient!).")
 else:
-    print("\n⚠ DeepRole may need debugging - no liberal wins yet")
+    print("\nDeepRole may need debugging - no liberal wins yet")
