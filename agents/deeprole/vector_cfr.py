@@ -2,6 +2,7 @@
 
 import numpy as np
 import copy
+import torch
 from collections import defaultdict
 from .role_assignments import RoleAssignmentManager
 from .belief import BeliefTracker
@@ -37,7 +38,20 @@ class VectorCFR:
         cumulative_values = np.zeros(self.num_players)
         total_weight = 0
 
+        # Debug: Check initial state
+        debug = False  # Enable for debugging
+        if debug:
+            print(f"[CFR] Starting solve_situation with {num_iterations} iterations")
+            print(f"[CFR] Initial belief shape: {initial_belief.shape}, sum: {initial_belief.sum():.3f}")
+            print(f"[CFR] Neural nets available: {neural_nets is not None}")
+            if neural_nets:
+                print(f"[CFR] Neural net keys: {list(neural_nets.keys())}")
+
         for iteration in range(num_iterations):
+            # Show progress for long-running CFR
+            if num_iterations >= 100 and iteration % 100 == 0 and iteration > 0:
+                print(f"    CFR progress: {iteration}/{num_iterations} iterations")
+
             weight = max(iteration - averaging_delay, 0)
             total_weight += weight
 
@@ -50,26 +64,69 @@ class VectorCFR:
             )
             cumulative_values += values
 
+            if debug and iteration == 0:
+                print(f"[CFR] After first iteration:")
+                print(f"[CFR]   Values: {values}")
+                print(f"[CFR]   Strategy sums: {len(self.strategy_sums)} entries")
+                print(f"[CFR]   Regret sums: {len(self.regret_sums)} entries")
+
+        if debug:
+            print(f"[CFR] Final: {len(self.strategy_sums)} strategies, {len(self.regret_sums)} regrets")
+
         return cumulative_values / max(total_weight, 1)
+
+    def get_average_strategies(self):
+        """Get the average strategies computed during CFR.
+
+        Returns:
+            Dict mapping infoset_key to strategy distribution
+        """
+        avg_strategies = {}
+        for infoset_key, action_sums in self.strategy_sums.items():
+            total = sum(action_sums.values())
+            if total > 0:
+                avg_strategies[infoset_key] = {
+                    action: count / total
+                    for action, count in action_sums.items()
+                }
+            else:
+                # Uniform if no iterations reached this infoset
+                avg_strategies[infoset_key] = {}
+
+        return avg_strategies
 
     def _cfr_iteration(self, env, belief, reach_probs, weight, neural_nets, depth=0, max_depth=10):
         """Single iteration of modified CFR+ (Algorithm 1, procedure MODIFIEDCFR+).
 
         Returns values of shape (num_players,) not (num_players, num_assignments).
         """
+        # print(f"  running cfr iteration with {env=}, {belief=}, {reach_probs=}")
+        # print(f"{belief=}")  # Too verbose - this gets called thousands of times
 
-        # Terminal node
+        # Check for terminal states - game ends at 5L or 6F
+        if env.lib_policies >= 5 or env.fasc_policies >= 6:
+            # Set terminal state for the environment if not already set
+            if not all(env.terminations.values()):
+                if env.lib_policies >= 5:
+                    env._end_game("liberals")
+                else:
+                    env._end_game("fascists")
+            return self._terminal_values(env, belief, reach_probs)
+
+        # Terminal node (other win conditions like Hitler chancellor)
         if all(env.terminations.values()):
             return self._terminal_values(env, belief, reach_probs)
 
         # Depth limit - return heuristic evaluation
+        # Note: Neural network early cutoff is DISABLED to let max_depth parameter control search
         if depth >= max_depth:
+            # If we have neural nets but didn't use them, still try to use them
+            if neural_nets:
+                # Try to use any available network
+                for key in neural_nets.keys():
+                    return self._neural_values(env, belief, reach_probs, neural_nets)
             # Simple heuristic: uniform random values
             return np.random.randn(self.num_players) * 0.1
-
-        # Check if we should use neural net evaluation
-        if neural_nets and self._should_use_neural(env, neural_nets):
-            return self._neural_values(env, belief, reach_probs, neural_nets)
 
         # Get acting players
         acting_players = self._get_acting_players(env)
@@ -127,8 +184,10 @@ class VectorCFR:
                 self._apply_votes(env_copy, outcome)
 
                 # Update belief based on outcome
+                history = self._get_history(env)
+                history['votes'] = outcome  # Add vote information to history
                 new_belief = self.belief_tracker.update_belief(
-                    belief, self._get_history(env), outcome, strategies
+                    belief, history, {'votes': outcome}, strategies
                 )
 
                 # Recurse
@@ -172,7 +231,7 @@ class VectorCFR:
             return np.random.randn(self.num_players) * 0.1
 
         for action, prob in strategy.items():
-            if prob > 0 and action in legal_actions:  # Only try legal actions
+            if prob > 0:
                 # Take action
                 env_copy = copy.deepcopy(env)
                 env_copy.step(action)
@@ -215,7 +274,11 @@ class VectorCFR:
 
         regrets = self.regret_sums[infoset_key]
 
-        positive_regrets = {a: max(0, regrets[a]) for a in legal_actions}
+        # IMPORTANT: Only consider regrets for LEGAL actions
+        positive_regrets = {}
+        for a in legal_actions:
+            positive_regrets[a] = max(0, regrets.get(a, 0))
+
         total = sum(positive_regrets.values())
 
         if total > 0:
@@ -252,7 +315,8 @@ class VectorCFR:
 
     def _get_infoset_key(self, env, player_idx):
         """Get information set key for player."""
-        obs = env.observe(env.agents[player_idx])
+        agent = env.agents[player_idx]
+        obs = env.observe(agent)
         role = obs['role']
 
         # Include relevant game state
@@ -268,6 +332,14 @@ class VectorCFR:
         # Add role-specific information
         if role in [1, 2]:  # Fascist or Hitler
             key += (tuple(obs['all_roles']),)
+
+        # Add card information for card selection phases
+        if env.phase == 'prez_cardsel' and player_idx == env.president_idx:
+            # Include what cards president has (sorted to be consistent)
+            key += (tuple(sorted(env.prez_cards)),)
+        elif env.phase == 'chanc_cardsel' and player_idx == env.chancellor_nominee:
+            # Include what cards chancellor has (sorted to be consistent)
+            key += (tuple(sorted(env.chanc_cards)),)
 
         return key
 
@@ -309,24 +381,53 @@ class VectorCFR:
                 env._government_succeeds()
             else:
                 env._government_fails()
+            # Update agent_selection to match the new phase
+            env._update_agent_selection()
 
     def _get_legal_actions(self, env, player_idx):
         """Get legal actions for player."""
         agent = env.agents[player_idx]
-        obs = env.observe(agent)
-        action_space = env.action_space(agent)
 
-        # Extract from masks if available
+        # Special cases for phases with no masks (all actions always legal)
+        if env.phase == 'voting':
+            return [0, 1]  # Can always vote yes (1) or no (0)
+        elif env.phase == 'prez_claim':
+            return [0, 1, 2, 3]  # Can claim 0-3 liberals
+        elif env.phase == 'chanc_claim':
+            return [0, 1, 2]  # Can claim 0-2 liberals
+
+        # Ensure agent_selection is set correctly for observation
+        original_selection = env.agent_selection
+        if env.agent_selection != agent:
+            # Temporarily set to get correct observation
+            env.agent_selection = agent
+
+        obs = env.observe(agent)
+
+        # Extract from masks for other phases
+        legal_actions = []
         for mask_key in ['nomination_mask', 'execution_mask', 'card_action_mask']:
             if mask_key in obs:
                 legal = [i for i, valid in enumerate(obs[mask_key]) if valid == 1]
-                # Verify we found legal actions
-                if legal:
-                    return legal
+                if legal:  # Found legal actions
+                    legal_actions = legal
+                    break
+                # If mask exists but has no legal actions, that's a critical error
+                print(f"ERROR: Found {mask_key} with no legal actions: {obs[mask_key]}")
+                print(f"  Phase: {env.phase}, Player: {player_idx}")
+                print(f"  This should never happen - the game always has legal actions")
+                raise ValueError(f"Mask {mask_key} has no legal actions: {obs[mask_key]}")
 
-        # If no mask found or no legal actions, return default
-        # This shouldn't happen if the environment is working correctly
-        return list(range(action_space.n))
+        # Restore original selection
+        if env.agent_selection != original_selection:
+            env.agent_selection = original_selection
+
+        if not legal_actions and env.phase != 'voting':
+            print(f"WARNING: No action mask found for phase {env.phase}, player {player_idx}")
+            # This should never happen in a properly functioning game
+            raise ValueError(f"No legal actions found for phase {env.phase}, player {player_idx}")
+
+        return legal_actions
 
     def _get_history(self, env):
         """Extract history dict from environment."""
@@ -361,11 +462,90 @@ class VectorCFR:
 
     def _should_use_neural(self, env, neural_nets):
         """Check if we should use neural network evaluation."""
-        # Use neural nets for depth limiting based on policies enacted
-        total_policies = env.lib_policies + env.fasc_policies
-        return total_policies in neural_nets
+        # Terminal states don't need neural networks
+        if env.lib_policies >= 5 or env.fasc_policies >= 6:
+            return False
+        # Use neural nets for depth limiting based on current game state
+        network_key = (env.lib_policies, env.fasc_policies)
+        return network_key in neural_nets
 
     def _neural_values(self, env, belief, reach_probs, neural_nets):
-        """Get values from neural network."""
-        # To be implemented with neural network integration
-        raise NotImplementedError("Neural evaluation not yet implemented")
+        """Get values from neural network (Algorithm 2, procedure NEURALCFVS).
+
+        Args:
+            env: Current game environment
+            belief: Current belief distribution (20,)
+            reach_probs: Reach probabilities for each player and assignment (5, 20)
+            neural_nets: Dict of trained networks keyed by (lib_policies, fasc_policies)
+
+        Returns:
+            Counterfactual values for each player (5,)
+        """
+        # Get the appropriate network for current game state
+        lib_policies = env.lib_policies
+        fasc_policies = env.fasc_policies
+        network_key = (lib_policies, fasc_policies)
+
+        if network_key not in neural_nets:
+            # No network for this state, fall back to heuristic
+            return np.random.randn(self.num_players) * 0.1
+
+        network = neural_nets[network_key]
+
+        # Calculate terminal belief (line 19 of Algorithm 2)
+        # b_term[ρ] = b[ρ] * ∏_i π_i(I_i(h, ρ))
+        terminal_belief = belief.copy()
+        for i in range(self.manager.num_assignments):
+            for player_idx in range(self.num_players):
+                # Get which role this player has in assignment i
+                assignment = self.manager.assignments[i]
+                role = assignment[player_idx]
+
+                # Get the reach probability for this player-role-assignment combination
+                role_indices = self.manager.get_infoset_indices(player_idx, role)
+                if i in role_indices:
+                    idx = np.where(role_indices == i)[0][0]
+                    terminal_belief[i] *= reach_probs[player_idx, i]
+
+        # Calculate weight w = sum of terminal belief (line 13)
+        weight = np.sum(terminal_belief)
+
+        # Avoid division by zero
+        if weight <= 1e-10:
+            return np.zeros(self.num_players)
+
+        # Normalize belief (line 14)
+        normalized_belief = terminal_belief / weight
+
+        # Get current president
+        president_idx = env.president_idx
+
+        # Call neural network (line 14)
+        with torch.no_grad():
+            president_tensor = torch.tensor(president_idx).unsqueeze(0)  # Shape (1,)
+            belief_tensor = torch.tensor(normalized_belief, dtype=torch.float32).unsqueeze(0)  # Shape (1, 20)
+
+            # Get value matrix from network: shape (1, 5, 20)
+            values_matrix = network(president_tensor, belief_tensor)
+
+            # Compute expected values for each player
+            # v_i = sum over assignments of value * normalized_belief
+            values_matrix = values_matrix.squeeze(0).numpy()  # Shape (5, 20)
+            factual_values = np.zeros(self.num_players)
+
+            for player_idx in range(self.num_players):
+                factual_values[player_idx] = np.sum(values_matrix[player_idx] * normalized_belief)
+
+            # Scale by weight (line 15)
+            factual_values *= weight
+
+        # Convert factual to counterfactual values (line 15)
+        cfr_values = np.zeros(self.num_players)
+        for player_idx in range(self.num_players):
+            reach_sum = np.sum(reach_probs[player_idx])
+            if reach_sum > 1e-10:
+                cfr_values[player_idx] = factual_values[player_idx] / reach_sum
+            else:
+                cfr_values[player_idx] = factual_values[player_idx]
+
+        return cfr_values

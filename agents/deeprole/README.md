@@ -161,11 +161,13 @@ The solver runs short CFR searches using the neural networks to evaluate positio
 
 ## Troubleshooting
 
-If you encounter memory errors during data generation, reduce the number of worker processes or samples per batch. The CFR solving can be memory intensive for complex game states.
+**Training loss instantly drops to 0.0000**: This indicates a shape mismatch in loss calculation. Ensure the network output predictions are computed as `(values * beliefs.unsqueeze(1)).sum(dim=2)` to properly calculate expected values across role assignments.
 
-If neural network training loss doesn't decrease, verify that the data generation is producing meaningful values by inspecting a few samples manually. Terminal states should have clear positive/negative values for liberals/fascists.
+**CFR attempts illegal actions**: The game environment provides correct action masks via `card_action_mask`. CFR's `_get_strategy` must restrict to legal actions only. The implementation now properly filters strategies to legal actions.
 
-For numerical stability issues, the implementation already includes epsilon terms in probability calculations and proper normalization of belief distributions. If problems persist, check that belief vectors sum to 1.0 and reach probabilities remain non-negative.
+**Overfitting despite diverse data**: Add L2 regularization (weight_decay=1e-4) and dropout layers (0.2) to the network. The data diversity from Dirichlet sampling is typically sufficient - focus on regularization rather than generating more data.
+
+**Memory errors**: Reduce worker processes or samples per batch. CFR solving is memory intensive for complex game states.
 
 ## Citation
 

@@ -497,6 +497,138 @@ class ShitlerEnv(AECEnv):
     def _encode_role(self, role):
         return {"lib": 0, "fasc": 1, "hitty": 2}[role]
 
+    def get_state_dict(self):
+        """Get complete internal state as a serializable dictionary.
+
+        This provides full state access for algorithms like CFR that need
+        to simulate forward from exact game states.
+
+        Returns:
+            dict: Complete game state that can be restored with set_state_dict
+        """
+        return {
+            # Core game state
+            'phase': self.phase,
+            'lib_policies': self.lib_policies,
+            'fasc_policies': self.fasc_policies,
+            'election_tracker': self.election_tracker,
+
+            # Players and roles
+            'agents': self.agents.copy(),
+            'roles': self.roles.copy(),
+            'executed': list(self.executed),  # Convert set to list for serialization
+
+            # Government state
+            'president_idx': self.president_idx,
+            'chancellor_nominee': self.chancellor_nominee,
+            'last_president': self.last_president,
+            'last_chancellor': self.last_chancellor,
+
+            # Voting state
+            'votes': self.votes.copy(),
+
+            # Card state
+            'deck': self.deck.copy(),
+            'discard': self.discard.copy(),
+            'prez_cards': self.prez_cards.copy() if self.prez_cards else None,
+            'chanc_cards': self.chanc_cards.copy() if self.chanc_cards else None,
+
+            # History arrays
+            'hist_president': self.hist_president.copy(),
+            'hist_chancellor': self.hist_chancellor.copy(),
+            'hist_votes': [v.copy() for v in self.hist_votes],
+            'hist_succeeded': self.hist_succeeded.copy(),
+            'hist_policy': self.hist_policy.copy(),
+            'hist_prez_claim': self.hist_prez_claim.copy(),
+            'hist_chanc_claim': self.hist_chanc_claim.copy(),
+            'hist_execution': self.hist_execution.copy(),
+
+            # Personal card history
+            'personal_cards_seen': {
+                agent: history.copy()
+                for agent, history in self.personal_cards_seen.items()
+            },
+
+            # Current selection and game flow
+            'agent_selection': self.agent_selection,
+            'num_moves': self.num_moves,
+
+            # Terminal state
+            'rewards': self.rewards.copy(),
+            'terminations': self.terminations.copy(),
+            'truncations': self.truncations.copy(),
+            'infos': self.infos.copy(),
+        }
+
+    def set_state_dict(self, state_dict):
+        """Restore complete internal state from a dictionary.
+
+        Args:
+            state_dict: State dictionary from get_state_dict()
+        """
+        # Core game state
+        self.phase = state_dict['phase']
+        self.lib_policies = state_dict['lib_policies']
+        self.fasc_policies = state_dict['fasc_policies']
+        self.election_tracker = state_dict['election_tracker']
+
+        # Players and roles
+        self.agents = state_dict['agents']
+        self.roles = state_dict['roles']
+        self.executed = set(state_dict['executed'])  # Convert list back to set
+
+        # Government state
+        self.president_idx = state_dict['president_idx']
+        self.chancellor_nominee = state_dict['chancellor_nominee']
+        self.last_president = state_dict['last_president']
+        self.last_chancellor = state_dict['last_chancellor']
+
+        # Voting state
+        self.votes = state_dict['votes']
+
+        # Card state
+        self.deck = state_dict['deck']
+        self.discard = state_dict['discard']
+        self.prez_cards = state_dict['prez_cards']
+        self.chanc_cards = state_dict['chanc_cards']
+
+        # History arrays
+        self.hist_president = state_dict['hist_president']
+        self.hist_chancellor = state_dict['hist_chancellor']
+        self.hist_votes = state_dict['hist_votes']
+        self.hist_succeeded = state_dict['hist_succeeded']
+        self.hist_policy = state_dict['hist_policy']
+        self.hist_prez_claim = state_dict['hist_prez_claim']
+        self.hist_chanc_claim = state_dict['hist_chanc_claim']
+        self.hist_execution = state_dict['hist_execution']
+
+        # Personal card history
+        self.personal_cards_seen = state_dict['personal_cards_seen']
+
+        # Current selection and game flow
+        self.agent_selection = state_dict['agent_selection']
+        self.num_moves = state_dict['num_moves']
+
+        # Terminal state
+        self.rewards = state_dict['rewards']
+        self.terminations = state_dict['terminations']
+        self.truncations = state_dict['truncations']
+        self.infos = state_dict['infos']
+
+    @classmethod
+    def from_state_dict(cls, state_dict):
+        """Create a new game instance from a state dictionary.
+
+        Args:
+            state_dict: State dictionary from get_state_dict()
+
+        Returns:
+            ShitlerEnv: New game instance with restored state
+        """
+        env = cls()
+        env.set_state_dict(state_dict)
+        return env
+
     def render(self):
         print("\n" + "=" * 50)
         print(f"SILENT SHITLER - Move {self.num_moves}")
