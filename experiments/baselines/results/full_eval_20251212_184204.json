@@ -1,0 +1,216 @@
+ {
+  "metadata": {
+    "num_games": 1000,
+    "seed": 42,
+    "timestamp": "20251212_184204",
+    "agents": [
+      "Random",
+      "Selfish",
+      "Meta",
+      "CFR",
+      "PPO"
+    ],
+    "opponents": [
+      "Random",
+      "Selfish"
+    ],
+    "meta_config": {
+      "fasc_policy_prez_sus": 2.5,
+      "fasc_policy_chanc_sus": 2.0,
+      "conflict_sus": 1.5,
+      "vote_threshold_mult": 1.0
+    }
+  },
+  "results": {
+    "Random_vs_Random": {
+      "liberal_wins": 498,
+      "fascist_wins": 502,
+      "win_conditions": {
+        "lib_5_policies": 351,
+        "hitler_chancellor": 430,
+        "hitler_executed": 147,
+        "fasc_6_policies": 72
+      },
+      "win_rate": 0.498,
+      "ci_low": 0.4670769344782838,
+      "ci_high": 0.5289383731160618,
+      "num_games": 1000
+    },
+    "Random_vs_Selfish": {
+      "liberal_wins": 299,
+      "fascist_wins": 701,
+      "win_conditions": {
+        "fasc_6_policies": 165,
+        "hitler_executed": 240,
+        "hitler_chancellor": 536,
+        "lib_5_policies": 59
+      },
+      "win_rate": 0.299,
+      "ci_low": 0.27143714358426096,
+      "ci_high": 0.3281012696474681,
+      "num_games": 1000
+    },
+    "Selfish_vs_Random": {
+      "liberal_wins": 526,
+      "fascist_wins": 474,
+      "win_conditions": {
+        "hitler_chancellor": 407,
+        "hitler_executed": 151,
+        "lib_5_policies": 375,
+        "fasc_6_policies": 67
+      },
+      "win_rate": 0.526,
+      "ci_low": 0.49501122153742044,
+      "ci_high": 0.5567897797360873,
+      "num_games": 1000
+    },
+    "Selfish_vs_Selfish": {
+      "liberal_wins": 292,
+      "fascist_wins": 708,
+      "win_conditions": {
+        "hitler_chancellor": 548,
+        "hitler_executed": 239,
+        "fasc_6_policies": 160,
+        "lib_5_policies": 53
+      },
+      "win_rate": 0.292,
+      "ci_low": 0.2646572082575304,
+      "ci_high": 0.3209347815544081,
+      "num_games": 1000
+    },
+    "Meta_vs_Random": {
+      "liberal_wins": 705,
+      "fascist_wins": 295,
+      "win_conditions": {
+        "hitler_executed": 212,
+        "hitler_chancellor": 283,
+        "lib_5_policies": 493,
+        "fasc_6_policies": 12
+      },
+      "win_rate": 0.705,
+      "ci_low": 0.6759928938455586,
+      "ci_high": 0.7324380777340211,
+      "num_games": 1000
+    },
+    "Meta_vs_Selfish": {
+      "liberal_wins": 496,
+      "fascist_wins": 504,
+      "win_conditions": {
+        "fasc_6_policies": 49,
+        "hitler_chancellor": 455,
+        "lib_5_policies": 151,
+        "hitler_executed": 345
+      },
+      "win_rate": 0.496,
+      "ci_low": 0.4650853277924981,
+      "ci_high": 0.5269452873961931,
+      "num_games": 1000
+    },
+    "CFR_vs_Random": {
+      "liberal_wins": 501,
+      "fascist_wins": 499,
+      "win_conditions": {
+        "lib_5_policies": 368,
+        "hitler_chancellor": 406,
+        "hitler_executed": 133,
+        "fasc_6_policies": 93
+      },
+      "win_rate": 0.501,
+      "ci_low": 0.47006526890602685,
+      "ci_high": 0.5319270772968004,
+      "num_games": 1000
+    },
+    "CFR_vs_Selfish": {
+      "liberal_wins": 278,
+      "fascist_wins": 722,
+      "win_conditions": {
+        "hitler_executed": 213,
+        "hitler_chancellor": 549,
+        "lib_5_policies": 65,
+        "fasc_6_policies": 173
+      },
+      "win_rate": 0.278,
+      "ci_low": 0.251121579341487,
+      "ci_high": 0.30657756363087046,
+      "num_games": 1000
+    },
+    "PPO_vs_Random": {
+      "liberal_wins": 510,
+      "fascist_wins": 490,
+      "win_conditions": {
+        "hitler_chancellor": 416,
+        "fasc_6_policies": 74,
+        "hitler_executed": 166,
+        "lib_5_policies": 344
+      },
+      "win_rate": 0.51,
+      "ci_low": 0.4790369283267418,
+      "ci_high": 0.5408865337015304,
+      "num_games": 1000
+    },
+    "PPO_vs_Selfish": {
+      "liberal_wins": 287,
+      "fascist_wins": 713,
+      "win_conditions": {
+        "hitler_executed": 221,
+        "hitler_chancellor": 543,
+        "fasc_6_policies": 170,
+        "lib_5_policies": 66
+      },
+      "win_rate": 0.287,
+      "ci_low": 0.25981929898491574,
+      "ci_high": 0.31581095981288665,
+      "num_games": 1000
+    }
+  },
+  "significance_tests": {
+    "Meta_vs_Selfish_Random": {
+      "chi2": 66.93998451363191,
+      "p_value": 2.798998190299233e-16,
+      "significant_05": true,
+      "significant_01": true
+    },
+    "Selfish_vs_PPO_Random": {
+      "chi2": 0.4505839568080232,
+      "p_value": 0.502057772977667,
+      "significant_05": false,
+      "significant_01": false
+    },
+    "PPO_vs_CFR_Random": {
+      "chi2": 0.1280154898742748,
+      "p_value": 0.7204985860808683,
+      "significant_05": false,
+      "significant_01": false
+    },
+    "CFR_vs_Random_Random": {
+      "chi2": 0.008000008000008,
+      "p_value": 0.9287300390247386,
+      "significant_05": false,
+      "significant_01": false
+    },
+    "Meta_vs_Random_Selfish": {
+      "chi2": 80.20251050392756,
+      "p_value": 3.379375675029941e-19,
+      "significant_05": true,
+      "significant_01": true
+    },
+    "Random_vs_Selfish_Selfish": {
+      "chi2": 0.08646374106991674,
+      "p_value": 0.768721855572915,
+      "significant_05": false,
+      "significant_01": false
+    },
+    "Selfish_vs_PPO_Selfish": {
+      "chi2": 0.03889352775235518,
+      "p_value": 0.8436597460985288,
+      "significant_05": false,
+      "significant_01": false
+    },
+    "PPO_vs_CFR_Selfish": {
+      "chi2": 0.15787363941907434,
+      "p_value": 0.691121798135925,
+      "significant_05": false,
+      "significant_01": false
+    }
+  }
+}

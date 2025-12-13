@@ -1,0 +1,31 @@
+{
+  "random_vs_random": {
+    "liberal_wins": 509,
+    "fascist_wins": 491,
+    "liberal_win_rate": 0.509,
+    "fascist_win_rate": 0.491,
+    "win_conditions": {
+      "lib_5_policies": 376,
+      "hitler_executed": 133,
+      "fasc_6_policies": 79,
+      "hitler_chancellor": 412
+    },
+    "num_games": 1000,
+    "seed": 42
+  },
+  "selfish_vs_selfish": {
+    "liberal_wins": 304,
+    "fascist_wins": 696,
+    "liberal_win_rate": 0.304,
+    "fascist_win_rate": 0.696,
+    "win_conditions": {
+      "lib_5_policies": 53,
+      "hitler_executed": 251,
+      "fasc_6_policies": 162,
+      "hitler_chancellor": 534
+    },
+    "num_games": 1000,
+    "seed": 42
+  },
+  "timestamp": "20251212_174402"
+}
