@@ -117,14 +117,8 @@ class VectorCFR:
         if all(env.terminations.values()):
             return self._terminal_values(env, belief, reach_probs)
 
-        # Check if we should use neural net evaluation BEFORE depth limit check
-        # This is important: neural nets should be used to cut off search
-        # BUT: We need to generate strategies for at least the current decision point
-        # So only use neural nets after depth > 0
-        if depth > 0 and neural_nets and self._should_use_neural(env, neural_nets):
-            return self._neural_values(env, belief, reach_probs, neural_nets)
-
         # Depth limit - return heuristic evaluation
+        # Note: Neural network early cutoff is DISABLED to let max_depth parameter control search
         if depth >= max_depth:
             # If we have neural nets but didn't use them, still try to use them
             if neural_nets:

@@ -30,8 +30,9 @@ def main():
         DeepRoleAgentV2,
         {
             'networks_path': str(networks_path),
-            'cfr_iterations': 15,
-            'max_depth': 2
+            'cfr_iterations': 45,
+            'max_depth': 1,
+            'averaging_delay': 5,
         }
     )
     meta_factory = AgentFactory(MetaAgent, {'temperature': 1.0})

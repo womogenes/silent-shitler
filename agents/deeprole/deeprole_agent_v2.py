@@ -19,13 +19,14 @@ from agents.deeprole.networks import NetworkEnsemble
 class DeepRoleAgentV2(BaseAgent):
     """Clean DeepRole agent using proper state serialization."""
 
-    def __init__(self, networks_path="trained_networks.pkl", cfr_iterations=50, max_depth=3):
+    def __init__(self, networks_path="trained_networks.pkl", cfr_iterations=50, max_depth=3, averaging_delay=15):
         """Initialize DeepRole agent.
 
         Args:
             networks_path: Path to trained neural networks
             cfr_iterations: Number of CFR iterations for real-time planning
             max_depth: Maximum search depth for CFR
+            averaging_delay: Iterations before starting strategy averaging (default: cfr_iterations // 3)
         """
         super().__init__()
 
@@ -42,6 +43,7 @@ class DeepRoleAgentV2(BaseAgent):
         self.cfr = VectorCFR()
         self.cfr_iterations = cfr_iterations
         self.max_depth = max_depth
+        self.averaging_delay = averaging_delay
 
         # Belief tracking
         self.belief_tracker = BeliefTracker()
@@ -144,7 +146,7 @@ class DeepRoleAgentV2(BaseAgent):
                 env,
                 self.current_belief,
                 num_iterations=self.cfr_iterations,
-                averaging_delay=self.cfr_iterations // 3,
+                averaging_delay=self.averaging_delay,
                 neural_nets=neural_nets,
                 max_depth=self.max_depth
             )
