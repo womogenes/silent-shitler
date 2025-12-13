@@ -30,6 +30,14 @@ def create_game_at_state(lib_policies, fasc_policies, president_idx=0, seed=None
     # Set president
     env.president_idx = president_idx
 
+    # Initialize required fields for observe to work
+    env.chancellor_nominee = None
+    env.prez_cards = []
+    env.chanc_cards = []
+    env.executed = set()
+    env.failed_votes = 0
+    env.votes = {}
+
     # Ensure we're in the right phase
     env.phase = "nomination"
     env.agent_selection = env.agents[president_idx]

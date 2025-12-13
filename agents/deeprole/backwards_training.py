@@ -2,7 +2,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from pathlib import Path
-from multiprocessing import Pool
+from multiprocessing import get_context
 import pickle
 from tqdm import tqdm
 
@@ -10,6 +10,45 @@ from .situation_sampler import AdvancedSituationSampler
 from .networks import ValueNetwork, NetworkEnsemble
 from .vector_cfr import VectorCFR
 from .game_state import create_game_at_state, get_state_dependencies
+
+
+def _generate_single_sample_wrapper(args):
+    """Standalone function for multiprocessing - can't be a class method."""
+    lib_policies, fasc_policies, cfr_iterations, cfr_delay, seed, neural_nets = args
+
+    # print(f"{args=}")  # Too verbose
+
+    # Create more diverse seeds by combining with game state
+    combined_seed = seed * 1000 + lib_policies * 100 + fasc_policies * 10
+    np.random.seed(combined_seed)
+
+    # Use diverse sampling with varying concentration based on sample index
+    sampler = AdvancedSituationSampler()
+    concentration = [0.1, 0.5, 1.0, 2.0, 5.0, 10.0][seed % 6]
+    president_idx, belief = sampler._sample_with_concentration(
+        lib_policies, fasc_policies, concentration
+    )
+
+    env = create_game_at_state(lib_policies, fasc_policies, president_idx, seed)
+    cfr = VectorCFR()
+
+    # Use smaller max_depth for states near the end of the game
+    # (4L, XF) or (XL, 5F) are very close to terminal
+    max_depth = 3 if (lib_policies >= 4 or fasc_policies >= 5) else 5
+
+    # Debug: show sample number and parameters
+    # print(f"  Sample {seed}: ({lib_policies}L, {fasc_policies}F), cfr_iters={cfr_iterations}, max_depth={max_depth}")
+
+    values = cfr.solve_situation(
+        env,
+        belief,
+        num_iterations=cfr_iterations,
+        averaging_delay=cfr_delay,
+        neural_nets=neural_nets,
+        max_depth=max_depth
+    )
+
+    return president_idx, belief, values
 
 
 class BackwardsTrainer:
@@ -45,18 +84,38 @@ class BackwardsTrainer:
 
     def generate_training_data(self, lib_policies, fasc_policies, n_samples,
                                cfr_iterations, cfr_delay):
-        print(f"  Generating {n_samples} training samples...")
-
         if lib_policies >= 5 or fasc_policies >= 6:
             return self._generate_terminal_data(lib_policies, fasc_policies, n_samples)
 
+        # Move networks to CPU for multiprocessing
+        cpu_networks = {}
+        for key, net in self.networks.networks.items():
+            cpu_networks[key] = net.cpu()
+
         args_list = [
-            (lib_policies, fasc_policies, cfr_iterations, cfr_delay, i)
+            (lib_policies, fasc_policies, cfr_iterations, cfr_delay, i, cpu_networks)
             for i in range(n_samples)
         ]
 
-        with Pool(self.num_workers) as pool:
-            results = pool.map(self._generate_single_sample, args_list)
+        # Use spawn context for CUDA compatibility in workers
+        ctx = get_context('spawn')
+        # print(f"{ctx=}")
+
+        with ctx.Pool(self.num_workers) as pool:
+            # Use imap_unordered for faster processing with progress bar
+            results = []
+            # print(f"{pool=}")
+            with tqdm(total=n_samples, desc="  Samples", ncols=80) as pbar:
+                # print(f"Producing results...")
+                for result in pool.imap_unordered(_generate_single_sample_wrapper, args_list):
+                    # print(f"{result=}")  # Too verbose
+                    results.append(result)
+                    pbar.update(1)
+
+        # Move networks back to original device if needed
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        for key, net in self.networks.networks.items():
+            self.networks.networks[key] = net.to(device)
 
         training_data = []
         for president_idx, belief, values in results:
@@ -69,27 +128,6 @@ class BackwardsTrainer:
         print(f"  Generated {len(training_data)} samples")
         return training_data
 
-    def _generate_single_sample(self, args):
-        lib_policies, fasc_policies, cfr_iterations, cfr_delay, seed = args
-        np.random.seed(seed)
-
-        president_idx, belief = self.sampler.sample_situation_with_constraints(
-            lib_policies, fasc_policies
-        )
-
-        env = create_game_at_state(lib_policies, fasc_policies, president_idx, seed)
-        cfr = VectorCFR()
-
-        values = cfr.solve_situation(
-            env,
-            belief,
-            num_iterations=cfr_iterations,
-            averaging_delay=cfr_delay,
-            neural_nets=self.networks.networks,
-            max_depth=5
-        )
-
-        return president_idx, belief, values
 
     def _generate_terminal_data(self, lib_policies, fasc_policies, n_samples):
         training_data = []
@@ -103,10 +141,10 @@ class BackwardsTrainer:
             values = np.zeros(5)
             for i, assignment in enumerate(self.sampler.manager.assignments):
                 for p in range(5):
-                    if assignment[p] == 0:
+                    if assignment[p] == 0:  # Liberal
                         values[p] += belief[i] if liberal_win else -belief[i]
-                    else:
-                        values[p] -= belief[i] if liberal_win else belief[i]
+                    else:  # Fascist or Hitler
+                        values[p] += -belief[i] if liberal_win else belief[i]
 
             president_oh = torch.zeros(5)
             president_oh[president_idx] = 1
@@ -121,8 +159,18 @@ class BackwardsTrainer:
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
+        # Check if this is a terminal state
+        is_terminal = lib_policies >= 5 or fasc_policies >= 6
+
         network = ValueNetwork().to(device)
-        optimizer = torch.optim.Adam(network.parameters(), lr=0.001)
+
+        # Use different settings for terminal vs non-terminal states
+        if is_terminal:
+            # Terminal states: less regularization, higher learning rate
+            optimizer = torch.optim.Adam(network.parameters(), lr=0.01, weight_decay=1e-5)
+        else:
+            optimizer = torch.optim.Adam(network.parameters(), lr=0.001, weight_decay=1e-4)
+
         criterion = nn.MSELoss()
 
         n_train = int(0.9 * len(training_data))
@@ -130,9 +178,13 @@ class BackwardsTrainer:
         val_data = training_data[n_train:]
 
         batch_size = min(128, len(train_data))
-        n_epochs = 100
+        n_epochs = 500
+
+        best_val_loss = 1e9
+        val_loss_count = 0
 
         for epoch in tqdm(range(n_epochs), ncols=80, desc="Epoch"):
+            network.train()
             np.random.shuffle(train_data)
 
             total_loss = 0
@@ -147,10 +199,13 @@ class BackwardsTrainer:
 
                 values = network(president_indices, beliefs)
 
-                predictions = torch.bmm(values, beliefs.unsqueeze(2)).squeeze(2)
+                # Values shape: [batch, 5, 20] - value for each player under each assignment
+                # beliefs shape: [batch, 20] - probability of each assignment
+                # We need expected value per player: sum over assignments
+                predictions = (values * beliefs.unsqueeze(1)).sum(dim=2)  # [batch, 5]
 
                 loss = criterion(predictions, targets)
-                total_loss += loss.item()
+                total_loss += loss.item() * batch_size
 
                 optimizer.zero_grad()
                 loss.backward()
@@ -158,7 +213,17 @@ class BackwardsTrainer:
 
             if epoch % 20 == 0 and val_data:
                 val_loss = self._compute_validation_loss(network, val_data, criterion, device)
-                print(f"    Epoch {epoch}: train_loss={total_loss/len(train_data):.4f}, val_loss={val_loss:.4f}")
+                print(f"    Epoch {epoch}: train_loss={total_loss/len(train_data):.6f}, val_loss={val_loss:.6f}")
+
+                # Patience counter
+                if val_loss > best_val_loss:
+                    val_loss_count += 1
+                else:
+                    best_val_loss = val_loss
+                    val_loss_count = 0
+
+                if val_loss_count > 3:
+                    break
 
         print(f"  Network trained for ({lib_policies}L, {fasc_policies}F)")
         return network
@@ -176,7 +241,8 @@ class BackwardsTrainer:
                 belief = inp[5:].unsqueeze(0)
 
                 values = network(pidx, belief)
-                pred = torch.matmul(values, belief.t()).squeeze(0)
+                # values shape: [1, 5, 20], belief shape: [1, 20]
+                pred = (values * belief.unsqueeze(1)).sum(dim=2).squeeze()  # [5]
 
                 losses.append(criterion(pred, tgt).item())
 
@@ -184,20 +250,18 @@ class BackwardsTrainer:
         return sum(losses) / len(losses)
 
     def _get_ordered_game_parts(self):
+        """Get game states in backwards training order.
+
+        Skip terminal states (5L or 6F) - they don't need networks.
+        """
         parts = []
-        for fasc in range(6):
-            parts.append((5, fasc))
-        for lib in range(5):
-            parts.append((lib, 6))
-        for fasc in range(6):
-            if (4, fasc) not in parts:
-                parts.append((4, fasc))
-        for lib in range(5):
-            if (lib, 5) not in parts:
-                parts.append((lib, 5))
-        for total in range(8, -1, -1):
+
+        # Non-terminal states in reverse order (high to low total policies)
+        # Start from states closest to terminal (4L or 5F) and work backwards
+        for total in range(9, -1, -1):  # 9 down to 0 total policies
             for lib in range(min(5, total + 1)):
                 fasc = total - lib
-                if fasc <= 6 and (lib, fasc) not in parts:
+                # Skip terminal states (5L or 6F)
+                if lib < 5 and fasc < 6 and fasc >= 0:
                     parts.append((lib, fasc))
         return parts
